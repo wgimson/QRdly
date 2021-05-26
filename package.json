@@ -19,6 +19,10 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
+    "@fullcalendar/core": "^5.7.0",
+    "@fullcalendar/daygrid": "^5.7.0",
+    "@fullcalendar/list": "^5.7.0",
+    "@fullcalendar/timegrid": "^5.7.0",
     "@ladjs/bootstrap-social": "^7.0.2",
     "@octokit/rest": "^18.0.12",
     "axios": "^0.21.1",
@@ -36,6 +40,7 @@
     "express-flash": "^0.0.2",
     "express-handlebars": "^5.2.0",
     "express-session": "^1.17.1",
+    "fullcalendar": "^5.7.0",
     "googleapis": "^67.0.0",
     "instagram-node": "^0.5.8",
     "jquery": "^3.5.1",
