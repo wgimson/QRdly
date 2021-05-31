@@ -1,0 +1,23 @@
+{
+    "name": "QRdly",
+    "short_name": "QRdly",
+    "description": "Scheduling and advertising for vendors",
+    "icons": [
+      {
+        "src": "/../img/android-chrome-192x192.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "/../img/apple-touch-icon.png",
+        "sizes": "180x180",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }
+    ],
+    "start_url": "/",
+    "display": "fullscreen",
+    "theme_color": "#764ABC",
+    "background_color": "#764ABC"
+  }
