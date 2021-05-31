@@ -30,6 +30,7 @@ dotenv.config({ path: '.env.example' });
  */
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
+const waitingListController = require('./controllers/waitingList');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 
@@ -144,6 +145,10 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
+/**
+ * customer waiting list routes
+ */
+app.get('/dashboard/waiting-list', passportConfig.isAuthenticated, waitingListController.getWaitingList);
 /**
  * API examples routes.
  */
