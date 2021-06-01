@@ -149,6 +149,8 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
  * customer waiting list routes
  */
 app.get('/dashboard/waiting-list', passportConfig.isAuthenticated, waitingListController.getWaitingList);
+app.get('/dashboard/waiting-list/add', passportConfig.isAuthenticated, waitingListController.addCustomerToWaitingList);
+app.post('/dashboard/waiting-list/add', passportConfig.isAuthenticated, waitingListController.saveNewCustomer);
 /**
  * API examples routes.
  */

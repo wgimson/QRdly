@@ -1,0 +1,33 @@
+extends ../../layout
+
+block content
+  .pb-2.mt-2.mb-4.border-bottom
+    h3 Add Customer to Waiting List
+
+  form(method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group.row
+      label(class='col-md-2 col-form-label font-weight-bold', for='name') Name
+      .col-md-8
+        input.form-control(type='text', name='name', id='name', autocomplete='name', autofocus, required)
+    .form-group.row
+      label(class='col-md-2 col-form-label font-weight-bold', for='email') Phone Number
+      .col-md-8
+        input.form-control(type='text', name='phoneNumber', id='phoneNumber', autocomplete='phone number', required)
+    .form-group.row
+      label(class='col-md-2 col-form-label font-weight-bold', for='email') Company
+      .col-md-8
+        input.form-control(type='text', name='company', id='company', autocomplete='company', required)
+    .form-group.row
+      label(class='col-md-2 col-form-label font-weight-bold', for='email') Call or Text
+      .col-md-4
+        input.form-control(type='radio', name='callOrText', id='callOrText', value="true", required)
+      .col-md-4
+        input.form-control(type='radio', name='callOrText', id='callOrText', value="false", required)
+    .form-group
+      .offset-md-2.col-md-8.p-1 
+      br
+      button.btn.btn-primary(type='submit')
+        i.far.fa-envelope.fa-sm
+        | Send
+  

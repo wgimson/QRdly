@@ -22,6 +22,31 @@ exports.getWaitingList = (req, res) => {
   });
 };
 
+/**
+ * POST /waitingListCustomers
+ * Dashboard page.
+ */
+exports.addCustomerToWaitingList = (req, res) => {
+  res.render('dashboard/waiting-list/add', {
+    title: 'Add Customer to Waiting List',
+  });
+};
+
+exports.saveNewCustomer = (req, res) => {
+  const newWaitingCustomer = new WaitingListCustomerModel({
+    name: req.body.name,
+    phoneNumber: req.body.phoneNumber,
+    company: req.body.company,
+    callOrText: req.body.callOrText,
+  });
+
+  newWaitingCustomer.save((err) => {
+    if (err) { console.log('error'); } //return next(err); }
+    req.flash('success', { msg: `new customer: ${newWaitingCustomer.name}, created.` });
+    this.getWaitingList(req, res);
+  });
+};
+
 exports.initWaitingList = () => {
   const firstWaitingCustomer = new WaitingListCustomerModel({
     name: 'Billy',
@@ -33,7 +58,6 @@ exports.initWaitingList = () => {
   firstWaitingCustomer.save((err) => {
     if (!err) {
       console.log(`All Waiting Customers: ${firstWaitingCustomer}`);
-      // res.redirect('/account');
     } else {
       console.log('error');
       throw err;
