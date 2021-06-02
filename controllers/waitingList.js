@@ -1,8 +1,8 @@
 const WaitingListCustomerModel = require('../models/WaitingListCustomer');
 
 /**
- * GET /waitingListCustomers
- * Dashboard page.
+ * GET /waiting-list
+ * Customer Waiting List Table.
  */
 exports.getWaitingList = (req, res) => {
   WaitingListCustomerModel.find({}, (err, allWaitingListCustomers) => {
@@ -23,8 +23,8 @@ exports.getWaitingList = (req, res) => {
 };
 
 /**
- * POST /waitingListCustomers
- * Dashboard page.
+ * GET /waiting-list/add
+ * GET Add Customer to Waiting List Form.
  */
 exports.addCustomerToWaitingList = (req, res) => {
   res.render('dashboard/waiting-list/add', {
@@ -32,6 +32,10 @@ exports.addCustomerToWaitingList = (req, res) => {
   });
 };
 
+/**
+ * POST /waiting-list/add
+ * Add new Customer to Waiting List.
+ */
 exports.saveNewCustomer = (req, res) => {
   const newWaitingCustomer = new WaitingListCustomerModel({
     name: req.body.name,
@@ -41,7 +45,7 @@ exports.saveNewCustomer = (req, res) => {
   });
 
   newWaitingCustomer.save((err) => {
-    if (err) { console.log('error'); } //return next(err); }
+    if (err) { console.log('error'); } // TODO - do real error checking
     req.flash('success', { msg: `new customer: ${newWaitingCustomer.name}, created.` });
     res.redirect('../waiting-list/waiting-list');
   });
