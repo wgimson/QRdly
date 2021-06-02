@@ -1,0 +1,13 @@
+extends ../../layout
+
+block head
+  script(src='../' async='' defer='')
+
+block content
+  .pb-2.mt-2.mb-4.border-bottom
+    h3 Customer Waiting List
+    ul
+      each cust in waitingListCustomers
+        li= cust.name
+    br
+    a.btn.btn-link(href='/dashboard/waiting-list/add') Add New Customer 

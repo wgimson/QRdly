@@ -11,7 +11,7 @@ exports.getWaitingList = (req, res) => {
       if (allWaitingListCustomers.length < 1) {
         this.initWaitingList(req, res);
       }
-      res.render('dashboard/waiting-list', {
+      res.render('dashboard/waiting-list/waiting-list', {
         title: 'Virtual Customer Waiting List',
         waitingListCustomers: allWaitingListCustomers
       });
@@ -43,7 +43,7 @@ exports.saveNewCustomer = (req, res) => {
   newWaitingCustomer.save((err) => {
     if (err) { console.log('error'); } //return next(err); }
     req.flash('success', { msg: `new customer: ${newWaitingCustomer.name}, created.` });
-    this.getWaitingList(req, res);
+    res.redirect('../waiting-list/waiting-list');
   });
 };
 

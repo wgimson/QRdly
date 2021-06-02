@@ -4,30 +4,39 @@ block content
   .pb-2.mt-2.mb-4.border-bottom
     h3 Add Customer to Waiting List
 
-  form(method='POST')
+  form(method='POST').form-group
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group.row
       label(class='col-md-2 col-form-label font-weight-bold', for='name') Name
       .col-md-8
         input.form-control(type='text', name='name', id='name', autocomplete='name', autofocus, required)
     .form-group.row
-      label(class='col-md-2 col-form-label font-weight-bold', for='email') Phone Number
+      label(class='col-md-2 col-form-label font-weight-bold', for='phoneNumber') Phone Number
       .col-md-8
         input.form-control(type='text', name='phoneNumber', id='phoneNumber', autocomplete='phone number', required)
     .form-group.row
-      label(class='col-md-2 col-form-label font-weight-bold', for='email') Company
+      label(class='col-md-2 col-form-label font-weight-bold', for='company') Company
       .col-md-8
         input.form-control(type='text', name='company', id='company', autocomplete='company', required)
-    .form-group.row
-      label(class='col-md-2 col-form-label font-weight-bold', for='email') Call or Text
-      .col-md-4
-        input.form-control(type='radio', name='callOrText', id='callOrText', value="true", required)
-      .col-md-4
-        input.form-control(type='radio', name='callOrText', id='callOrText', value="false", required)
+    .form-group
+      .form-check(style='width: 18%; padding-left: 0px')
+        input.form-check(type='radio', 
+                         name='callOrText', 
+                         id='radioCall', 
+                         value="true",
+                         style="float: right;margin-top: 5%;" 
+                         required)
+        label.form-check-label(class='col-md-2 col-form-label font-weight-bold', for='callOrText', style="margin-left: -7%;") Call
+      .form-check(style='width: 18%; padding-left: 0px')
+        input.form-check(type='radio', 
+                         name='callOrText', 
+                         id='radioText', 
+                         value="false",
+                         style="float: right;margin-top: 5%;" 
+                         required)
+        label.form-check-label(class='col-md-2 col-form-label font-weight-bold', for='callOrText', style="margin-left: -7%;") Text
     .form-group
       .offset-md-2.col-md-8.p-1 
       br
-      button.btn.btn-primary(type='submit')
-        i.far.fa-envelope.fa-sm
-        | Send
+      button.btn.btn-primary(type='submit') Submit
   
