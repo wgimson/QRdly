@@ -3,15 +3,16 @@ extends layout
 
 block content
   h1 QRdly
-  .row
-    .col-md-2
-    .col-md-4
-      iframe(type='text/html' width='640' height='390'
-      src='https://www.youtube.com/embed/uLeAot4Zrxo'
-      frameborder='0')
-    .col-md-4
-  .row
-   p.lead An app for the discerning client on the go.
+  if !user
+    .row
+      .col-md-2
+      .col-md-4
+        iframe(type='text/html' width='640' height='390'
+        src='https://www.youtube.com/embed/uLeAot4Zrxo'
+        frameborder='0')
+      .col-md-4
+      .row
+        p.lead An app for the discerning client on the go.
   hr
   .row
     .col-md-3
