@@ -149,8 +149,9 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
  * customer waiting list routes
  */
 app.get('/dashboard/waiting-list/waiting-list', passportConfig.isAuthenticated, waitingListController.getWaitingList);
-app.get('/dashboard/waiting-list/add', passportConfig.isAuthenticated, waitingListController.addCustomerToWaitingList);
+app.get('/dashboard/waiting-list/add', passportConfig.isAuthenticated, waitingListController.getCreateOrEditUserForm);
 app.post('/dashboard/waiting-list/add', passportConfig.isAuthenticated, waitingListController.saveNewCustomer);
+app.post('/dashboard/waiting-list/update', passportConfig.isAuthenticated, waitingListController.updateCustomer);
 /**
  * API examples routes.
  */
