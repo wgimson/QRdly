@@ -18,6 +18,6 @@ const waitingListCustomerSchema = new mongoose.Schema({
 //   });
 // };
 
-const WaitingListCustomerModel = mongoose.model('WaitingListCustomerModel', waitingListCustomerSchema);
+const WaitingListCustomer = mongoose.model('WaitingListCustomer', waitingListCustomerSchema);
 
-module.exports = WaitingListCustomerModel;
+module.exports = WaitingListCustomer;

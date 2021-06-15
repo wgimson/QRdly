@@ -1,11 +1,11 @@
-const WaitingListCustomerModel = require('../models/WaitingListCustomer');
+const WaitingListCustomer = require('../models/WaitingListCustomer');
 
 /**
  * GET /waiting-list
  * Customer Waiting List Table.
  */
 exports.getWaitingList = (req, res) => {
-  WaitingListCustomerModel.find({}, (err, allWaitingListCustomers) => {
+  WaitingListCustomer.find({}, (err, allWaitingListCustomers) => {
     if (!err) {
       console.log(`All Waiting Customers: ${allWaitingListCustomers}`);
       res.render('dashboard/waiting-list/waiting-list', {
@@ -27,7 +27,7 @@ exports.getCreateOrEditUserForm = (req, res) => {
   const customerId = req.query.id;
 
   if (customerId) {
-    WaitingListCustomerModel.findById(customerId, (err, waitingListCustomer) => {
+    WaitingListCustomer.findById(customerId, (err, waitingListCustomer) => {
       if (!err) {
         console.log(`Waiting Customer: ${waitingListCustomer}`);
         if (!waitingListCustomer) {
@@ -53,7 +53,7 @@ exports.getCreateOrEditUserForm = (req, res) => {
 };
 
 exports.getWaitingListCustomerById = (req, res, id) => {
-  WaitingListCustomerModel.findById(id, (err, waitingListCustomer) => {
+  WaitingListCustomer.findById(id, (err, waitingListCustomer) => {
     if (!err) {
       console.log(`Waiting Customer: ${waitingListCustomer}`);
       if (!waitingListCustomer) {
@@ -72,7 +72,7 @@ exports.getWaitingListCustomerById = (req, res, id) => {
  * Add new Customer to Waiting List.
  */
 exports.saveNewCustomer = (req, res) => {
-  const newWaitingCustomer = new WaitingListCustomerModel({
+  const newWaitingCustomer = new WaitingListCustomer({
     name: req.body.name,
     phoneNumber: req.body.phoneNumber,
     company: req.body.company,
@@ -102,7 +102,7 @@ exports.updateCustomer = (req, res) => {
     req.updateWaitingListCustomer.callOrText = req.body.callOrText;
     req.updateWaitingListCustomer.notes = req.body.notes;
 
-    WaitingListCustomerModel.findOneAndUpdate(query,
+    WaitingListCustomer.findOneAndUpdate(query,
       req.updateWaitingListCustomer,
       { upsert: true }, (err, customer) => {
         if (!err) {
