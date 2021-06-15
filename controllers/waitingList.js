@@ -8,9 +8,6 @@ exports.getWaitingList = (req, res) => {
   WaitingListCustomerModel.find({}, (err, allWaitingListCustomers) => {
     if (!err) {
       console.log(`All Waiting Customers: ${allWaitingListCustomers}`);
-      if (allWaitingListCustomers.length < 1) {
-        this.initWaitingList(req, res);
-      }
       res.render('dashboard/waiting-list/waiting-list', {
         title: 'Virtual Customer Waiting List',
         waitingListCustomers: allWaitingListCustomers
@@ -34,10 +31,10 @@ exports.getCreateOrEditUserForm = (req, res) => {
       if (!err) {
         console.log(`Waiting Customer: ${waitingListCustomer}`);
         if (!waitingListCustomer) {
-          console.log('no custoemr');
+          console.log('no customer');
         }
 
-        res.render('dashboard/waiting-list/add', {
+        res.render('dashboard/waiting-list/addOrEdit', {
           title: 'Add Customer to Waiting List',
           customer: waitingListCustomer
         });
@@ -49,7 +46,7 @@ exports.getCreateOrEditUserForm = (req, res) => {
     });
   } else {
     console.log('no customerId');
-    res.render('dashboard/waiting-list/add', {
+    res.render('dashboard/waiting-list/addOrEdit', {
       title: 'Add Customer to Waiting List',
     });
   }
@@ -80,6 +77,7 @@ exports.saveNewCustomer = (req, res) => {
     phoneNumber: req.body.phoneNumber,
     company: req.body.company,
     callOrText: req.body.callOrText,
+    notes: req.body.notes,
   });
 
   newWaitingCustomer.save((err) => {
@@ -100,8 +98,9 @@ exports.updateCustomer = (req, res) => {
     req.updateWaitingListCustomer = {};
     req.updateWaitingListCustomer.name = req.body.name;
     req.updateWaitingListCustomer.phoneNumber = req.body.phoneNumber;
-    req.updateWaitingListCustomer.company = req.body.companys;
+    req.updateWaitingListCustomer.company = req.body.company;
     req.updateWaitingListCustomer.callOrText = req.body.callOrText;
+    req.updateWaitingListCustomer.notes = req.body.notes;
 
     WaitingListCustomerModel.findOneAndUpdate(query,
       req.updateWaitingListCustomer,
@@ -116,22 +115,4 @@ exports.updateCustomer = (req, res) => {
   } else {
     console.log('no customerId');
   }
-};
-
-exports.initWaitingList = () => {
-  const firstWaitingCustomer = new WaitingListCustomerModel({
-    name: 'Billy',
-    phoneNumber: '678-678-6868',
-    company: 'QRdly',
-    callOrText: true,
-  });
-
-  firstWaitingCustomer.save((err) => {
-    if (!err) {
-      console.log(`All Waiting Customers: ${firstWaitingCustomer}`);
-    } else {
-      console.log('error');
-      throw err;
-    }
-  });
 };

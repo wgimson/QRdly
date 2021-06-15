@@ -19,6 +19,7 @@ block content
             th(data-sortable="true", data-field="name") Name
             th(data-sortable="true", data-field="phoneNumber") Phone Number
             th(data-sortable="true", data-field="company") Company
+            th(data-sortable="false") Notes
             th(data-sortable="true", data-field="callOrText") Call or Text?
             th(data-sortable="false") Edit
         tbody
@@ -27,6 +28,7 @@ block content
               td=cust.name
               td=cust.phoneNumber
               td=cust.company
+              td=cust.notes
               td=cust.callOrText == true ? 'call' : 'text' 
               td
                 //- button() Edit 

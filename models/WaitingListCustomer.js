@@ -1,5 +1,3 @@
-// const bcrypt = require('bcrypt');
-// const crypto = require('crypto');
 const mongoose = require('mongoose');
 
 const waitingListCustomerSchema = new mongoose.Schema({
@@ -7,6 +5,7 @@ const waitingListCustomerSchema = new mongoose.Schema({
   phoneNumber: String,
   company: String,
   callOrText: Boolean,
+  notes: String,
 }, { timestamps: true });
 
 /**
