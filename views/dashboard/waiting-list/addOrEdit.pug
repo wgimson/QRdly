@@ -22,7 +22,7 @@ block content
       .form-group.row
         label(class='col-md-2 col-form-label font-weight-bold', for='notes') Notes
         .col-md-8
-            input.form-control(type='text', name='notes', id='notes', autocomplete='notes')
+            input.form-control(type='text', name='notes', id='notes', autocomplete='notes', value=customer.notes)
       .form-group
         .form-check(style='width: 18%; padding-left: 0px')
           input.form-check(type='radio', 
@@ -31,7 +31,7 @@ block content
                               value="true",
                               style="float: right;margin-top: 5%;" 
                               required,
-                              selected)
+                              checked=customer.callOrText==true)
           label.form-check-label(class='col-md-2 col-form-label font-weight-bold', for='callOrText', style="margin-left: -7%;") Call
         .form-check(style='width: 18%; padding-left: 0px')
           input.form-check(type='radio', 
@@ -40,7 +40,7 @@ block content
                                 value="false",
                                 style="float: right;margin-top: 5%;" 
                                 required,
-                                selected)
+                                checked=customer.callOrText==false)
           label.form-check-label(class='col-md-2 col-form-label font-weight-bold', for='callOrText', style="margin-left: -7%;") Text
       .form-group
         .offset-md-2.col-md-8.p-1 
