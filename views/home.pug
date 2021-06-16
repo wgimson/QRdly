@@ -1,27 +1,28 @@
+
 extends layout
 
 block content
-  h1 Hackathon Starter
-  p.lead A boilerplate for Node.js web applications.
+  h1 QRdly
+  if !user
+    .row
+      .col-md-2
+      .col-md-4
+        iframe(type='text/html' width='640' height='390'
+        src='https://www.youtube.com/embed/uLeAot4Zrxo'
+        frameborder='0')
+      .col-md-4
+      .row
+        p.lead An app for the discerning client on the go.
   hr
   .row
-    .col-md-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+    .col-md-3
+        a.btn.btn-raised(href='/about', role='button') About us »
+    .col-md-3
       p
-        a.btn.btn-raised(href='#', role='button') View details »
-    .col-md-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+        a.btn.btn-raised(href='/faq', role='button') Help/FAQ »
+    .col-md-4
       p
-        a.btn.btn-raised(href='#', role='button') View details »
-    .col-md-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+        a.btn.btn-raised(href='/terms', role='button') Terms & Conditions »
+    .col-md-2
       p
-        a.btn.btn-raised(href='#', role='button') View details »
-    .col-md-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-raised(href='#', role='button') View details »
+        a.btn.btn-raised(href='#', role='button') Policy »
