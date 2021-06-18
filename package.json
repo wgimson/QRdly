@@ -26,6 +26,7 @@
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.5.3",
+    "bootstrap-table": "^1.18.3",
     "chalk": "^4.1.0",
     "chart.js": "^2.9.4",
     "cheerio": "^1.0.0-rc.3",

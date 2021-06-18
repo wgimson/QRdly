@@ -30,6 +30,7 @@ dotenv.config({ path: '.env.example' });
  */
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
+const waitingListController = require('./controllers/waitingList');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 const aboutController = require('./controllers/about');
@@ -148,6 +149,13 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+/**
+ * customer waiting list routes
+ */
+app.get('/dashboard/waiting-list/waiting-list', passportConfig.isAuthenticated, waitingListController.getWaitingList);
+app.get('/dashboard/waiting-list/add', passportConfig.isAuthenticated, waitingListController.getCreateOrEditUserForm);
+app.post('/dashboard/waiting-list/add', passportConfig.isAuthenticated, waitingListController.saveNewCustomer);
+app.post('/dashboard/waiting-list/update', passportConfig.isAuthenticated, waitingListController.updateCustomer);
 /**
  * API examples routes.
  */
