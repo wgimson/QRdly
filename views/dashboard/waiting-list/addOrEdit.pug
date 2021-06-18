@@ -1,0 +1,89 @@
+extends ../../layout
+
+block content
+  .pb-2.mt-2.mb-4.border-bottom
+    h3 Add Customer to Waiting List
+
+  if customer
+    form(method='POST', action="/dashboard/waiting-list/update").form-group
+      input(type='hidden', name='_csrf', value=_csrf)
+      .form-group.row
+        label(class='col-md-2 col-form-label font-weight-bold', for='name') Name
+        .col-md-8
+          input.form-control(type='text', name='name', id='name', autocomplete='name', autofocus, value=customer.name, required)
+      .form-group.row
+        label(class='col-md-2 col-form-label font-weight-bold', for='phoneNumber') Phone Number
+        .col-md-8
+          input.form-control(type='text', name='phoneNumber', id='phoneNumber', autocomplete='phone number', value=customer.phoneNumber, required)
+      .form-group.row
+        label(class='col-md-2 col-form-label font-weight-bold', for='company') Company
+        .col-md-8
+          input.form-control(type='text', name='company', id='company', autocomplete='company', value=customer.company, required)
+      .form-group.row
+        label(class='col-md-2 col-form-label font-weight-bold', for='notes') Notes
+        .col-md-8
+            input.form-control(type='text', name='notes', id='notes', autocomplete='notes', value=customer.notes)
+      .form-group
+        .form-check(style='width: 18%; padding-left: 0px')
+          input.form-check(type='radio', 
+                              name='callOrText', 
+                              id='radioCall', 
+                              value="true",
+                              style="float: right;margin-top: 5%;" 
+                              required,
+                              checked=customer.callOrText==true)
+          label.form-check-label(class='col-md-2 col-form-label font-weight-bold', for='callOrText', style="margin-left: -7%;") Call
+        .form-check(style='width: 18%; padding-left: 0px')
+          input.form-check(type='radio', 
+                                name='callOrText', 
+                                id='radioText', 
+                                value="false",
+                                style="float: right;margin-top: 5%;" 
+                                required,
+                                checked=customer.callOrText==false)
+          label.form-check-label(class='col-md-2 col-form-label font-weight-bold', for='callOrText', style="margin-left: -7%;") Text
+      .form-group
+        .offset-md-2.col-md-8.p-1 
+        br
+        input.form-control(type='hidden', name='id', id='id', , value=customer.id)
+        button.btn.btn-primary(type='submit') Submit
+  else 
+    form(method='POST', action="/dashboard/waiting-list/add").form-group
+      input(type='hidden', name='_csrf', value=_csrf)
+      .form-group.row
+        label(class='col-md-2 col-form-label font-weight-bold', for='name') Name
+        .col-md-8
+            input.form-control(type='text', name='name', id='name', autocomplete='name', autofocus, required)
+      .form-group.row
+        label(class='col-md-2 col-form-label font-weight-bold', for='phoneNumber') Phone Number
+        .col-md-8
+            input.form-control(type='text', name='phoneNumber', id='phoneNumber', autocomplete='phone number', required)
+      .form-group.row
+        label(class='col-md-2 col-form-label font-weight-bold', for='company') Company
+        .col-md-8
+            input.form-control(type='text', name='company', id='company', autocomplete='company', required)
+      .form-group.row
+        label(class='col-md-2 col-form-label font-weight-bold', for='notes') Notes
+        .col-md-8
+            input.form-control(type='text', name='notes', id='notes', autocomplete='notes')
+      .form-group
+        .form-check(style='width: 18%; padding-left: 0px')
+          input.form-check(type='radio', 
+                              name='callOrText', 
+                              id='radioCall', 
+                              value="true",
+                              style="float: right;margin-top: 5%;" 
+                              required)
+          label.form-check-label(class='col-md-2 col-form-label font-weight-bold', for='callOrText', style="margin-left: -7%;") Call
+        .form-check(style='width: 18%; padding-left: 0px')
+          input.form-check(type='radio', 
+                                name='callOrText', 
+                                id='radioText', 
+                                value="false",
+                                style="float: right;margin-top: 5%;" 
+                                required)
+          label.form-check-label(class='col-md-2 col-form-label font-weight-bold', for='callOrText', style="margin-left: -7%;") Text
+      .form-group
+        .offset-md-2.col-md-8.p-1 
+        br
+        button.btn.btn-primary(type='submit') Submit
