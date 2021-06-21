@@ -31,6 +31,7 @@ dotenv.config({ path: '.env.example' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const waitingListController = require('./controllers/waitingList');
+const dashboardController = require('./controllers/dashboardController');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 const aboutController = require('./controllers/about');
@@ -110,10 +111,10 @@ app.use((req, res, next) => {
     && req.path !== '/signup'
     && !req.path.match(/^\/auth/)
     && !req.path.match(/\./)) {
-    req.session.returnTo = req.originalUrl;
+    req.session.returnTo = '/dashboard/dashboard';
   } else if (req.user
     && (req.path === '/account' || req.path.match(/^\/api/))) {
-    req.session.returnTo = req.originalUrl;
+    req.session.returnTo = '/dashboard/dashboard';
   }
   next();
 });
@@ -149,6 +150,10 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+/**
+ * dashboard routes
+ */
+app.get('/dashboard/dashboard', passportConfig.isAuthenticated, dashboardController.getDashboard);
 /**
  * customer waiting list routes
  */
