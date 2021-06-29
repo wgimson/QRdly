@@ -1,0 +1,28 @@
+extends ../../layout
+
+block head
+  link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+  link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.6.3/css/all.css", integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")
+  link(rel="stylesheet", href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css")
+
+block content
+  .pb-2.mt-2.mb-4.border-bottom
+    h1(style="text-align:center;") Welcome #{user.email}
+  .pb-2.mt-2.mb-4.border-bottom 
+    .row
+        .col-md-6
+            button.btn.btn-primary(type="button", style="float:right;margin:2%;") Enable/Disable QR Code
+        .col-md-6
+            button.btn.btn-primary(type="button", style="float:left;margin:2%;") Enter My QR Code
+    .row
+        .col-md-6
+            button.btn.btn-primary(type="button", style="float:right;margin:2%;") Calendar and Appointments
+        .col-md-6
+            button.btn.btn-primary(type="button", style="float:left;margin:2%;") Catalog Requests
+    .row
+        .col-md-6
+            button.btn.btn-primary(type="button", style="float:right;margin:2%;") Scans Tracker
+        .col-md-6
+            button.btn.btn-primary(type="button", style="float:left;margin:2%;") Feedback 
+
+  .pb-2.mt-2.mb-4.border-bottom
