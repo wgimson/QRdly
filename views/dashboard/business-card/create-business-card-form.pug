@@ -1,0 +1,58 @@
+extends ../../layout
+
+block head
+  link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+  link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.6.3/css/all.css", integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")
+  link(rel="stylesheet", href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css")
+
+block content
+  .pb-2.mt-2.mb-4.border-bottom
+      h3 Create Your Business Card
+
+      form(method='POST', action="/dashboard/create-business-card").form-group
+        input(type='hidden', name='_csrf', value=_csrf)
+        .form-group.row
+          label(class='col-md-2 col-form-label font-weight-bold', for='firstName') First Name
+          .col-md-8
+            input.form-control(type='text', name='firstName', id='firstName', autocomplete='firstName', autofocus, value=firstName, required)
+        .form-group.row
+          label(class='col-md-2 col-form-label font-weight-bold', for='lastName') Last Name
+          .col-md-8
+            input.form-control(type='text', name='lastName', id='lastName', autocomplete='lastName', autofocus, value=lastName, required)
+        .form-group.row
+          label(class='col-md-2 col-form-label font-weight-bold', for='companyName') Company Name
+          .col-md-8
+            input.form-control(type='text', name='companyName', id='companyName', autocomplete='company name', value=companyName, required)
+        .form-group.row
+          label(class='col-md-2 col-form-label font-weight-bold', for='streetAddress') Street Address
+          .col-md-8
+            input.form-control(type='text', name='streetAddress', id='streetAddress', autocomplete='streetAddress', value=streetAddress, required)
+        .form-group.row
+          label(class='col-md-2 col-form-label font-weight-bold', for='streetAddress2') Street Address 2
+          .col-md-8
+              input.form-control(type='text', name='streetAddress2', id='streetAddress2', autocomplete='streetAddress2', value=streetAddress2)
+        .form-group.row
+          label(class='col-md-2 col-form-label font-weight-bold', for='city') City
+          .col-md-8
+              input.form-control(type='text', name='city', id='city', autocomplete='city', value=city)
+        .form-group.row
+          label(class='col-md-2 col-form-label font-weight-bold', for='stateProvince') State/Province
+          .col-md-8
+              input.form-control(type='text', name='stateProvince', id='stateProvince', autocomplete='stateProvince', value=stateProvince)
+        .form-group.row
+          label(class='col-md-2 col-form-label font-weight-bold', for='zipCode') Postal/Zip Code
+          .col-md-8
+              input.form-control(type='text', name='zipCode', id='zipCode', autocomplete='zipCode', value=zipCode)
+        .form-group
+          .offset-md-2.col-md-8.p-1 
+          br
+          //a.btn.btn-link(href='/dashboard/business-card-form') Create Business Card 
+          button.btn.btn-primary(type='submit') Submit
+
+  .pb-2.mt-2.mb-4.border-bottom
+    script(src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js", integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM", crossorigin="anonymous")
+    script(src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js")
+    script(src="/js/customerWaitingList/customerWaitingList.js")
+    script(src='/js/main.js')

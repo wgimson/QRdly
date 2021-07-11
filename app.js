@@ -31,6 +31,7 @@ dotenv.config({ path: '.env.example' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const waitingListController = require('./controllers/waitingList');
+const businessCardController = require('./controllers/businessCard');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 const aboutController = require('./controllers/about');
@@ -156,6 +157,10 @@ app.get('/dashboard/waiting-list/waiting-list', passportConfig.isAuthenticated, 
 app.get('/dashboard/waiting-list/add', passportConfig.isAuthenticated, waitingListController.getCreateOrEditUserForm);
 app.post('/dashboard/waiting-list/add', passportConfig.isAuthenticated, waitingListController.saveNewCustomer);
 app.post('/dashboard/waiting-list/update', passportConfig.isAuthenticated, waitingListController.updateCustomer);
+/**
+ * customer business card routes
+ */
+app.get('/dashboard/business-card/create', passportConfig.isAuthenticated, businessCardController.getNewBusinessCardForm);
 /**
  * API examples routes.
  */
