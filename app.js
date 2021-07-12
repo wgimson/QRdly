@@ -166,6 +166,7 @@ app.post('/dashboard/waiting-list/update', passportConfig.isAuthenticated, waiti
  * customer business card routes
  */
 app.get('/dashboard/business-card/create', passportConfig.isAuthenticated, businessCardController.getNewBusinessCardForm);
+app.post('/dashboard/business-card/create', passportConfig.isAuthenticated, businessCardController.createBusinessCard);
 /**
  * API examples routes.
  */

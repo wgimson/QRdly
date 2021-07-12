@@ -1,11 +1,20 @@
 const mongoose = require('mongoose');
 
 const businessCardSchema = new mongoose.Schema({
-  name: String,
+  firstName: String,
+  lastName: String,
+  companyName: String,
+  streetAddress: String,
+  streetAddress2: String,
+  city: String,
+  state: String,
+  zip: String,
   phoneNumber: String,
-  company: String,
-  callOrText: Boolean,
-  notes: String,
+  openingMinimum: String,
+  shippingFrom: String,
+  promos: String,
+  contactInfo: String,
+  buyerRequirements: String,
 }, { timestamps: true });
 
 /**
