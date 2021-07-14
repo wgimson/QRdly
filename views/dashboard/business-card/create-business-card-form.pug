@@ -10,24 +10,32 @@ block content
   .pb-2.mt-2.mb-4.border-bottom
       h3 Create Your Business Card
 
-      form(method='POST', action="/dashboard/business-card/create").form-group
+      form(method='POST', id="frmCreateBusinessCard" action="/dashboard/business-card/create", novalidate).form-group
         input(type='hidden', name='_csrf', value=_csrf)
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='firstName') First Name
           .col-md-8
             input.form-control(type='text', name='firstName', id='firstName', autocomplete='firstName', autofocus, value=firstName, required)
+            .invalid-feedback
+              Please first name is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='lastName') Last Name
           .col-md-8
             input.form-control(type='text', name='lastName', id='lastName', autocomplete='lastName', autofocus, value=lastName, required)
+            .invalid-feedback
+              Please last name is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='companyName') Company Name
           .col-md-8
             input.form-control(type='text', name='companyName', id='companyName', autocomplete='company name', value=companyName, required)
+            .invalid-feedback
+              Please company name is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='streetAddress') Street Address
           .col-md-8
             input.form-control(type='text', name='streetAddress', id='streetAddress', autocomplete='streetAddress', value=streetAddress, required)
+            .invalid-feedback
+              Please street address is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='streetAddress2') Street Address 2
           .col-md-8
@@ -35,12 +43,14 @@ block content
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='city') City
           .col-md-8
-              input.form-control(type='text', name='city', id='city', autocomplete='city', value=city)
+              input.form-control(type='text', name='city', id='city', autocomplete='city', value=city, required)
+              .invalid-feedback
+                Please city is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='stateProvince') State
-          .col-md-8
-            select.custom-select.form-control(id="state")
-              option(selected) Choose...
+          .col-md-8.input-group.has-validation
+            select.custom-select.form-control(id="state", required)
+              option(selected, disabled, value="") Choose...
               option(value="AL") Alabama
               option(value="AK") Alaska
               option(value="AZ") Arizona
@@ -95,29 +105,47 @@ block content
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='zipCode') Zip Code
           .col-md-8
-              input.form-control(type='text', name='zipCode', id='zipCode', autocomplete='zipCode', value=zipCode)
+              input.form-control(type='text', name='zipCode', id='zipCode', autocomplete='zipCode', value=zipCode, pattern='^\\d{5}$', required)
+              .invalid-feedback
+                Please 5 digit zip code required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='phone') Phone Number
           .col-md-8
-              input.form-control(type='text', name='phone', id='phone', autocomplete='phone number', value=phone)
+              input.form-control(type='text', name='phone', id='phone', autocomplete='phone number', value=phone, pattern='^[2-9]\\d{2}-\\d{3}-\\d{4}$', required)
+              .invalid-feedback
+                Please 10 digit phone number required in form xxx-xxx-xxxx.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='openingMin') Opening Minimum
           .col-md-8.input-group
             .input-group-prepend
               span.input-group-text $
-            input.form-control(type='text', name='openingMin', id='openingMin', autocomplete='opening minimum', value=openingMin)
+            input.form-control(type='text', name='openingMin', id='openingMin', autocomplete='opening minimum', value=openingMin, pattern='(?=.*?\\d)^\\$?(([1-9]\\d{0,2}(,\\d{3})*)|\\d+)?(\\.\\d{1,2})?$', required)
+            .invalid-feedback
+                Please opening minimum is required and must be a dollar amount.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='shippingFrom') Shipping From
           .col-md-8
-              input.form-control(type='text', name='shippingFrom', id='shippingFrom', autocomplete='shipping from', value=shippingFrom)
+              input.form-control(type='text', name='shippingFrom', id='shippingFrom', autocomplete='shipping from', value=shippingFrom, required)
+              .invalid-feedback
+                Please shipping from location is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='promos') Promos
           .col-md-8
-              input.form-control(type='text', name='promos', id='promos', autocomplete='promotions', value=promos)
+              input.form-control(type='text', name='promos', id='promos', autocomplete='promotions', value=promos, required)
+              .invalid-feedback
+                Please promo is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='contactInfo') Contact Information
           .col-md-8
-              input.form-control(type='text', name='contactInfo', id='contactInfo', autocomplete='contact info', value=contactInfo)
+              input.form-control(type='text', name='contactInfo', id='contactInfo', autocomplete='contact info', value=contactInfo, required)
+              .invalid-feedback
+                Please contact information is required.
+        .form-group.row
+          label(class='col-md-2 col-form-label font-weight-bold', for='companyContactInfo') Company Contact Information
+          .col-md-8
+              input.form-control(type='text', name='companyContactInfo', id='companyContactInfo', autocomplete='company contact info', value=companyContactInfo, required)
+              .invalid-feedback
+                Please company contact information is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='buyerReqs') Buyer Requirements
           .col-md-8
@@ -126,7 +154,7 @@ block content
           .col-md-3.offset-md-7
             button.btn.btn-primary.right-align(type='submit') Create Business Card
 
-  .pb-2.mt-2.mb-4.border-bottom
+  .pb-2.mt-2.mb-4
     script(src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js")
     script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js")
     script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js", integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM", crossorigin="anonymous")

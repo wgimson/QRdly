@@ -1,9 +1,17 @@
 /* eslint-env jquery, browser */
-// $(() => {
-//   // function editCustomer() {
-//   //   const thiss = $(this);
-//   //   console.log(`lets edit: ${thiss.attr('data-id')}`);
-//   // }
+$(() => {
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('#frmCreateBusinessCard');
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach((form) => {
+      form.addEventListener('submit', (event) => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
 
-//   // $('.btn-edit-customer').on('click', editCustomer);
-// });
+        form.classList.add('was-validated');
+      }, false);
+    });
+});
