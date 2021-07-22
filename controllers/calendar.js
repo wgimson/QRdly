@@ -1,7 +1,7 @@
 
 exports.index = (req, res) => {
     res.render('dashboard/calendar', {
-      title: 'Calendar',
+      title: 'Cal',
       user: req.user,
     });
   };
