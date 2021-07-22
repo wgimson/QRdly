@@ -17,7 +17,7 @@ tmp
 .npm
 
 #Build
-public/css/main.css
+public/css/*.css
 .nyc_output/*
 
 # API keys and secrets
