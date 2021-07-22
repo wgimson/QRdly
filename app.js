@@ -38,6 +38,7 @@ const contactController = require('./controllers/contact');
 const aboutController = require('./controllers/about');
 const faqController = require('./controllers/faq');
 const termsController = require('./controllers/terms');
+const calendarController = require('./controllers/calendar');
 /**
  * API keys and Passport configuration.
  */
@@ -154,7 +155,11 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 /**
  * dashboard routes
  */
+
 app.get('/dashboard/dashboard', passportConfig.isAuthenticated, dashboardController.getDashboard);
+
+app.get('/dashboard/calendar', passportConfig.isAuthenticated, calendarController.index);
+
 /**
  * customer waiting list routes
  */
