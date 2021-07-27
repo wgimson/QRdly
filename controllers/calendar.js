@@ -6,9 +6,10 @@ exports.getAdminCalendar = (req, res) => {
     });
   };
 
-exports.getFrontEndCalendar = (req, res) => {
-  res.render('dashboard/frontEndCalendar', {
+exports.getFrontEndCalendar = (req, res, next) => {
+  const name = req.params.id;
+  res.render('ui/front-end-calendar/' + name, {
     title: 'Front End Calendar',
-    user: req.user,
+    businessName: name,
   });
 };

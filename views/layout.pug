@@ -34,13 +34,20 @@ html(lang="en")
     script(src='/fullcalendar/main.js')
     script.
       document.addEventListener('DOMContentLoaded', function() {
+        //admin calendar
         var calendarEl = document.getElementById('adminCalendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth'
         });
         calendar.render();
+        //front end calendar
+        var calendarEl = document.getElementById('frontEndCalendar');
+        var frontEndCalendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth'
+        });
+        frontEndCalendar.render();
       });
-
+       
 
     // Google Analytics: change UA-XXXXX-X to be your site's ID
     script.
