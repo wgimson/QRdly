@@ -158,8 +158,8 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 
 app.get('/dashboard/dashboard', passportConfig.isAuthenticated, dashboardController.getDashboard);
 
-app.get('/dashboard/calendar', passportConfig.isAuthenticated, calendarController.index);
-
+app.get('/dashboard/admin-calendar', passportConfig.isAuthenticated, calendarController.getAdminCalendar);
+app.get('dashboard/front-end-calendar', passportConfig.isAuthenticated, calendarController.getFrontEndCalendar); 
 /**
  * customer waiting list routes
  */
