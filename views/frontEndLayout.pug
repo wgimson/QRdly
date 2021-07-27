@@ -7,7 +7,7 @@ html(lang="en")
     meta(name='theme-color', content='#4DA5F4')
     meta(name='csrf-token', content=_csrf)
     meta(name="description", content="Authors: W.H. Gimson, A. G. Gimson, Description: A self shopper app for vending events")
-    title #{title} - QRdly
+    title #{title} - Calendar
     link(rel='shortcut icon', href='/favicon.png')
     link(rel='stylesheet', href='/css/main.css')
     link(rel="manifest", href="/js/pwa.webmanifest")
@@ -17,13 +17,11 @@ html(lang="en")
     block head
 
   body
-    include partials/header
 
     .container
       include partials/flash
       block content
 
-    include partials/footer
 
     script(src='/js/lib/jquery.min.js')
     script(src='/js/lib/popper.min.js')
@@ -34,15 +32,41 @@ html(lang="en")
     script(src='/fullcalendar/main.js')
     script.
       document.addEventListener('DOMContentLoaded', function() {
-        //admin calendar
-        var calendarEl = document.getElementById('adminCalendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth'
-        });
-        if(calendarEl){
-          calendar.render();
-        }
+        //front end calendar
+
+        var calendarEl = document.getElementById('frontEndCalendar');
         
+        var frontEndCalendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridWeek',
+            headerToolbar: {
+                center: 'addEventButton'
+            },
+            customButtons: {
+                addEventButton: {
+                    text: 'add meeting',
+                    click: function() {
+                        var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+                        
+                        var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+
+                        if (!isNaN(date.valueOf())) { // valid?
+                            frontEndCalendar.addEvent({
+                            title: 'dynamic event',
+                            start: date,
+                            allDay: true
+                            });
+                            alert('Great. Now, update your database...');
+                        } else {
+                            alert('Invalid date.');
+                        }
+                    }
+                }
+            }
+        });
+
+        if(calendarEl){
+          frontEndCalendar.render();
+        }
       });
     // Google Analytics: change UA-XXXXX-X to be your site's ID
     script.

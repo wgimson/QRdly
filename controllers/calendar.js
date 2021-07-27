@@ -1,4 +1,3 @@
-
 exports.getAdminCalendar = (req, res) => {
     res.render('dashboard/adminCalendar', {
       title: 'Admin Calendar',
@@ -6,9 +5,9 @@ exports.getAdminCalendar = (req, res) => {
     });
   };
 
-exports.getFrontEndCalendar = (req, res, next) => {
+exports.getFrontEndCalendar = (req, res) => {
   const name = req.params.id;
-  res.render('ui/front-end-calendar/' + name, {
+  res.render('ui/frontEndCalendar', {
     title: 'Front End Calendar',
     businessName: name,
   });
