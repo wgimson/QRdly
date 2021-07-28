@@ -10,6 +10,33 @@ block content
     h1(style="text-align:center;") Welcome #{user.email}
   .pb-2.mt-2.mb-4.border-bottom 
     .row
+        .col-md-12
+          if businessCard
+            .business-card 
+              .row
+                .col-md-4 our logo here
+                .col-md-8
+                  .row
+                    .col-md-12=`Welcome to ${businessCard.companyName}`
+                  .row
+                  .row
+                  .row
+                  .row
+                  .row
+              .row
+                .col-md-10
+                .col-md-2
+              .row
+                .col-md-3
+                .col-md-3
+                .col-md-3
+              .row
+                .col-md-3
+                .col-md-3
+                .col-md-3
+              .row
+                .col-md-12
+    .row
         .col-md-6
             button.btn.btn-primary(type="button", style="float:right;margin:2%;") Enable/Disable QR Code
         .col-md-6
