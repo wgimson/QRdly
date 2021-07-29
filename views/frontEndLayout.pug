@@ -13,9 +13,8 @@ html(lang="en")
     link(rel="manifest", href="/js/pwa.webmanifest")
     link(rel="apple-touch-icon", href="/example.png")
     link(href='/fullcalendar/main.css' rel='stylesheet')
-
+    link(hrel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css")
     block head
-
   body
 
     .container
@@ -30,10 +29,34 @@ html(lang="en")
     script(src='/js/pwa.js')
     script(src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js")
     script(src='/fullcalendar/main.js')
+    script(src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js")
+
     script.
       document.addEventListener('DOMContentLoaded', function() {
         //front end calendar
+        $( "#apptDialog" ).dialog({
+            dialogClass: "no-close",
+            buttons: [
+                {
+                    text: "Schedule Appointment",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                    }
+                },
+                {
+                    text: "Cancel",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            ],
+            draggable: true,
+            autoOpen: false,
+            minWidth: 400,
+            minHeight: 200,
+            show: { effect: "blind", duration: 800 }
 
+        });
         var calendarEl = document.getElementById('frontEndCalendar');
         
         var frontEndCalendar = new FullCalendar.Calendar(calendarEl, {
@@ -45,20 +68,8 @@ html(lang="en")
                 addEventButton: {
                     text: 'add meeting',
                     click: function() {
-                        var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-                        
-                        var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+                        $("#apptDialog").dialog('open')
 
-                        if (!isNaN(date.valueOf())) { // valid?
-                            frontEndCalendar.addEvent({
-                            title: 'dynamic event',
-                            start: date,
-                            allDay: true
-                            });
-                            alert('Great. Now, update your database...');
-                        } else {
-                            alert('Invalid date.');
-                        }
                     }
                 }
             }
