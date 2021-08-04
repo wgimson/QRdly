@@ -5,14 +5,12 @@ const BusinessCard = require('../models/BusinessCard');
  * Admin users Dashboard
  */
 exports.getDashboard = (req, res) => {
-  BusinessCard.find({}, (err, allBusinessCards) => {
+  BusinessCard.findOne({ userId: req.user.id }, (err, card) => {
     if (!err) {
-      console.log('UserId:');
-      const firstBusinessCard = allBusinessCards[0];
       res.render('dashboard/dashboard/dashboard', {
         title: 'Admin Dashboard',
         user: req.user,
-        businessCard: firstBusinessCard
+        businessCard: card
       });
     } else {
       console.log('error');
