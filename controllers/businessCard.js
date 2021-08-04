@@ -22,7 +22,7 @@ exports.getNewBusinessCardForm = (req, res, next) => {
  */
 exports.createBusinessCard = (req, res) => {
   if (req.user) {
-    const newBusinessCard = new BusinessCard({
+    const newBusinessCard = {
       userId: req.user.id,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -39,12 +39,15 @@ exports.createBusinessCard = (req, res) => {
       companyContactInfo: req.body.companyContactInfo,
       contactInfo: req.body.contactInfo,
       buyerReqs: req.body.buyerReqs,
-    });
+    };
 
-    newBusinessCard.save((err) => {
-      if (err) { console.log('error'); } // TODO - do real error checking
-      req.flash('success', { msg: `new business card: ${newBusinessCard.firstName}, created.` });
+    const query = { userId: newBusinessCard.userId };
+    BusinessCard.findOneAndUpdate(query, newBusinessCard, { upsert: true }, (err, card) => {
+      if (err) return res.send(500, { error: err });
+      req.flash('success', { msg: `new business card: ${card.firstName}, created.` });
       res.redirect('../..');
     });
+  } else {
+    res.redirect('/logout');
   }
 };
