@@ -29,6 +29,7 @@ dotenv.config({ path: '.env.example' });
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
+const meetingController = require('./controllers/meetingController');
 const userController = require('./controllers/user');
 const waitingListController = require('./controllers/waitingList');
 const businessCardController = require('./controllers/businessCard');
@@ -172,6 +173,10 @@ app.post('/dashboard/waiting-list/update', passportConfig.isAuthenticated, waiti
  */
 app.get('/dashboard/business-card/create', passportConfig.isAuthenticated, businessCardController.getNewBusinessCardForm);
 app.post('/dashboard/business-card/create', passportConfig.isAuthenticated, businessCardController.createBusinessCard);
+/**
+ *  calendar meetings routes
+ */
+app.post('/meeting/create', passportConfig.isAuthenticated, meetingController.create);
 /**
  * API examples routes.
  */

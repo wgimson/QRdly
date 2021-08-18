@@ -36,33 +36,21 @@ html(lang="en")
       document.addEventListener('DOMContentLoaded', function() {
         //admin calendar
         var calendarEl = document.getElementById('adminCalendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth'
-        });
-        if(calendarEl){
-          calendar.render();
-        }
-        customButtons: {
-          addEventButton: {
-            text: 'add meeting',
-            click: function() {
-              var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-              var date = new Date(dateStr + 'T00:00:00'); // will be in local time
 
-              if (!isNaN(date.valueOf())) { // valid?
-                calendar.addEvent({
-                  title: 'dynamic event',
-                  start: date,
-                  allDay: true
-                });
-                alert('Great. Now, update your database...');
-              } else {
-                alert('Invalid date.');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          customButtons: {
+            addEventButton: {
+              text: 'add meeting',
+              click: function(){
+                //do something
               }
             }
           }
-        }
+        });
+          calendar.render();
       });
+       
     // Google Analytics: change UA-XXXXX-X to be your site's ID
     script.
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

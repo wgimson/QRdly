@@ -6,9 +6,9 @@ block head
   link(rel="stylesheet", href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css")
   style.
     .ui-dialog { 
-      z-index: 1000 !important ;
-      background: lightgrey !important;
-      border: 1px solid black;
+      z-index: 1!important ;
+      background: white !important;
+      border: 1px dotted #343a40;
       padding-left: 5px !important; 
       padding-bottom: 5px !important;
       
@@ -22,6 +22,7 @@ block head
       padding-top: 2px;
       padding-bottom: 2px;
     }
+    
     input {
       margin-top: 5px !important;
     }
@@ -31,20 +32,24 @@ block head
 block content
   div(class="container")
     h1 #{businessName}
-    hr
+        hr
   div(id='frontEndCalendar')
     div(class="container")
-      div(id="apptDialog" title="Enter Appointment") 
-        form(id="apptDialogForm"  method='POST' action='/make-appointment')
-          input(type="date" id="date-input" name="date-input" ) 
-          | &nbsp;date
-          input(type="text" id="time-input" name="time-input")  
-          | &nbsp;time
-          select
-            option(value="1") 30 minutes 
-            option(value="2") 1 hour and 30 minutes
+      div(id="apptDialog" title="Make an appointment") 
+        form(id="apptDialogForm"  method='POST' action='/meeting/create')
+          input(type="hidden" name="business" id="business" value=businessName)
+          input(type="hidden" name="meetings" id="meetings" value=meetings)
+          input(type='hidden', name='_csrf', value=_csrf)
+          input(type="datetime-local" id="date-input" name="datetime" min="#{date}T00:00" max="2022-06-14T00:00") 
+          br
+          small
+          | (Office hours are 9am to 6pm)
+          br
+          select(name="duration")
+            option(value="thirty") 30 minutes 
+            option(value="ninety") 1 hour and 30 minutes
           | &nbsp;duration
-          input(type="text" id="contact-input" name="contact-input") 
+          input(type="tel" id="contact-input" name="contact") 
           | &nbsp;phone number
         
     

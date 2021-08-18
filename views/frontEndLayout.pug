@@ -40,6 +40,7 @@ html(lang="en")
                 {
                     text: "Schedule Appointment",
                     click: function() {
+                        $('#apptDialogForm').submit();
                         $( this ).dialog( "close" );
                     }
                 },
@@ -50,29 +51,51 @@ html(lang="en")
                     }
                 }
             ],
-            draggable: true,
+            resizeable: true,
             autoOpen: false,
-            minWidth: 400,
-            minHeight: 200,
+            minWidth: 300,
+            minHeight: 150,
             show: { effect: "blind", duration: 800 }
 
         });
+        //get all meetings for this company
+        let meetings = document.getElementById('meetings').value;
+        let meetingArray = JSON.parse(meetings);
+        var parsedMeetingArray = [];
+        var end = null
+        meetingArray.forEach(function(meeting){
+            if(meeting.duration === "ninety"){
+                end = new Date(meeting.datetime)
+                end.setHours(end.getHours() + 1);
+                end.setMinutes(end.getMinutes() + 30);
+            }else{
+                end = new Date(meeting.datetime)
+                end.setMinutes(end.getMinutes() + 30);
+            }
+            parsedMeetingArray.push({ title: meeting.duration + " min meeting w/ " + meeting.businessName,  start: meeting.datetime, end: end });
+        });
+        console.log('end: ' + end)
         var calendarEl = document.getElementById('frontEndCalendar');
-        
         var frontEndCalendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'timeGridWeek',
+            events: 
+                parsedMeetingArray
+            ,
+           editable: false,
+            initialView: 'dayGridMonth',
             headerToolbar: {
-                center: 'addEventButton'
+                left: 'addEventButton',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             customButtons: {
                 addEventButton: {
                     text: 'add meeting',
                     click: function() {
-                        $("#apptDialog").dialog('open')
+                        $("#apptDialog").dialog('open');
 
                     }
                 }
-            }
+            },
+           
         });
 
         if(calendarEl){
