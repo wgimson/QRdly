@@ -39,6 +39,7 @@
     "express-handlebars": "^5.2.0",
     "express-session": "^1.17.1",
     "googleapis": "^67.0.0",
+    "heroku": "^7.59.0",
     "instagram-node": "^0.5.8",
     "jquery": "^3.5.1",
     "lastfm": "^0.9.3",
