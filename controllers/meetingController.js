@@ -7,7 +7,6 @@ exports.create = (req, res) => {
         contact: req.body.contact,
         businessName: req.body.business,
     });
-    console.log("duration: " + req.body.duration);
     const redirectURL = '../ui/front-end-calendar/' + req.body.business;
       newMeeting.save((err) => {
         if (err) { console.log('error'); } // TODO - do real error checking
