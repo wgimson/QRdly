@@ -674,7 +674,7 @@ exports.getFileUpload = (req, res) => {
 
 exports.postFileUpload = (req, res) => {
   req.flash('success', { msg: 'File was uploaded successfully.' });
-  res.redirect('/api/upload');
+  res.redirect('/dashboard/dashboard');
 };
 
 /**

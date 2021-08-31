@@ -21,9 +21,12 @@ public/css/*.css
 .nyc_output/*
 
 # API keys and secrets
+/*.env
 .env
 
 # Dependency directory
+/node_modules
+npm-debug.log
 node_modules
 bower_components
 

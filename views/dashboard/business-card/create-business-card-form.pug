@@ -9,10 +9,21 @@ block head
 
 block content
 
+  h3 Update Company Logo
+  .row
+    .col-md-6
+      form(role='form', enctype='multipart/form-data', action="/api/upload" method='POST')
+        input(type='hidden', name='_csrf', value=_csrf)
+        .form-group
+          label.col-form-label.font-weight-bold File Input
+          .col-md-6
+            input(type='file', name='customerLogo.jpg')
+        button.btn.btn-primary(type='submit', name='customerLogo') Submit
+
   .pb-2.mt-2.mb-4.border-bottom
       h3 Create or Edit Your Business Card
 
-      form(method='POST', id="frmCreateBusinessCard" action="/dashboard/business-card/create", novalidate).form-group
+      form(role='form', method='POST', id="frmCreateBusinessCard" action="/dashboard/business-card/create", novalidate).form-group
         input(type='hidden', name='_csrf', value=_csrf)
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='firstName') First Name
@@ -156,5 +167,31 @@ block content
     script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js")
     script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js", integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM", crossorigin="anonymous")
     script(src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js")
-    script(src="/js/customerWaitingList/customerWaitingList.js")
     script(src='/js/main.js')
+    //- script.
+    //-   document.addEventListener('DOMContentLoaded', () => {
+    //-     // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    //-     const form = document.querySelectorAll('#frmCreateBusinessCard')[0];
+
+    //-     function submitForm(e) {
+    //-       e.preventDefault();
+    //-       const _csrf = document.getElementById('_csrf');
+    //-       // const name = document.getElementById('name');
+    //-       const img = document.getElementById('logoImg');
+    //-       const formData = new FormData();
+    //-       // formData.append('name', name.value);
+    //-       formData.append('_csrf', _csrf.value);
+
+    //-       for (let i = 0; i < img.files.length; i++) {
+    //-         formData.append('img', img.files[i]);
+    //-       }
+    //-       fetch('/dashboard/business-card/create', {
+    //-         method: 'post',
+    //-         body: formData
+    //-       })
+    //-         .then((res) => console.log(res))
+    //-         .catch((err) => ('Error occured', err));
+    //-     }
+
+    //-     form.addEventListener('submit', submitForm);
+    //-   });
