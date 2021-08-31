@@ -1,4 +1,4 @@
-const BusinessCard = require('../models/BusinessCard');
+    const BusinessCard = require('../models/BusinessCard');
 
 /**
  * ADD /waiting-list/add
