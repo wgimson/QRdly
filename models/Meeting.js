@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
 const MeetingSchema = new mongoose.Schema({
-  datetime: String,
-  duration: String,
+  name: String,
+  date: String,
+  time: String,
   contact: String,
   businessName: String,
 }, { timestamps: true });

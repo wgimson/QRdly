@@ -33,12 +33,22 @@ html(lang="en")
 
     script.
       document.addEventListener('DOMContentLoaded', function() {
+       
+        var end = null;
+        $('#apptTime').on('change', function(){
+            var time = $(this).val()
+            let minutes = parseInt(time.split(':')[1])
+            if(minutes % 30 !== 0){
+                alert("meeting time must be on the hour or 1/2 hour. ex: 9:00 or 9:30")
+                $(this).val("")
+            }
+        })
         //front end calendar
         $( "#apptDialog" ).dialog({
             dialogClass: "no-close",
             buttons: [
                 {
-                    text: "Schedule Appointment",
+                    text: "Make appointment",
                     click: function() {
                         $('#apptDialogForm').submit();
                         $( this ).dialog( "close" );
@@ -48,35 +58,57 @@ html(lang="en")
                     text: "Cancel",
                     click: function() {
                         $( this ).dialog( "close" );
+                        $(this).first().find("input[type=text], textarea").val("")
                     }
                 }
             ],
             resizeable: true,
             autoOpen: false,
-            minWidth: 300,
+            minWidth: 300,  
             minHeight: 150,
-            show: { effect: "blind", duration: 800 }
+            show: { effect: "blind", duration: 100 }
 
         });
         //get all meetings for this company
         let meetings = document.getElementById('meetings').value;
         let meetingArray = JSON.parse(meetings);
         var parsedMeetingArray = [];
-        var end = null
+        let meetingMax = 3;
+        const hourArray = ['08', '09','10', '11','12', '13','14','15', '16','17', '18']
+        var apptCounter = [ 0, 0, 0, 0, 0, 0, 0, 0 , 0 , 0]
+
         meetingArray.forEach(function(meeting){
-            if(meeting.duration === "ninety"){
-                end = new Date(meeting.datetime)
-                end.setHours(end.getHours() + 1);
-                end.setMinutes(end.getMinutes() + 30);
-            }else{
-                end = new Date(meeting.datetime)
-                end.setMinutes(end.getMinutes() + 30);
-            }
-            parsedMeetingArray.push({ title: meeting.duration + " min meeting w/ " + meeting.businessName,  start: meeting.datetime, end: end });
+            hourArray.forEach(function(hour, i){
+                let meetingTime = meeting.time.split(':')[0]
+                if(meetingTime === hour){
+                    apptCounter[i]++
+                }
+            })
+            parsedMeetingArray.push({ 
+                    title: " N/A ",
+                    color:"#ABC4CF",
+                    start: meeting.date + "T" + meeting.time,
+                    slotDuration: '01:00' 
+            });
         });
-        console.log('end: ' + end)
         var calendarEl = document.getElementById('frontEndCalendar');
         var frontEndCalendar = new FullCalendar.Calendar(calendarEl, {
+            eventClick: function(info){
+
+                $( "#popup-dialog" ).text(info.event.title)
+                $( "#popup-dialog" ).dialog({
+                    modal: true,
+                    dialogClass: "no-close",
+                    buttons: {
+                        OK: function() {
+                            $( this ).dialog( "close" );
+                            $( "#popup-dialog" ).text('');
+                        }
+                    }
+                });
+
+                popupModal.dialog('open');
+            },
             events: 
                 parsedMeetingArray
             ,
@@ -84,8 +116,9 @@ html(lang="en")
             initialView: 'timeGridWeek',
             headerToolbar: {
                 left: 'addEventButton',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,prev,next'
             },
+            slotEventOverlap: false,
             customButtons: {
                 addEventButton: {
                     text: 'add meeting',
