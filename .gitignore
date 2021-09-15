@@ -22,6 +22,7 @@ public/css/*.css
 
 # API keys and secrets
 .env
+/*.env
 
 # Dependency directory
 node_modules
@@ -50,3 +51,5 @@ Thumbs.db
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+
+npm-debug.log
