@@ -10,25 +10,13 @@ exports.getFrontEndCalendar  =  async (req, res) => {
   //give id 
   const name = req.params.id;
   const date = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-  var meetings = await Meeting.find({businessName: name});
-  let aggregatedMeetings = await Meeting.aggregate([
-    //group by date
-    {
-      $group: {
-          _id: "date"
-        }
-    },
-    //make sure business name matches
-    {
-      $match: { "businessName": { $eq: name } }
-    }
-  ])
-  let lastMeeting = Meeting.find().limit(1).sort({$natural:-1})
+  let sortedMeetings = await Meeting.find( { businessName: { $eq: name } } ).sort( { date: 1} )
+  var lastMeeting = await Meeting.find( { businessName: { $eq: name } } ).limit(1).sort( { $natural:-1 } ).exec()
   res.render('ui/frontEndCalendar', {
     title: 'Front End Calendar',
     businessName: name,
     date: date,
-    meetings: aggregatedMeetings,
-    lastMeeting: lastMeeting,
+    meetings: sortedMeetings,
+    lastMeeting: lastMeeting[0]
   });
 };

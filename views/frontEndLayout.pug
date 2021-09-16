@@ -21,7 +21,7 @@ html(lang="en")
       include partials/flash
       block content
 
-
+    script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
     script(src='/js/lib/jquery.min.js')
     script(src='/js/lib/popper.min.js')
     script(src='/js/lib/bootstrap.min.js')
@@ -43,6 +43,7 @@ html(lang="en")
                 $(this).val("")
             }
         })
+        
         //front end calendar
         $( "#apptDialog" ).dialog({
             dialogClass: "no-close",
@@ -50,8 +51,32 @@ html(lang="en")
                 {
                     text: "Make appointment",
                     click: function() {
-                        $('#apptDialogForm').submit();
-                        $( this ).dialog( "close" );
+                        let csrf = $('meta[name="csrf-token"]').attr("content")
+                        axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
+                        axios.post('/meeting/create',
+                            {
+                                name: $('#name').val(),
+                                date: $('#apptDate').val(),
+                                time: $('#apptTime').val(),
+                                contact: $('#contact-input').val(),
+                                businessName: $('#business').val()
+                            },
+                            {
+                                withCredentials: true
+                            })
+                        .then(function (response) {
+                            let title = "Meeting w / " + $('#business').val() + " at " + $('#apptTime').val() + " on " + $('#apptDate').val()
+                            let start = $('#apptDate').val() + "T" + $('#apptTime').val()
+                            frontEndCalendar.addEvent({
+                                title: title,
+                                start: start,
+                                color: '#93c47ed'
+                            })
+                             $( '#apptDialog' ).dialog( "close" );
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                     }
                 },
                 {
@@ -62,6 +87,7 @@ html(lang="en")
                     }
                 }
             ],
+            
             resizeable: true,
             autoOpen: false,
             minWidth: 300,  
@@ -73,24 +99,51 @@ html(lang="en")
         let meetings = document.getElementById('meetings').value;
         let meetingArray = JSON.parse(meetings);
         var parsedMeetingArray = [];
-        let meetingMax = 3;
+        let meetingMax = 2;
         const hourArray = ['08', '09','10', '11','12', '13','14','15', '16','17', '18']
         var apptCounter = [ 0, 0, 0, 0, 0, 0, 0, 0 , 0 , 0]
-
+        var previousDate = null;
+        
+        if(meetingArray.length){
+            previousDate = meetingArray[0].date
+        }
         meetingArray.forEach(function(meeting){
+            lastDate  = meetingArray[ meetingArray.length -1 ].date
+            if(meeting.date !== previousDate){
+                apptCounter.forEach(function(reps, i){
+                    if( reps >= meetingMax ) {
+                        if(meeting.date === lastDate){
+                            var t = hourArray[i] + ":00";
+                            parsedMeetingArray.push({ 
+                                title: "/*** FULL ***/ ",
+                                color:"#ABC4CF",
+                                start: lastDate + "T" + t,
+                            });
+                        }
+                        else {
+                            var t = hourArray[i] + ":00";
+                            parsedMeetingArray.push({ 
+                                title: "/*** FULL ***/ ",
+                                color:"#ABC4CF",
+                                start: previousDate + "T" + t,
+                            });
+                        }
+                        
+                    }
+                })
+                apptCounter = [ 0, 0, 0, 0, 0, 0, 0, 0 , 0 , 0]
+                previousDate = meeting.date
+            }
+
             hourArray.forEach(function(hour, i){
                 let meetingTime = meeting.time.split(':')[0]
-                if(meetingTime === hour){
+                if(meetingTime === hour && meeting._id){
                     apptCounter[i]++
                 }
             })
-            parsedMeetingArray.push({ 
-                    title: " N/A ",
-                    color:"#ABC4CF",
-                    start: meeting.date + "T" + meeting.time,
-                    slotDuration: '01:00' 
-            });
+            
         });
+        
         var calendarEl = document.getElementById('frontEndCalendar');
         var frontEndCalendar = new FullCalendar.Calendar(calendarEl, {
             eventClick: function(info){
@@ -112,13 +165,15 @@ html(lang="en")
             events: 
                 parsedMeetingArray
             ,
-           editable: false,
+            editable: false,
             initialView: 'timeGridWeek',
+            slotMinTime: "07:00:00",
+            slotMaxTime: "19:00:00",
+            expandRows: true,
             headerToolbar: {
                 left: 'addEventButton',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,prev,next'
             },
-            slotEventOverlap: false,
             customButtons: {
                 addEventButton: {
                     text: 'add meeting',
