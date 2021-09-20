@@ -32,164 +32,160 @@ html(lang="en")
     script(src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js")
 
     script.
-      document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
        
-        var end = null;
-        $('#apptTime').on('change', function(){
-            var time = $(this).val()
-            let minutes = parseInt(time.split(':')[1])
-            if(minutes % 30 !== 0){
-                alert("meeting time must be on the hour or 1/2 hour. ex: 9:00 or 9:30")
-                $(this).val("")
-            }
-        })
-        
-        //front end calendar
-        $( "#apptDialog" ).dialog({
-            dialogClass: "no-close",
-            buttons: [
-                {
-                    text: "Make appointment",
-                    click: function() {
-                        let csrf = $('meta[name="csrf-token"]').attr("content")
-                        axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
-                        axios.post('/meeting/create',
-                            {
-                                name: $('#name').val(),
-                                date: $('#apptDate').val(),
-                                time: $('#apptTime').val(),
-                                contact: $('#contact-input').val(),
-                                businessName: $('#business').val()
-                            },
-                            {
-                                withCredentials: true
-                            })
-                        .then(function (response) {
-                            let title = "Meeting w / " + $('#business').val() + " at " + $('#apptTime').val() + " on " + $('#apptDate').val()
-                            let start = $('#apptDate').val() + "T" + $('#apptTime').val()
-                            frontEndCalendar.addEvent({
-                                title: title,
-                                start: start,
-                                color: '#93c47ed'
-                            })
-                             $( '#apptDialog' ).dialog( "close" );
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                    }
-                },
-                {
-                    text: "Cancel",
-                    click: function() {
-                        $( this ).dialog( "close" );
-                        $(this).first().find("input[type=text], textarea").val("")
-                    }
-                }
-            ],
-            
-            resizeable: true,
-            autoOpen: false,
-            minWidth: 300,  
-            minHeight: 150,
-            show: { effect: "blind", duration: 100 }
-
-        });
-        //get all meetings for this company
-        let meetings = document.getElementById('meetings').value;
-        let meetingArray = JSON.parse(meetings);
-        var parsedMeetingArray = [];
-        let meetingMax = 2;
-        const hourArray = ['08', '09','10', '11','12', '13','14','15', '16','17', '18']
-        var apptCounter = [ 0, 0, 0, 0, 0, 0, 0, 0 , 0 , 0]
-        var previousDate = null;
-        
-        if(meetingArray.length){
-            previousDate = meetingArray[0].date
-        }
-        meetingArray.forEach(function(meeting){
-            lastDate  = meetingArray[ meetingArray.length -1 ].date
-            if(meeting.date !== previousDate){
-                apptCounter.forEach(function(reps, i){
-                    if( reps >= meetingMax ) {
-                        if(meeting.date === lastDate){
-                            var t = hourArray[i] + ":00";
-                            parsedMeetingArray.push({ 
-                                title: "/*** FULL ***/ ",
-                                color:"#ABC4CF",
-                                start: lastDate + "T" + t,
-                            });
-                        }
-                        else {
-                            var t = hourArray[i] + ":00";
-                            parsedMeetingArray.push({ 
-                                title: "/*** FULL ***/ ",
-                                color:"#ABC4CF",
-                                start: previousDate + "T" + t,
-                            });
-                        }
-                        
-                    }
-                })
-                apptCounter = [ 0, 0, 0, 0, 0, 0, 0, 0 , 0 , 0]
-                previousDate = meeting.date
-            }
-
-            hourArray.forEach(function(hour, i){
-                let meetingTime = meeting.time.split(':')[0]
-                if(meetingTime === hour && meeting._id){
-                    apptCounter[i]++
+            var end = null;
+            $('#apptTime').on('change', function(){
+                var time = $(this).val()
+                let minutes = parseInt(time.split(':')[1])
+                if(minutes % 30 !== 0){
+                    alert("meeting time must be on the hour or 1/2 hour. ex: 9:00 or 9:30")
+                    $(this).val("")
                 }
             })
             
-        });
-        
-        var calendarEl = document.getElementById('frontEndCalendar');
-        var frontEndCalendar = new FullCalendar.Calendar(calendarEl, {
-            eventClick: function(info){
+            //front end calendar
+            $( "#apptDialog" ).dialog({
+                dialogClass: "no-close",
+                buttons: [
+                    {
+                        text: "Make appointment",
+                        click: function() {
+                            let csrf = $('meta[name="csrf-token"]').attr("content")
+                            axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
 
-                $( "#popup-dialog" ).text(info.event.title)
-                $( "#popup-dialog" ).dialog({
-                    modal: true,
-                    dialogClass: "no-close",
-                    buttons: {
-                        OK: function() {
+                            axios.post('/meeting/create',
+                                {
+                                    name: $('#name').val(),
+                                    date: $('#apptDate').val(),
+                                    time: $('#apptTime').val(),
+                                    contact: $('#contact-input').val(),
+                                    businessName: $('#business').val()
+                                },
+                                {
+                                    withCredentials: true
+                                })
+                            .then(function (response) {
+                                let title = "Meeting w / " + $('#business').val() + " at " + $('#apptTime').val() + " on " + $('#apptDate').val()
+                                let start = $('#apptDate').val() + "T" + $('#apptTime').val()
+                                frontEndCalendar.addEvent({
+                                    title: title,
+                                    start: start,
+                                    color: '#93c47ed'
+                                })
+                                    $( '#apptDialog' ).dialog( "close" );
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                        }
+                    },
+                    {
+                        text: "Cancel",
+                        click: function() {
                             $( this ).dialog( "close" );
-                            $( "#popup-dialog" ).text('');
+                            $(this).first().find("input[type=text], textarea").val("")
                         }
                     }
-                });
+                ],
+                
+                resizeable: true,
+                autoOpen: false,
+                minWidth: 300,  
+                minHeight: 150,
+                show: { effect: "blind", duration: 100 }
 
-                popupModal.dialog('open');
-            },
-            events: 
-                parsedMeetingArray
-            ,
-            editable: false,
-            initialView: 'timeGridWeek',
-            slotMinTime: "07:00:00",
-            slotMaxTime: "19:00:00",
-            expandRows: true,
-            headerToolbar: {
-                left: 'addEventButton',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,prev,next'
-            },
-            customButtons: {
-                addEventButton: {
-                    text: 'add meeting',
-                    click: function() {
-                        $("#apptDialog").dialog('open');
-
+            });
+            //get all meetings for this company
+            let meetings = document.getElementById('meetings').value;
+            let meetingArray = JSON.parse(meetings);
+            var parsedMeetingArray = [];
+            let meetingMax = 2;
+            const hourArray = ['08', '09','10', '11','12', '13','14','15', '16','17', '18']
+            var apptCounter = [ 0, 0, 0, 0, 0, 0, 0, 0 , 0 , 0]
+            var previousDate = null;
+            if(meetingArray.length){
+                previousDate = meetingArray[0].date
+            }
+            meetingArray.forEach(function(meeting, index){
+                
+                hourArray.forEach(function(hour, i){
+                    let meetingTime = meeting.time.split(':')[0]
+                    if(meetingTime === hour){
+                        apptCounter[i]++
                     }
-                }
-            },
-           
-        });
+                })
+                lastDate  = meetingArray[ meetingArray.length -1 ].date
+                    apptCounter.forEach(function(meetingsBooked, i){
+                        if( meetingsBooked >= meetingMax ) {
+                            if(meeting.date === lastDate){
+                                var t = hourArray[i] + ":00";
+                                parsedMeetingArray.push({ 
+                                    title: "/*** FULL ***/ ",
+                                    color:"#b7b7b7",
+                                    start: lastDate + "T" + t
+                                });
+                            }
+                            else {
+                                var t = hourArray[i] + ":00";
+                                parsedMeetingArray.push({ 
+                                    title: "/*** FULL ***/ ",
+                                    color:"#b7b7b7",
+                                    start: previousDate + "T" + t
+                                });
+                            }
+                            apptCounter = [ 0, 0, 0, 0, 0, 0, 0, 0 , 0 , 0]
+                            previousDate = meeting.date
+                        }
+                    })
+            });
+            
+            var calendarEl = document.getElementById('frontEndCalendar');
+            var frontEndCalendar = new FullCalendar.Calendar( calendarEl, {
+                eventClick: function(info){
 
-        if(calendarEl){
-          frontEndCalendar.render();
-        }
-      });
+                    $( "#popup-dialog" ).text(info.event.title)
+                    $( "#popup-dialog" ).dialog({
+                        modal: true,
+                        dialogClass: "no-close",
+                        buttons: {
+                            OK: function() {
+                                $( this ).dialog( "close" );
+                                $( "#popup-dialog" ).text('');
+                            }
+                        }
+                    });
+
+                    popupModal.dialog('open');
+                },
+                events: 
+                    parsedMeetingArray
+                ,
+                editable: false,
+                initialView: 'timeGridWeek',
+                slotMinTime: "07:00:00",
+                slotMaxTime: "19:00:00",
+                expandRows: true,
+                headerToolbar: {
+                    left: 'addEventButton',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,prev,next'
+                },
+                customButtons: {
+                    addEventButton: {
+                        text: 'add meeting',
+                        click: function() {
+                            $("#apptDialog").dialog('open');
+
+                        }
+                    }
+                },
+                
+            });
+
+            if(calendarEl){
+                frontEndCalendar.render();
+            }
+        });
     // Google Analytics: change UA-XXXXX-X to be your site's ID
     script.
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
