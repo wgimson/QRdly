@@ -1,4 +1,5 @@
 const BusinessCard = require('../models/BusinessCard');
+const CustomerLogoFile = require('../models/CustomerLogoFile');
 
 /**
  * ADD /waiting-list/add
@@ -46,6 +47,36 @@ exports.createBusinessCard = (req, res) => {
       if (err) return res.send(500, { error: err });
       req.flash('success', { msg: `new business card: ${card.firstName}, created.` });
       res.redirect('../..');
+    });
+  } else {
+    res.redirect('/logout');
+  }
+};
+
+exports.saveCustomerLogo = async (req, res, next) => {
+  if (req.user) {
+    const newCustomerLogoFile = {
+      userId: req.session.passport.user,
+      fileName: req.file.filename,
+    };
+    const query = { userId: newCustomerLogoFile.userId };
+    await CustomerLogoFile.findOneAndUpdate(query, newCustomerLogoFile, { upsert: true }, (err) => {
+      if (err) return res.send(500, { error: err });
+      return res;
+    });
+  } else {
+    res.redirect('/logout');
+  }
+};
+
+exports.getCustomerLogo = async (req, res, next) => {
+  if (req.user) {
+    const userId = res.session.user;
+    const query = { userId };
+    await CustomerLogoFile.findOnee(query, (customerLogoFile, err) => {
+      if (err) return res.send(500, { error: err });
+      res.body.customerLogoFile = customerLogoFile;
+      return res;
     });
   } else {
     res.redirect('/logout');

@@ -18,6 +18,7 @@ tmp
 
 #Build
 public/css/*.css
+public/img/users/*
 .nyc_output/*
 
 # API keys and secrets
