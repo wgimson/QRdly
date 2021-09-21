@@ -1,10 +1,24 @@
+const errorHandler = require('errorhandler');
+const BusinessCard = require('../models/BusinessCard');
+const CustomerLogoFile = require('../models/CustomerLogoFile');
+
 /**
  * GET /dashboard
  * Admin users Dashboard
  */
-exports.getDashboard = (req, res) => {
-  res.render('dashboard/dashboard/dashboard', {
-    title: 'Admin Dashboard',
-    user: req.user
-  });
+exports.getDashboard = async (req, res) => {
+  const businessCard = await BusinessCard.findOne({ userId: req.user.id }); //, (err, card) => {
+  if (businessCard) {
+    const logoFile = await CustomerLogoFile.findOne({ userId: req.user.id }); //, (err, card) => {
+    if (logoFile) {
+      res.render('dashboard/dashboard/dashboard', {
+        title: 'Admin Dashboard',
+        user: req.user,
+        businessCard,
+        customerLogoFile: logoFile
+      });
+    } else {
+      console.log('error');
+    }
+  }
 };

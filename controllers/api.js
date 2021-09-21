@@ -15,6 +15,8 @@ const { google } = require('googleapis');
 const Quickbooks = require('node-quickbooks');
 const validator = require('validator');
 
+const businessCardController = require('./businessCard');
+
 Quickbooks.setOauthVersion('2.0');
 
 /**
@@ -672,9 +674,10 @@ exports.getFileUpload = (req, res) => {
   });
 };
 
-exports.postFileUpload = (req, res) => {
+exports.postFileUpload = async (req, res, next) => {
+  await businessCardController.saveCustomerLogo(req, res, next);
   req.flash('success', { msg: 'File was uploaded successfully.' });
-  res.redirect('/api/upload');
+  res.redirect('/dashboard/dashboard');
 };
 
 /**
