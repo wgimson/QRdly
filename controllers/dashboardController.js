@@ -8,5 +8,3 @@ exports.getDashboard = (req, res) => {
     user: req.user
   });
 };
-
-
