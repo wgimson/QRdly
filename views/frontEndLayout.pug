@@ -15,6 +15,11 @@ html(lang="en")
     link(href='/fullcalendar/main.css' rel='stylesheet')
     link(hrel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css")
     style.
+        .error {
+            font-size: 12px;
+            color: red;
+            width: 100%;
+        }
         .ui-dialog .ui-dialog-titlebar {
             text-align: center;
             width: 100%;
@@ -40,7 +45,7 @@ html(lang="en")
     script(src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js")
     script(src='/fullcalendar/main.js')
     script(src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js")
-
+    script(src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js")
     script.
         document.addEventListener('DOMContentLoaded', function() {
             function clearForm() {
@@ -58,15 +63,20 @@ html(lang="en")
                     $(this).val("")
                 }
             })
-            //- $('#apptDialogForm').validate({
-            //-     rules: {
-            //-         name: "required",
-            //-         apptDate: "required",
-            //-         apptTime: "required",
-            //-         contact: "required",
-            //-         businessName: "required",
-            //-     }
-            //- });
+            $('#apptDialogForm').validate({
+                rules: {
+                    name: "required",
+                    apptDate: "required",
+                    apptTime: "required",
+                    contact: "required",
+                },
+                messages: {
+                    name: "*required field missing",
+                    apptDate: "*required field missing",
+                    apptTime: "*required field missing",
+                    contact: "*required field missing",
+                }
+            });
 
             //front end calendar
             $( "#apptDialog" ).dialog({
@@ -89,7 +99,7 @@ html(lang="en")
                                     slotIsFull = true;
                                 }
                             })
-                            //if($("#apptDialogForm").valid()) {
+                            if($("#apptDialogForm").valid()) {
                                 if( ! slotIsFull ) {
                                     axios.post('/meeting/create',
                                         {
@@ -110,7 +120,7 @@ html(lang="en")
                                             start: start,
                                             color: '#93c47ed'
                                         })
-                                        $( '#apptDialog' ).dialog( "close" );
+                                        $( '#apptDialog' ).dialog( "close" )
                                         clearForm()
 
                                     })
@@ -126,12 +136,16 @@ html(lang="en")
                                         minWidth: 350,
                                         modal: true,
                                         buttons: {
-                                            OK: function() {$(this).dialog("close");}
+                                            OK: function() {
+                                                $(this).dialog("close")
+                                            }
+
                                         },
                                     })
                                     $('#apptTime').val("")
                                 }
                             }
+                        }
                     },
                     {
                         text: "Cancel",
@@ -144,8 +158,8 @@ html(lang="en")
                 
                 resizeable: true,
                 autoOpen: false,
-                minWidth: 300,  
-                minHeight: 150,
+                minWidth: 350,  
+                minHeight: 350,
                 show: { effect: "blind", duration: 100 }
 
             });
