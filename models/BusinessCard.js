@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const businessCardSchema = new mongoose.Schema({
+  userId: String,
   firstName: String,
   lastName: String,
   companyName: String,
@@ -8,13 +9,14 @@ const businessCardSchema = new mongoose.Schema({
   streetAddress2: String,
   city: String,
   state: String,
-  zip: String,
-  phoneNumber: String,
-  openingMinimum: String,
+  zipCode: String,
+  phone: String,
+  openingMin: String,
   shippingFrom: String,
   promos: String,
   contactInfo: String,
-  buyerRequirements: String,
+  companyContactInfo: String,
+  buyerReqs: String,
 }, { timestamps: true });
 
 /**
