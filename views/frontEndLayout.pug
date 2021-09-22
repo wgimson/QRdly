@@ -14,7 +14,17 @@ html(lang="en")
     link(rel="apple-touch-icon", href="/example.png")
     link(href='/fullcalendar/main.css' rel='stylesheet')
     link(hrel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css")
+    style.
+        .ui-dialog .ui-dialog-titlebar {
+            text-align: center;
+            width: 100%;
+            font-size: 20px;
+        }
+        .ui-dialog {
+            background-color: #F8F9F9;
+        }
     block head
+
   body
 
     .container
@@ -33,7 +43,12 @@ html(lang="en")
 
     script.
         document.addEventListener('DOMContentLoaded', function() {
-       
+            function clearForm() {
+                $('#name').val("")
+                $('#apptDate').val("")
+                $('#apptTime').val("")
+                $('#contact-input').val("")
+            }
             var end = null;
             $('#apptTime').on('change', function(){
                 var time = $(this).val()
@@ -43,7 +58,16 @@ html(lang="en")
                     $(this).val("")
                 }
             })
-            
+            //- $('#apptDialogForm').validate({
+            //-     rules: {
+            //-         name: "required",
+            //-         apptDate: "required",
+            //-         apptTime: "required",
+            //-         contact: "required",
+            //-         businessName: "required",
+            //-     }
+            //- });
+
             //front end calendar
             $( "#apptDialog" ).dialog({
                 dialogClass: "no-close",
@@ -53,38 +77,67 @@ html(lang="en")
                         click: function() {
                             let csrf = $('meta[name="csrf-token"]').attr("content")
                             axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
+                            var slotIsFull = false;
+                            let start = $('#apptDate').val() + 'T' + $('#apptTime').val()
+                            let startHour = start.split("T")[1].split(":")[0]
+                            let startDate = start.split("T")[0]
 
-                            axios.post('/meeting/create',
-                                {
-                                    name: $('#name').val(),
-                                    date: $('#apptDate').val(),
-                                    time: $('#apptTime').val(),
-                                    contact: $('#contact-input').val(),
-                                    businessName: $('#business').val()
-                                },
-                                {
-                                    withCredentials: true
-                                })
-                            .then(function (response) {
-                                let title = "Meeting w / " + $('#business').val() + " at " + $('#apptTime').val() + " on " + $('#apptDate').val()
-                                let start = $('#apptDate').val() + "T" + $('#apptTime').val()
-                                frontEndCalendar.addEvent({
-                                    title: title,
-                                    start: start,
-                                    color: '#93c47ed'
-                                })
-                                    $( '#apptDialog' ).dialog( "close" );
+                            parsedMeetingArray.forEach(function(meeting){
+                                let tempDate = meeting.start.split("T")[0]
+                                let tempStart = meeting.start.split("T")[1].split(":")[0]
+                                if(startHour === tempStart && startDate === tempDate){
+                                    slotIsFull = true;
+                                }
                             })
-                            .catch(function (error) {
-                                console.log(error);
-                            });
-                        }
+                            //if($("#apptDialogForm").valid()) {
+                                if( ! slotIsFull ) {
+                                    axios.post('/meeting/create',
+                                        {
+                                            name: $('#name').val(),
+                                            date: $('#apptDate').val(),
+                                            time: $('#apptTime').val(),
+                                            contact: $('#contact-input').val(),
+                                            businessName: $('#business').val()
+                                        },
+                                        {
+                                            withCredentials: true
+                                        })
+                                    .then(function (response) {
+                                        let title = "Meeting w / " + $('#business').val() + " at " + $('#apptTime').val() + " on " + $('#apptDate').val()
+                                        let start = $('#apptDate').val() + "T" + $('#apptTime').val()
+                                        frontEndCalendar.addEvent({
+                                            title: title,
+                                            start: start,
+                                            color: '#93c47ed'
+                                        })
+                                        $( '#apptDialog' ).dialog( "close" );
+                                        clearForm()
+
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                    });
+                                }
+                                else {
+                                    $('#errorMessage').dialog({
+                                        dialogClass: "no-close",
+                                        body: "Slots full!",
+                                        title: "/****** Time slot is full ******/",
+                                        minWidth: 350,
+                                        modal: true,
+                                        buttons: {
+                                            OK: function() {$(this).dialog("close");}
+                                        },
+                                    })
+                                    $('#apptTime').val("")
+                                }
+                            }
                     },
                     {
                         text: "Cancel",
                         click: function() {
-                            $( this ).dialog( "close" );
-                            $(this).first().find("input[type=text], textarea").val("")
+                            $( this ).dialog( "close" )
+                            clearForm();
                         }
                     }
                 ],
