@@ -11,7 +11,7 @@ exports.getDashboard = async (req, res) => {
   if (businessCard) {
     const logoFile = await CustomerLogoFile.findOne({ userId: req.user.id }); //, (err, card) => {
     if (logoFile) {
-      res.render('dashboard/dashboard/dashboard', {
+      res.render('dashboard/dashboard', {
         title: 'Admin Dashboard',
         user: req.user,
         businessCard,
