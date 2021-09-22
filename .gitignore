@@ -18,12 +18,17 @@ tmp
 
 #Build
 public/css/*.css
+public/img/users/*
 .nyc_output/*
 
 # API keys and secrets
+/*.env
 .env
+/*.env
 
 # Dependency directory
+/node_modules
+npm-debug.log
 node_modules
 bower_components
 
@@ -50,3 +55,5 @@ Thumbs.db
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+
+npm-debug.log
