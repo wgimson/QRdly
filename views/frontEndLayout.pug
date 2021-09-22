@@ -159,7 +159,7 @@ html(lang="en")
                 resizeable: true,
                 autoOpen: false,
                 minWidth: 350,  
-                minHeight: 350,
+                minHeight: 300,
                 show: { effect: "blind", duration: 100 }
 
             });
@@ -171,21 +171,64 @@ html(lang="en")
             const hourArray = ['08', '09','10', '11','12', '13','14','15', '16','17', '18']
             var apptCounter = [ 0, 0, 0, 0, 0, 0, 0, 0 , 0 , 0]
             var previousDate = null;
+            var lastDate = null;
+            var firstDate = null;
+
             if(meetingArray.length){
                 previousDate = meetingArray[0].date
+                firstDate = meetingArray[0].date
+                lastDate =  meetingArray[ meetingArray.length - 1 ].date
             }
-            meetingArray.forEach(function(meeting, index){
-                
-                hourArray.forEach(function(hour, i){
-                    let meetingTime = meeting.time.split(':')[0]
-                    if(meetingTime === hour){
-                        apptCounter[i]++
+
+            if( firstDate !== null && firstDate !== lastDate ) {
+                meetingArray.forEach(function(meeting, index){
+                    
+                    if( previousDate === meeting.date ){
+                        hourArray.forEach(function(hour, i){
+                            let meetingTime = meeting.time.split(':')[0]
+                            if(meetingTime === hour){
+                                apptCounter[i]++
+                            }
+                        })
                     }
-                })
-                lastDate  = meetingArray[ meetingArray.length -1 ].date
-                    apptCounter.forEach(function(meetingsBooked, i){
-                        if( meetingsBooked >= meetingMax ) {
-                            if(meeting.date === lastDate){
+                    if( previousDate !== meeting.date || index === meetingArray.length - 1 ){
+                        apptCounter.forEach(function(meetingsBooked, i){
+                            if( meetingsBooked >= meetingMax ) {
+                                var t = hourArray[i] + ":00";
+                                parsedMeetingArray.push({ 
+                                    title: "/*** FULL ***/ ",
+                                    color:"#b7b7b7",
+                                    start: previousDate + "T" + t
+                                });
+                                
+                            }
+                        })
+                        apptCounter = [ 0, 0, 0, 0, 0, 0, 0, 0 , 0 , 0]
+                                
+                            hourArray.forEach(function(hour, i){
+                                let meetingTime = meeting.time.split(':')[0]
+                                if(meetingTime === hour){
+                                    apptCounter[i]++
+                                }
+                            })
+                            previousDate = meeting.date
+                    }
+                });
+            }
+            
+            if( firstDate !== null  && firstDate === lastDate ){
+                meetingArray.forEach(function(meeting, index){
+                
+                    hourArray.forEach(function(hour, i){
+                        let meetingTime = meeting.time.split(':')[0]
+                        if(meetingTime === hour){
+                            apptCounter[i]++
+                        }
+                    })
+
+                    if(index == meetingArray.length - 1){
+                        apptCounter.forEach(function(meetingsBooked, i){
+                            if( meetingsBooked >= meetingMax ) {
                                 var t = hourArray[i] + ":00";
                                 parsedMeetingArray.push({ 
                                     title: "/*** FULL ***/ ",
@@ -193,20 +236,10 @@ html(lang="en")
                                     start: lastDate + "T" + t
                                 });
                             }
-                            else {
-                                var t = hourArray[i] + ":00";
-                                parsedMeetingArray.push({ 
-                                    title: "/*** FULL ***/ ",
-                                    color:"#b7b7b7",
-                                    start: previousDate + "T" + t
-                                });
-                            }
-                            apptCounter = [ 0, 0, 0, 0, 0, 0, 0, 0 , 0 , 0]
-                            previousDate = meeting.date
-                        }
-                    })
-            });
-            
+                        })
+                    }
+                })
+            }
             var calendarEl = document.getElementById('frontEndCalendar');
             var frontEndCalendar = new FullCalendar.Calendar( calendarEl, {
                 eventClick: function(info){
@@ -231,7 +264,7 @@ html(lang="en")
                 editable: false,
                 initialView: 'timeGridWeek',
                 slotMinTime: "07:00:00",
-                slotMaxTime: "19:00:00",
+                slotMaxTime: "18:00:00",
                 expandRows: true,
                 headerToolbar: {
                     left: 'addEventButton',
