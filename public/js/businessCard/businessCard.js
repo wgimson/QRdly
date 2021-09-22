@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < img.files.length; i++) {
       formData.append('img', img.files[i]);
     }
-    fetch('/dashboard/business-card/create', {
+    fetch('/dashboard/business-card/create-business-card-form', {
       method: 'post',
       body: formData
     })
