@@ -43,11 +43,13 @@ exports.createBusinessCard = (req, res) => {
     };
 
     const query = { userId: newBusinessCard.userId };
-    BusinessCard.findOneAndUpdate(query, newBusinessCard, { upsert: true }, (err, card) => {
-      if (err) return res.send(500, { error: err });
-      req.flash('success', { msg: `new business card: ${card.firstName}, created.` });
-      res.redirect('../..');
-    });
+    BusinessCard.findOneAndUpdate(query,
+      newBusinessCard,
+      { upsert: true, returnOriginal: false }, (err, card) => {
+        if (err) return res.send(500, { error: err });
+        req.flash('success', { msg: `new business card: ${card.firstName}, created.` });
+        res.redirect('../dashboard');
+      });
   } else {
     res.redirect('/logout');
   }
