@@ -1,4 +1,3 @@
-const errorHandler = require('errorhandler');
 const BusinessCard = require('../models/BusinessCard');
 const CustomerLogoFile = require('../models/CustomerLogoFile');
 
@@ -7,11 +6,11 @@ const CustomerLogoFile = require('../models/CustomerLogoFile');
  * Admin users Dashboard
  */
 exports.getDashboard = async (req, res) => {
-  const businessCard = await BusinessCard.findOne({ userId: req.user.id }); //, (err, card) => {
+  const businessCard = await BusinessCard.findOne({ userId: req.user.id });
   if (businessCard) {
-    const logoFile = await CustomerLogoFile.findOne({ userId: req.user.id }); //, (err, card) => {
+    const logoFile = await CustomerLogoFile.findOne({ userId: req.user.id });
     if (logoFile) {
-      res.render('dashboard/dashboard/dashboard', {
+      res.render('dashboard/dashboard', {
         title: 'Admin Dashboard',
         user: req.user,
         businessCard,

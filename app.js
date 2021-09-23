@@ -58,7 +58,7 @@ const meetingController = require('./controllers/meetingController');
 const userController = require('./controllers/user');
 const waitingListController = require('./controllers/waitingList');
 const businessCardController = require('./controllers/businessCard');
-const dashboardController = require('./controllers/dashboardController');
+const dashboardController = require('./controllers/dashboard');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 const aboutController = require('./controllers/about');
@@ -197,8 +197,8 @@ app.post('/dashboard/waiting-list/update', passportConfig.isAuthenticated, waiti
 /**
  * customer business card routes
  */
-app.get('/dashboard/business-card/create', passportConfig.isAuthenticated, businessCardController.getNewBusinessCardForm);
-app.post('/dashboard/business-card/create', passportConfig.isAuthenticated, businessCardController.createBusinessCard);
+app.get('/dashboard/business-card/create-business-card-form', passportConfig.isAuthenticated, businessCardController.getNewBusinessCardForm);
+app.post('/dashboard/business-card/create-business-card-form', passportConfig.isAuthenticated, businessCardController.createBusinessCard);
 /**
  *  calendar meetings routes
  */

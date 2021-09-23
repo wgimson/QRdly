@@ -23,7 +23,7 @@ block content
   .pb-2.mt-2.mb-4.border-bottom
       h3 Create or Edit Your Business Card
 
-      form(role='form', method='POST', id="frmCreateBusinessCard" action="/dashboard/business-card/create", novalidate).form-group
+      form(role='form', method='POST', id="frmCreateBusinessCard" action="/dashboard/business-card/create-business-card-form", novalidate).form-group
         input(type='hidden', name='_csrf', value=_csrf)
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='firstName') First Name
