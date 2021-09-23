@@ -5,7 +5,7 @@ const tumblr = require('tumblr.js');
 const { Octokit } = require('@octokit/rest');
 const Twitter = require('twitter-lite');
 const stripe = require('stripe')(process.env.STRIPE_SKEY);
-const twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
+//const twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 const paypal = require('paypal-rest-sdk');
 const crypto = require('crypto');
 const lob = require('lob')(process.env.LOB_KEY);
@@ -15,7 +15,8 @@ const { google } = require('googleapis');
 const Quickbooks = require('node-quickbooks');
 const validator = require('validator');
 
-Quickbooks.setOauthVersion('2.0');
+//Quickbooks.setOauthVersion('2.0');
+const businessCardController = require('./businessCard');
 
 /**
  * GET /api
@@ -672,9 +673,10 @@ exports.getFileUpload = (req, res) => {
   });
 };
 
-exports.postFileUpload = (req, res) => {
+exports.postFileUpload = async (req, res, next) => {
+  await businessCardController.saveCustomerLogo(req, res, next);
   req.flash('success', { msg: 'File was uploaded successfully.' });
-  res.redirect('/api/upload');
+  res.redirect('/dashboard/dashboard');
 };
 
 /**

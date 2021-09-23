@@ -1,5 +1,6 @@
 extends ../../layout
 
+
 block head
   link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
   link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.6.3/css/all.css", integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")
@@ -7,148 +8,158 @@ block head
   link(rel='stylesheet', href='/css/create-business-card-form.css')
 
 block content
-  .pb-2.mt-2.mb-4.border-bottom
-      h3 Create Your Business Card
 
-      form(method='POST', id="frmCreateBusinessCard" action="/dashboard/business-card/create", novalidate).form-group
+  h3 Update Company Logo
+  .row
+    .col-md-6
+      form(role='form', enctype='multipart/form-data', action="/api/upload" method='POST')
+        input(type='hidden', name='_csrf', value=_csrf)
+        .form-group
+          label.col-form-label.font-weight-bold File Input
+          .col-md-6
+            input(type='file', name='customerLogo.jpg')
+        button.btn.btn-primary(type='submit', name='customerLogo') Submit
+
+  .pb-2.mt-2.mb-4.border-bottom
+      h3 Create or Edit Your Business Card
+
+      form(role='form', method='POST', id="frmCreateBusinessCard" action="/dashboard/business-card/create-business-card-form", novalidate).form-group
         input(type='hidden', name='_csrf', value=_csrf)
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='firstName') First Name
           .col-md-8
-            input.form-control(type='text', name='firstName', id='firstName', autocomplete='firstName', autofocus, value=firstName, required)
+            if businessCard && businessCard.firstName
+              input.form-control(type='text', name='firstName', id='firstName', autocomplete='firstName', autofocus, value=businessCard.firstName, required)
+            else 
+              input.form-control(type='text', name='firstName', id='firstName', autocomplete='firstName', autofocus, value=firstName, required)
             .invalid-feedback
               Please first name is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='lastName') Last Name
           .col-md-8
-            input.form-control(type='text', name='lastName', id='lastName', autocomplete='lastName', autofocus, value=lastName, required)
+            if businessCard && businessCard.lastName
+              input.form-control(type='text', name='lastName', id='lastName', autocomplete='lastName', autofocus, value=businessCard.lastName, required)
+            else 
+              input.form-control(type='text', name='lastName', id='lastName', autocomplete='lastName', autofocus, value=lastName, required)
             .invalid-feedback
               Please last name is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='companyName') Company Name
           .col-md-8
-            input.form-control(type='text', name='companyName', id='companyName', autocomplete='company name', value=companyName, required)
+            if businessCard && businessCard.companyName
+              input.form-control(type='text', name='companyName', id='companyName', autocomplete='company name', value=businessCard.companyName, required)
+            else 
+              input.form-control(type='text', name='companyName', id='companyName', autocomplete='company name', value=companyName, required)
             .invalid-feedback
               Please company name is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='streetAddress') Street Address
           .col-md-8
-            input.form-control(type='text', name='streetAddress', id='streetAddress', autocomplete='streetAddress', value=streetAddress, required)
+            if businessCard && businessCard.streetAddress
+              input.form-control(type='text', name='streetAddress', id='streetAddress', autocomplete='streetAddress', value=businessCard.streetAddress, required)
+            else 
+              input.form-control(type='text', name='streetAddress', id='streetAddress', autocomplete='streetAddress', value=streetAddress, required)
             .invalid-feedback
               Please street address is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='streetAddress2') Street Address 2
           .col-md-8
+            if businessCard && businessCard.streetAddress2
+              input.form-control(type='text', name='streetAddress2', id='streetAddress2', autocomplete='streetAddress2', value=businessCard.streetAddress2)
+            else 
               input.form-control(type='text', name='streetAddress2', id='streetAddress2', autocomplete='streetAddress2', value=streetAddress2)
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='city') City
           .col-md-8
+            if businessCard &&  businessCard.city
+              input.form-control(type='text', name='city', id='city', autocomplete='city', value=businessCard.city, required)
+            else 
               input.form-control(type='text', name='city', id='city', autocomplete='city', value=city, required)
-              .invalid-feedback
-                Please city is required.
+            .invalid-feedback
+              Please city is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='stateProvince') State
           .col-md-8.input-group.has-validation
-            select.custom-select.form-control(id="state", required)
-              option(selected, disabled, value="") Choose...
-              option(value="AL") Alabama
-              option(value="AK") Alaska
-              option(value="AZ") Arizona
-              option(value="AR") Arkansas
-              option(value="CA") California
-              option(value="CO") Colorado
-              option(value="CT") Connecticut
-              option(value="DE") Delaware
-              option(value="DC") District Of Columbia
-              option(value="FL") Florida
-              option(value="GA") Georgia
-              option(value="HI") Hawaii
-              option(value="ID") Idaho
-              option(value="IL") Illinois
-              option(value="IN") Indiana
-              option(value="IA") Iowa
-              option(value="KS") Kansas
-              option(value="KY") Kentucky
-              option(value="LA") Louisiana
-              option(value="ME") Maine
-              option(value="MD") Maryland
-              option(value="MA") Massachusetts
-              option(value="MI") Michigan
-              option(value="MN") Minnesota
-              option(value="MS") Mississippi
-              option(value="MO") Missouri
-              option(value="MT") Montana
-              option(value="NE") Nebraska
-              option(value="NV") Nevada
-              option(value="NH") New Hampshire
-              option(value="NJ") New Jersey
-              option(value="NM") New Mexico
-              option(value="NY") New York
-              option(value="NC") North Carolina
-              option(value="ND") North Dakota
-              option(value="OH") Ohio
-              option(value="OK") Oklahoma
-              option(value="OR") Oregon
-              option(value="PA") Pennsylvania
-              option(value="RI") Rhode Island
-              option(value="SC") South Carolina
-              option(value="SD") South Dakota
-              option(value="TN") Tennessee
-              option(value="TX") Texas
-              option(value="UT") Utah
-              option(value="VT") Vermont
-              option(value="VA") Virginia
-              option(value="WA") Washington
-              option(value="WV") West Virginia
-              option(value="WI") Wisconsin
-              option(value="WY") Wyoming
+            select.custom-select.form-select(id="state", name="state", required)
+                option(disabled, value="") Choose...
+                  each state in [ "AK","AL","AR","AS","AZ","CA","CO", "CT","DC","DE","FL","GA","GU","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","PR","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY"]
+                    if businessCard &&  businessCard.state
+                      option(selected = state === businessCard.state, value=state)= state
+                    else 
+                      option(selected = false, value=state)= state
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='zipCode') Zip Code
           .col-md-8
+            if businessCard && businessCard.zipCode
+              input.form-control(type='text', name='zipCode', id='zipCode', autocomplete='zipCode', value=businessCard.zipCode, pattern='^\\d{5}$', required)
+            else 
               input.form-control(type='text', name='zipCode', id='zipCode', autocomplete='zipCode', value=zipCode, pattern='^\\d{5}$', required)
-              .invalid-feedback
-                Please 5 digit zip code required.
+            .invalid-feedback
+              Please 5 digit zip code required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='phone') Phone Number
           .col-md-8
+            if businessCard && businessCard.phone
+              input.form-control(type='text', name='phone', id='phone', autocomplete='phone number', value=businessCard.phone, pattern='^[2-9]\\d{2}-\\d{3}-\\d{4}$', required)
+            else 
               input.form-control(type='text', name='phone', id='phone', autocomplete='phone number', value=phone, pattern='^[2-9]\\d{2}-\\d{3}-\\d{4}$', required)
-              .invalid-feedback
-                Please 10 digit phone number required in form xxx-xxx-xxxx.
+            .invalid-feedback
+              Please 10 digit phone number required in form xxx-xxx-xxxx.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='openingMin') Opening Minimum
           .col-md-8.input-group
-            .input-group-prepend
-              span.input-group-text $
-            input.form-control(type='text', name='openingMin', id='openingMin', autocomplete='opening minimum', value=openingMin, pattern='(?=.*?\\d)^\\$?(([1-9]\\d{0,2}(,\\d{3})*)|\\d+)?(\\.\\d{1,2})?$', required)
+            if businessCard && businessCard.openingMin
+              .input-group-prepend
+                span.input-group-text $
+              input.form-control(type='text', name='openingMin', id='openingMin', autocomplete='opening minimum', value=businessCard.openingMin, pattern='(?=.*?\\d)^\\$?(([1-9]\\d{0,2}(,\\d{3})*)|\\d+)?(\\.\\d{1,2})?$', required)
+            else 
+              .input-group-prepend
+                span.input-group-text $
+              input.form-control(type='text', name='openingMin', id='openingMin', autocomplete='opening minimum', value=openingMin, pattern='(?=.*?\\d)^\\$?(([1-9]\\d{0,2}(,\\d{3})*)|\\d+)?(\\.\\d{1,2})?$', required)
             .invalid-feedback
                 Please opening minimum is required and must be a dollar amount.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='shippingFrom') Shipping From
           .col-md-8
+            if businessCard && businessCard.shippingFrom
+              input.form-control(type='text', name='shippingFrom', id='shippingFrom', autocomplete='shipping from', value=businessCard.shippingFrom, required)
+            else 
               input.form-control(type='text', name='shippingFrom', id='shippingFrom', autocomplete='shipping from', value=shippingFrom, required)
-              .invalid-feedback
-                Please shipping from location is required.
+            .invalid-feedback
+              Please shipping from location is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='promos') Promos
           .col-md-8
+            if businessCard && businessCard.promos
+              input.form-control(type='text', name='promos', id='promos', autocomplete='promotions', value=businessCard.promos, required)
+            else 
               input.form-control(type='text', name='promos', id='promos', autocomplete='promotions', value=promos, required)
-              .invalid-feedback
-                Please promo is required.
+            .invalid-feedback
+              Please promo is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='contactInfo') Contact Information
           .col-md-8
+            if businessCard && businessCard.contactInfo
+              input.form-control(type='text', name='contactInfo', id='contactInfo', autocomplete='contact info', value=businessCard.contactInfo, required)
+            else 
               input.form-control(type='text', name='contactInfo', id='contactInfo', autocomplete='contact info', value=contactInfo, required)
-              .invalid-feedback
-                Please contact information is required.
+            .invalid-feedback
+              Please contact information is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='companyContactInfo') Company Contact Information
           .col-md-8
+            if businessCard && businessCard.companyContactInfo
+              input.form-control(type='text', name='companyContactInfo', id='companyContactInfo', autocomplete='company contact info', value=businessCard.companyContactInfo, required)
+            else 
               input.form-control(type='text', name='companyContactInfo', id='companyContactInfo', autocomplete='company contact info', value=companyContactInfo, required)
-              .invalid-feedback
-                Please company contact information is required.
+            .invalid-feedback
+              Please company contact information is required.
         .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='buyerReqs') Buyer Requirements
           .col-md-8
+            if businessCard && businessCard.buyerReqs
+              textarea.form-control(name='buyerReqs', id='buyerReqs', autocomplete='buyer requirements', rows='5', value=buyerReqs)=businessCard.buyerReqs
+            else 
               textarea.form-control(name='buyerReqs', id='buyerReqs', autocomplete='buyer requirements', rows='5', value=buyerReqs)
         .form-group.row
           .col-md-3.offset-md-7
@@ -159,5 +170,31 @@ block content
     script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js")
     script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js", integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM", crossorigin="anonymous")
     script(src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js")
-    script(src="/js/customerWaitingList/customerWaitingList.js")
     script(src='/js/main.js')
+    //- script.
+    //-   document.addEventListener('DOMContentLoaded', () => {
+    //-     // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    //-     const form = document.querySelectorAll('#frmCreateBusinessCard')[0];
+
+    //-     function submitForm(e) {
+    //-       e.preventDefault();
+    //-       const _csrf = document.getElementById('_csrf');
+    //-       // const name = document.getElementById('name');
+    //-       const img = document.getElementById('logoImg');
+    //-       const formData = new FormData();
+    //-       // formData.append('name', name.value);
+    //-       formData.append('_csrf', _csrf.value);
+
+    //-       for (let i = 0; i < img.files.length; i++) {
+    //-         formData.append('img', img.files[i]);
+    //-       }
+    //-       fetch('/dashboard/business-card/create', {
+    //-         method: 'post',
+    //-         body: formData
+    //-       })
+    //-         .then((res) => console.log(res))
+    //-         .catch((err) => ('Error occured', err));
+    //-     }
+
+    //-     form.addEventListener('submit', submitForm);
+    //-   });

@@ -18,21 +18,47 @@ const passport = require('passport');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 
-const upload = multer({ dest: path.join(__dirname, 'uploads') });
+// const upload = multer({ dest: path.join(__dirname, 'uploads') });
+
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/img/users');
+  },
+  filename: (req, file, cb) => {
+    const ext = file.mimetype.split('/')[1];
+    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+  }
+});
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    req.flash('errors', { msg: 'File no an image' });
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter
+});
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.config({ path: '.env.example' });
+//dotenv.config({ path: '/.env' });
+//require('dotenv').config({ path: require('find-config')('.env') })
+require('dotenv').config({path: __dirname + '/.env.example'});
 
 /**
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
+const meetingController = require('./controllers/meetingController');
 const userController = require('./controllers/user');
 const waitingListController = require('./controllers/waitingList');
 const businessCardController = require('./controllers/businessCard');
-const dashboardController = require('./controllers/dashboardController');
+const dashboardController = require('./controllers/dashboard');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 const aboutController = require('./controllers/about');
@@ -67,7 +93,7 @@ mongoose.connection.on('error', (err) => {
  * Express configuration.
  */
 app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
-app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
+app.set('port', process.env.PORT || 5000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(compression());
@@ -126,6 +152,7 @@ app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/popper.js/d
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js'), { maxAge: 31557600000 }));
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/jquery/dist'), { maxAge: 31557600000 }));
 app.use('/webfonts', express.static(path.join(__dirname, 'node_modules/@fortawesome/fontawesome-free/webfonts'), { maxAge: 31557600000 }));
+app.use('/img/users', express.static('img/users'));
 
 /**
  * Primary app routes.
@@ -159,7 +186,7 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 app.get('/dashboard/dashboard', passportConfig.isAuthenticated, dashboardController.getDashboard);
 
 app.get('/dashboard/admin-calendar', passportConfig.isAuthenticated, calendarController.getAdminCalendar);
-app.get('dashboard/front-end-calendar', passportConfig.isAuthenticated, calendarController.getFrontEndCalendar); 
+app.get('/ui/front-end-calendar/:id', passportConfig.isAuthenticated, calendarController.getFrontEndCalendar); 
 /**
  * customer waiting list routes
  */
@@ -170,8 +197,12 @@ app.post('/dashboard/waiting-list/update', passportConfig.isAuthenticated, waiti
 /**
  * customer business card routes
  */
-app.get('/dashboard/business-card/create', passportConfig.isAuthenticated, businessCardController.getNewBusinessCardForm);
-app.post('/dashboard/business-card/create', passportConfig.isAuthenticated, businessCardController.createBusinessCard);
+app.get('/dashboard/business-card/create-business-card-form', passportConfig.isAuthenticated, businessCardController.getNewBusinessCardForm);
+app.post('/dashboard/business-card/create-business-card-form', passportConfig.isAuthenticated, businessCardController.createBusinessCard);
+/**
+ *  calendar meetings routes
+ */
+app.post('/meeting/create', passportConfig.isAuthenticated, meetingController.create);
 /**
  * API examples routes.
  */
@@ -197,7 +228,7 @@ app.get('/api/paypal/success', apiController.getPayPalSuccess);
 app.get('/api/paypal/cancel', apiController.getPayPalCancel);
 app.get('/api/lob', apiController.getLob);
 app.get('/api/upload', lusca({ csrf: true }), apiController.getFileUpload);
-app.post('/api/upload', upload.single('myFile'), lusca({ csrf: true }), apiController.postFileUpload);
+app.post('/api/upload', upload.single('customerLogo.jpg'), lusca({ csrf: true }), apiController.postFileUpload);
 app.get('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getPinterest);
 app.post('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postPinterest);
 app.get('/api/here-maps', apiController.getHereMaps);
