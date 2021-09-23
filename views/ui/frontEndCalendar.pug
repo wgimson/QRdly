@@ -1,0 +1,77 @@
+extends ../frontEndLayout
+
+block head
+  link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+  link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.6.3/css/all.css", integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")
+  link(rel="stylesheet", href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css")
+  meta(name="meta-token" content= _csrf )
+  style.
+    .ui-dialog { 
+      z-index: 1!important ;
+      background: white !important;
+      border: 1px solid #343a40;
+      padding-left: 5px !important; 
+      padding-bottom: 5px !important;
+      
+    }
+    .no-close .ui-dialog-titlebar-close {
+      display: none;
+
+    }
+    select {
+      margin-top: 5px;
+      padding-top: 2px;
+      padding-bottom: 2px;
+    }
+    
+    input {
+      margin-top: 5px !important;
+    }
+    #apptDialog {
+      display: none;
+    }
+block content
+  div(class="container")
+    h1 #{businessName}
+        hr
+  div(class="container")
+      div(id="popup-dialog" title="Meeting Information") 
+
+  div(id='frontEndCalendar')
+    div(class="container")
+      div(id="apptDialog" title="Make an appointment") 
+        form(id="apptDialogForm"  method='POST' action='/meeting/create')
+          input(type="hidden" name="business" id="business" value=businessName)
+          input(type="hidden" name="meetings" id="meetings" value=meetings)
+          input(type="hidden" name="last-meeting" id="last-meeting" value=lastMeeting)
+          
+          
+          div(class="row")
+            div(class="col-6")
+              input(type="text", id="name", name="name", size="16", required)
+            div(class="col-6")
+              label(for="name") Full name
+          div(class="row")
+            div(class="col-6")
+              input(type="date", id="apptDate", name="apptDate",  min="#{date}",  max="2022-06-14", required)
+            div(class="col-6")
+              label(for="apptDate") Date of meeting
+          div(class="row")
+            div(class="col-6")
+              input(type="time", id="apptTime", name="apptTime", min="09:00", max="18:00", style="width: 155px;", required)
+            div(class="col-6")
+              label(for="apptTime") Time of meeting
+          small (Office hours are 9am to 6pm. Meetings must be set for on the hour or on the half hour)
+          br
+          div(class="row")
+            div(class="col-6")
+              input(type="text", id="contact-input", name="contact", size="16", required) 
+            div(class="col-6")
+              label(for="contact-input") Phone number
+          small We will confirm appt. via text
+          br
+  div(id="errorMessage")
+   
+    
+      
+

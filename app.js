@@ -46,12 +46,15 @@ const upload = multer({
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.config({ path: '.env.example' });
+//dotenv.config({ path: '/.env' });
+//require('dotenv').config({ path: require('find-config')('.env') })
+require('dotenv').config({path: __dirname + '/.env.example'});
 
 /**
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
+const meetingController = require('./controllers/meetingController');
 const userController = require('./controllers/user');
 const waitingListController = require('./controllers/waitingList');
 const businessCardController = require('./controllers/businessCard');
@@ -182,8 +185,8 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 
 app.get('/dashboard/dashboard', passportConfig.isAuthenticated, dashboardController.getDashboard);
 
-app.get('/dashboard/calendar', passportConfig.isAuthenticated, calendarController.index);
-
+app.get('/dashboard/admin-calendar', passportConfig.isAuthenticated, calendarController.getAdminCalendar);
+app.get('/ui/front-end-calendar/:id', passportConfig.isAuthenticated, calendarController.getFrontEndCalendar); 
 /**
  * customer waiting list routes
  */
@@ -196,6 +199,10 @@ app.post('/dashboard/waiting-list/update', passportConfig.isAuthenticated, waiti
  */
 app.get('/dashboard/business-card/create-business-card-form', passportConfig.isAuthenticated, businessCardController.getNewBusinessCardForm);
 app.post('/dashboard/business-card/create-business-card-form', passportConfig.isAuthenticated, businessCardController.createBusinessCard);
+/**
+ *  calendar meetings routes
+ */
+app.post('/meeting/create', passportConfig.isAuthenticated, meetingController.create);
 /**
  * API examples routes.
  */

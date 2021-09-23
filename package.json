@@ -41,6 +41,7 @@
     "googleapis": "^67.0.0",
     "instagram-node": "^0.5.8",
     "jquery": "^3.5.1",
+    "jquery-validation": "^1.19.3",
     "lastfm": "^0.9.3",
     "lob": "^6.1.1",
     "lodash": "^4.17.21",
