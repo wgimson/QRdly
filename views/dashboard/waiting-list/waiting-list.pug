@@ -5,6 +5,10 @@ block head
   link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.6.3/css/all.css", integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")
   link(rel="stylesheet", href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css")
 
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+    });
+
 block content
   .pb-2.mt-2.mb-4.border-bottom
     h1 Customer Waiting List
@@ -21,20 +25,29 @@ block content
             th(data-sortable="true", data-field="company") Company
             th(data-sortable="false") Notes
             th(data-sortable="true", data-field="callOrText") Call or Text?
+            th(data-sortable="true", data-field="createdAt") Date/Time
             th(data-sortable="false") Edit
         tbody
           each cust in waitingListCustomers
-            tr
-              td=cust.name
-              td=cust.phoneNumber
-              td=cust.company
-              td=cust.notes
-              td=cust.callOrText == true ? 'call' : 'text' 
-              td
-                //- button() Edit 
-                a.btn.btn-link.btn-edit-customer(href=`/dashboard/waiting-list/add?id=${cust.id}`
-                                                 data-id=cust.id) Edit
+            -const date = new Date(cust.createdAt);
+            -const d = date.getDate();
+            -const m = date.getMonth();
+            -const y = date.getFullYear();
+            -const time = date.toLocaleTimeString('en-US');
+            -const dateTimeRes = (m + '/' + d + '/' + y + ' : ' + time);
+              tr
+                td=cust.name
+                td=cust.phoneNumber
+                td=cust.company
+                td=cust.notes
+                td=cust.callOrText == true ? 'call' : 'text' 
+                td=dateTimeRes
+                td
+                  a.btn.btn-link.btn-edit-customer(href=`/dashboard/waiting-list/add?id=${cust.id}`
+                                                  data-id=cust.id) Edit
     br
     a.btn.btn-link(href='/dashboard/waiting-list/add') Add New Customer 
 
   .pb-2.mt-2.mb-4.border-bottom
+
+  
