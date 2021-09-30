@@ -1,12 +1,15 @@
 const Meeting = require('../models/Meeting');
+const BusinessCard = require('../models/BusinessCard');
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
+    const myBusinessCard = await BusinessCard.findOne( { userId: req.user.id } ).exec();
     const newMeeting = new Meeting({
         name: req.body.name,
         date: req.body.date,
         time: req.body.time,
         contact: req.body.contact,
-        businessName: req.body.businessName,
+        businessName: myBusinessCard.companyName,
+        adminId: myBusinessCard.userId,
     });
 
     newMeeting.save((err) => {
