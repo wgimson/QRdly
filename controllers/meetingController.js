@@ -21,3 +21,25 @@ exports.create = async (req, res) => {
         } 
     })
 };
+
+exports.update = async (req, res) => {
+
+
+    Meeting.updateOne(
+        { 
+            _id: req.body.mid 
+        }, 
+        { 
+            time: req.body.start.split('T')[1],
+            date: req.body.start.split('T')[0]
+         },
+        function(err) {
+            if (err) { 
+                console.log('error');
+            } // TODO - do real error checking
+            else {
+                return res.json({success : "Updated Successfully", status : 200});;
+            } 
+        }
+    )
+};

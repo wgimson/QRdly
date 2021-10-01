@@ -244,7 +244,7 @@ html(lang="en")
             var frontEndCalendar = new FullCalendar.Calendar( calendarEl, {
                 eventClick: function(info){
 
-                    $( "#popup-dialog" ).text(info.event.title)
+                    $( "#popup-dialog" ).text(info.event.title + " at " + info.event.start)
                     $( "#popup-dialog" ).dialog({
                         modal: true,
                         dialogClass: "no-close",
