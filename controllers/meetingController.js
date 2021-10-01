@@ -23,8 +23,6 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-
-
     Meeting.updateOne(
         { 
             _id: req.body.mid 
@@ -39,6 +37,22 @@ exports.update = async (req, res) => {
             } // TODO - do real error checking
             else {
                 return res.json({success : "Updated Successfully", status : 200});;
+            } 
+        }
+    )
+};
+
+exports.delete = async (req, res) => {
+    Meeting.deleteOne(
+        {
+            _id: req.body.mid
+        },
+        function(err) {
+            if (err) { 
+                console.log('error');
+            } // TODO - do real error checking
+            else {
+                return res.json({ id: req.body.mid });;
             } 
         }
     )

@@ -187,15 +187,34 @@ html(lang="en")
             var calendarEl = document.getElementById('adminCalendar');
             var frontEndCalendar = new FullCalendar.Calendar( calendarEl, {
                 eventClick: function(info){
-
+                    let eventClicked = info.event;
+                    let mid = info.event._def.extendedProps.meetingId
                     $( "#popup-dialog" ).text( info.event.title + " at " + info.event.start )
                     $( "#popup-dialog" ).dialog({
                         modal: true,
                         dialogClass: "no-close",
                         buttons: {
                             OK: function() {
-                                $( this ).dialog( "close" );
-                                $( "#popup-dialog" ).text('');
+                                $( this ).dialog( "close" )
+                                $( "#popup-dialog" ).text('')
+                            },
+                            Delete: function(){
+                                let thisPointer = $(this)
+                                axios.post('/meeting/delete',
+                                {
+                                    mid: mid
+                                },
+                                {
+                                    withCredentials: true
+                                })
+                                .then(function (response) {
+                                   // alert( "meeting deleted" )
+                                    eventClicked.remove()
+                                    thisPointer.dialog("close")
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                });
                             }
                         }
                     });
