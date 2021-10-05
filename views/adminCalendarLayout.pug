@@ -114,7 +114,7 @@ html(lang="en")
                                             withCredentials: true
                                         })
                                     .then(function (response) {
-                                        let title = "Meeting w / " + $('#business').val() + " at " + $('#apptTime').val() + " on " + $('#apptDate').val()
+                                        let title = "Meeting w / " + $('#business').val() + " at " + $('#apptTime').val() + " on " + $('#apptDate').val() 
                                         let start = $('#apptDate').val() + "T" + $('#apptTime').val()
                                         adminCalendar.addEvent({
                                             title: title,
@@ -179,7 +179,8 @@ html(lang="en")
                     title: "meeting with " + meeting.name,
                     color:"#1E2F97",
                     start: meeting.date + "T" + meeting.time,
-                    meetingId: meeting._id
+                    meetingId: meeting._id,
+                    contactInfo: meeting.contact
                 });
                 
             })
@@ -188,8 +189,9 @@ html(lang="en")
             var frontEndCalendar = new FullCalendar.Calendar( calendarEl, {
                 eventClick: function(info){
                     let eventClicked = info.event;
+                    let cInfo = info.event._def.extendedProps.contactInfo
                     let mid = info.event._def.extendedProps.meetingId
-                    $( "#popup-dialog" ).text( info.event.title + " at " + info.event.start )
+                    $( "#popup-dialog" ).text( info.event.title + " at " + info.event.start + ". Contact info - " + cInfo )
                     $( "#popup-dialog" ).dialog({
                         modal: true,
                         dialogClass: "no-close",
