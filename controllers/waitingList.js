@@ -5,7 +5,7 @@ const WaitingListCustomer = require('../models/WaitingListCustomer');
  * Customer Waiting List Table.
  */
 exports.getWaitingList = (req, res) => {
-  WaitingListCustomer.find({}, (err, allWaitingListCustomers) => {
+  WaitingListCustomer.find({ userId: req.user.id }, (err, allWaitingListCustomers) => {
     if (!err) {
       console.log(`All Waiting Customers: ${allWaitingListCustomers}`);
       res.render('dashboard/waiting-list/waiting-list', {
@@ -27,23 +27,24 @@ exports.getCreateOrEditUserForm = (req, res) => {
   const customerId = req.query.id;
 
   if (customerId) {
-    WaitingListCustomer.findById(customerId, (err, waitingListCustomer) => {
-      if (!err) {
-        console.log(`Waiting Customer: ${waitingListCustomer}`);
-        if (!waitingListCustomer) {
-          console.log('no customer');
-        }
+    WaitingListCustomer.findOne({ userId: req.user.id, _id: customerId },
+      (err, waitingListCustomer) => {
+        if (!err) {
+          console.log(`Waiting Customer: ${waitingListCustomer}`);
+          if (!waitingListCustomer) {
+            console.log('no customer');
+          }
 
-        res.render('dashboard/waiting-list/addOrEdit', {
-          title: 'Add Customer to Waiting List',
-          customer: waitingListCustomer
-        });
-      } else {
-        console.log('error');
-        throw err;
-      }
-      return waitingListCustomer;
-    });
+          res.render('dashboard/waiting-list/addOrEdit', {
+            title: 'Add Customer to Waiting List',
+            customer: waitingListCustomer
+          });
+        } else {
+          console.log('error');
+          throw err;
+        }
+        return waitingListCustomer;
+      });
   } else {
     console.log('no customerId');
     res.render('dashboard/waiting-list/addOrEdit', {
@@ -53,18 +54,19 @@ exports.getCreateOrEditUserForm = (req, res) => {
 };
 
 exports.getWaitingListCustomerById = (req, res, id) => {
-  WaitingListCustomer.findById(id, (err, waitingListCustomer) => {
-    if (!err) {
-      console.log(`Waiting Customer: ${waitingListCustomer}`);
-      if (!waitingListCustomer) {
-        console.log('no custoemr');
+  WaitingListCustomer.findOne({ userId: req.user.id, customerId: id },
+    (err, waitingListCustomer) => {
+      if (!err) {
+        console.log(`Waiting Customer: ${waitingListCustomer}`);
+        if (!waitingListCustomer) {
+          console.log('no custoemr');
+        }
+      } else {
+        console.log('error');
+        throw err;
       }
-    } else {
-      console.log('error');
-      throw err;
-    }
-    return waitingListCustomer;
-  });
+      return waitingListCustomer;
+    });
 };
 
 /**
@@ -73,6 +75,7 @@ exports.getWaitingListCustomerById = (req, res, id) => {
  */
 exports.saveNewCustomer = (req, res) => {
   const newWaitingCustomer = new WaitingListCustomer({
+    userId: req.user.id,
     name: req.body.name,
     phoneNumber: req.body.phoneNumber,
     company: req.body.company,
@@ -93,7 +96,7 @@ exports.saveNewCustomer = (req, res) => {
  */
 exports.updateCustomer = (req, res) => {
   if (req.body.id) {
-    const query = { _id: req.body.id };
+    const query = { _id: req.body.id, userId: req.user.id };
 
     req.updateWaitingListCustomer = {};
     req.updateWaitingListCustomer.name = req.body.name;

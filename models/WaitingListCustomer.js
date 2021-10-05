@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const waitingListCustomerSchema = new mongoose.Schema({
+  userId: String,
   name: String,
   phoneNumber: String,
   company: String,
