@@ -19,7 +19,8 @@ block content
                       .col-md-1-1(style="margin-left: 1%;")     
                   .row
                     .col-md-5 
-                      img(style="width: 65%;height: 65%;" src=`/img/users/${customerLogoFile.fileName}` class="img-thumbnail" alt="...")
+                      if customerLogoFile
+                        img(style="width: 65%;height: 65%;" src=`/img/users/${customerLogoFile.fileName}` class="img-thumbnail" alt="...")
                     .col-md-7
                       .row
                         .col-md-12
