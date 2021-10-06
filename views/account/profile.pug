@@ -23,20 +23,6 @@ block content
       .col-md-7
         input.form-control(type='text', name='name', id='name', value=user.profile.name, autocomplete='name')
     .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right Gender
-      .col-sm-6
-        .form-check.form-check-inline
-          input(type='radio', class='form-check-input' checked=user.profile.gender == 'male', name='gender', value='male', data-toggle='radio')
-          label.form-check-label Male
-
-        .form-check.form-check-inline
-          input(type='radio', class='form-check-input' checked=user.profile.gender == 'female', name='gender', value='female', data-toggle='radio')
-          label.form-check-label Female
-
-        .form-check.form-check-inline
-          input(type='radio', class='form-check-input' checked=user.profile.gender == 'other', name='gender', value='other', data-toggle='radio')
-          label.form-check-label Other
-    .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='location') Location
       .col-md-7
         input.form-control(type='text', name='location', id='location', value=user.profile.location, autocomplete)
