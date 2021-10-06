@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: Date,
   emailVerificationToken: String,
   emailVerified: Boolean,
+  calendarUrl: String,
 
   snapchat: String,
   facebook: String,

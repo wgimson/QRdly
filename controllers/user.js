@@ -146,11 +146,15 @@ exports.postSignup = (req, res, next) => {
     }
     user.save((err) => {
       if (err) { return next(err); }
-      req.logIn(user, (err) => {
-        if (err) {
-          return next(err);
-        }
-        res.redirect('/');
+      user.calendarUrl = `/ui/front-end-calendar/${user.id}`;
+      user.save((err) => {
+        if (err) { return next(err); }
+        req.logIn(user, (err) => {
+          if (err) {
+            return next(err);
+          }
+          res.redirect('/');
+        });
       });
     });
   });
