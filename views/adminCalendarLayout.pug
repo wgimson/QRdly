@@ -114,7 +114,7 @@ html(lang="en")
                                             withCredentials: true
                                         })
                                     .then(function (response) {
-                                        let title = "Meeting w / " + $('#business').val() + " at " + $('#apptTime').val() + " on " + $('#apptDate').val() 
+                                        let title = "Meeting w / " + $('#name').val() + " at " + $('#apptTime').val() + " on " + $('#apptDate').val() 
                                         let start = $('#apptDate').val() + "T" + $('#apptTime').val()
                                         adminCalendar.addEvent({
                                             title: title,
@@ -186,7 +186,7 @@ html(lang="en")
             })
 
             var calendarEl = document.getElementById('adminCalendar');
-            var frontEndCalendar = new FullCalendar.Calendar( calendarEl, {
+            var adminCalendar = new FullCalendar.Calendar( calendarEl, {
                 eventClick: function(info){
                     let eventClicked = info.event;
                     let cInfo = info.event._def.extendedProps.contactInfo
@@ -232,6 +232,7 @@ html(lang="en")
                     let hour = String(rawDate.getHours()).length > 1 ? rawDate.getHours() : String(rawDate.getHours()).padStart(2, '0')
                     let minutes = String(rawDate.getMinutes()).length > 1 ? rawDate.getMinutes() : String(rawDate.getMinutes()).padStart(2, '0')
                     let formattedDate = year + '-' + month + '-' + day + 'T' + hour + ":" + minutes
+                    
                     axios.post('/meeting/update',
                     {
                         start: formattedDate,
@@ -268,11 +269,10 @@ html(lang="en")
                         }
                     }
                 },
-                
             });
 
             if(calendarEl){
-                frontEndCalendar.render();
+                adminCalendar.render();
             }
         });
     // Google Analytics: change UA-XXXXX-X to be your site's ID
