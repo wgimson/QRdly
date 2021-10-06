@@ -1,8 +1,13 @@
 .navbar.navbar-light.fixed-top.navbar-expand-lg.bg-light
   .container
-    a.navbar-brand(href='/')
-      i.fas.fa-barcode
-      | QRdly
+    if user
+      a.navbar-brand(href='/dashboard/dashboard')
+        i.fas.fa-barcode
+        | QRdly
+    else 
+      a.navbar-brand(href='/')
+        i.fas.fa-barcode
+        | QRdly
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='.navbar-collapse')
       span.sr-only Toggle navigation
       span.navbar-toggler-icon
