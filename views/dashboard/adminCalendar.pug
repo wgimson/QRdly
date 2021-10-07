@@ -43,8 +43,8 @@ block content
         form(id="apptDialogForm"  method='POST' action='/meeting/create')
           input(type="hidden" name="business" id="business" value=businessName)
           input(type="hidden" name="meetings" id="meetings" value=meetings)
-          
-          
+
+
           div(class="row")
             div(class="col-6")
               input(type="text", id="name", name="name", size="16", required)
@@ -70,7 +70,7 @@ block content
           small We will confirm appt. via text
           br
   div(id="errorMessage")
-
+  
   input(type='text' id='meetings' value={meetings} hidden)
 
    

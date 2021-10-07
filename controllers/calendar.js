@@ -34,5 +34,6 @@ exports.getFrontEndCalendar  =  async (req, res) => {
     businessName: company,
     date: date,
     meetings: sortedMeetings,
+    adminId: req.params.id,
   });
 };

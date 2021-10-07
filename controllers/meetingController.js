@@ -2,14 +2,42 @@ const Meeting = require('../models/Meeting');
 const BusinessCard = require('../models/BusinessCard');
 
 exports.create = async (req, res) => {
-    const myBusinessCard = await BusinessCard.findOne( { userId: req.user.id } ).exec();
+    var businessCard = {}
+    if(req.body.adminId){
+        await BusinessCard.findOne( { userId: req.body.adminId }, (err, card) =>{
+            if(card){
+                businessCard.company =  card.companyName
+                businessCard.userId = card.userId
+            }
+            else{
+                User.findOne( { id: req.body.adminId }, (err, user) =>{
+                    businessCard.company = user.email
+                    businessCard.userId = user.id
+                })
+            }
+        } )
+    }
+    else {
+        await BusinessCard.findOne( { userId: req.user.id }, (err, card) =>{
+            if(card){
+                businessCard.company =  card.companyName
+                businessCard.userId = card.userId
+            }
+            else{
+                User.findOne( { id: req.user.id }, (err, user) =>{
+                    businessCard.company = user.email
+                    businessCard.userId = user.id
+                })
+            }
+        } )
+    }
     const newMeeting = new Meeting({
         name: req.body.name,
         date: req.body.date,
         time: req.body.time,
         contact: req.body.contact,
-        businessName: myBusinessCard.companyName,
-        adminId: myBusinessCard.userId,
+        businessName: businessCard.company,
+        adminId: businessCard.userId,
     });
 
     newMeeting.save((err) => {
