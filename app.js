@@ -202,7 +202,7 @@ app.post('/dashboard/business-card/create-business-card-form', passportConfig.is
 /**
  *  calendar meetings routes
  */
-app.post('/meeting/create', passportConfig.isAuthenticated, meetingController.create);
+app.post('/meeting/create', meetingController.create);
 app.post('/meeting/update', passportConfig.isAuthenticated, meetingController.update);
 app.post('/meeting/delete', passportConfig.isAuthenticated, meetingController.delete);
 /**
