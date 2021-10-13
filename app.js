@@ -9,7 +9,7 @@ const logger = require('morgan');
 const chalk = require('chalk');
 const errorHandler = require('errorhandler');
 const lusca = require('lusca');
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('express-flash');
 const path = require('path');
@@ -184,9 +184,9 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
  */
 
 app.get('/dashboard/dashboard', passportConfig.isAuthenticated, dashboardController.getDashboard);
-
+app.get('/dashboard/generateQRCode', passportConfig.isAuthenticated, dashboardController.generateQRCode, dashboardController.getDashboard);
 app.get('/dashboard/admin-calendar', passportConfig.isAuthenticated, calendarController.getAdminCalendar);
-app.get('/ui/front-end-calendar/:id', calendarController.getFrontEndCalendar); 
+app.get('/ui/front-end-calendar/:id', calendarController.getFrontEndCalendar);
 /**
  * customer waiting list routes
  */
