@@ -184,7 +184,8 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
  */
 
 app.get('/dashboard/dashboard', passportConfig.isAuthenticated, dashboardController.getDashboard);
-app.get('/dashboard/generateQRCode', passportConfig.isAuthenticated, dashboardController.generateQRCode, dashboardController.getDashboard);
+app.get('/dashboard/generateQRCode', passportConfig.isAuthenticated, dashboardController.generateQRCode);
+app.get('/dashboard/downloadQRCode', passportConfig.isAuthenticated, dashboardController.downloadQRCode);
 app.get('/dashboard/admin-calendar', passportConfig.isAuthenticated, calendarController.getAdminCalendar);
 app.get('/ui/front-end-calendar/:id', calendarController.getFrontEndCalendar);
 /**

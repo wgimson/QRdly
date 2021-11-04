@@ -37,11 +37,16 @@ exports.generateQRCode = async (req, res) => {
 
   qr.toDataURL(fullUrl, (err, src) => {
     if (err) res.send('Error creating QR');
+    const base64Data = src.replace(/^data:image\/png;base64,/, '');
 
-    fs.writeFile('QR_Code.png', src, 'base64', (err) => {
+    fs.writeFile('public/img/users/QR_Code.png', base64Data, 'base64', (err) => {
       console.log(err);
-      res.render('dashboard/QR', { src });
-      // this.getDashboard(req, res);
+      res.redirect('/dashboard/downloadQRCode');
     });
   });
+};
+
+exports.downloadQRCode = async (req, res) => {
+  const file = 'public/img/users/QR_Code.png';
+  res.download(file);
 };
