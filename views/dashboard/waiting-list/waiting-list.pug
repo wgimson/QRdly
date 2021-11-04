@@ -13,6 +13,8 @@ block content
   .pb-2.mt-2.mb-4.border-bottom
     h1 Customer Waiting List
   .pb-2.mt-2.mb-4.border-bottom 
+    a.btn.btn-link(href='/dashboard/waiting-list/add') Add New Customer 
+    br
     .table-responsive
       table.table.table-hover(data-toggle="table",
             data-pagination="true",
@@ -46,7 +48,7 @@ block content
                   a.btn.btn-link.btn-edit-customer(href=`/dashboard/waiting-list/add?id=${cust.id}`
                                                   data-id=cust.id) Edit
     br
-    a.btn.btn-link(href='/dashboard/waiting-list/add') Add New Customer 
+    
 
   .pb-2.mt-2.mb-4.border-bottom
 
