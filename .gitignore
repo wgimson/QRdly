@@ -56,3 +56,6 @@ Thumbs.db
 .com.apple.timemachine.donotpresent
 
 npm-debug.log
+
+# user images
+public/img/*
