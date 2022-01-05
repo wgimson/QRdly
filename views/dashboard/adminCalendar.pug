@@ -32,7 +32,14 @@ block head
     }
 block content
   div(class="container")
-    h1 #{businessName}
+    -function prettyDate(){
+      -var d = new Date();
+      -var monthNames = [ "January", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+      -var m = monthNames[d.getMonth()];
+      -var y = d.getFullYear();
+      -return m+', '+y;
+    -} 
+    h1 #{businessName} - #{prettyDate()}
         hr
   div(class="container")
       div(id="popup-dialog" title="Meeting Information") 
@@ -57,10 +64,10 @@ block content
               label(for="apptDate") Date of meeting
           div(class="row")
             div(class="col-6")
-              input(type="time", id="apptTime", name="apptTime", min="09:00", max="18:00", style="width: 155px;", required)
+              input(type="time", id="apptTime", name="apptTime", min="08:00", max="17:00", style="width: 155px;", required)
             div(class="col-6")
               label(for="apptTime") Time of meeting
-          small (Office hours are 9am to 6pm. Meetings must be set for on the hour or on the half hour)
+          small (Office hours are 8am to 5pm. Meetings must be set for on the hour or on the half hour)
           br
           div(class="row")
             div(class="col-6")

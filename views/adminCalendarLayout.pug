@@ -31,6 +31,7 @@ html(lang="en")
     block head
 
   body
+    include partials/header
 
     .container
       include partials/flash
@@ -75,7 +76,7 @@ html(lang="en")
                 messages: {
                     name: "*required field missing",
                     apptDate: "*required field missing",
-                    apptTime: "*required field missing",
+                    apptTime: "*please select a time between 8am and 5pm",
                     contact: "*required field missing",
                 }
             });
@@ -253,12 +254,12 @@ html(lang="en")
                 ,
                 editable: true,
                 initialView: 'timeGridWeek',
-                slotMinTime: "07:00:00",
-                slotMaxTime: "18:00:00",
+                slotMinTime: "08:00:00",
+                slotMaxTime: "17:00:00",
                 expandRows: true,
                 headerToolbar: {
                     left: 'addEventButton',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,prev,next'
+                    right: 'dayGridMonth,timeGridWeek,prev,next'
                 },
                 customButtons: {
                     addEventButton: {
