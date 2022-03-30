@@ -26,6 +26,8 @@ block content
                         .col-md-12
                           span(style="font-weight: 700;font-size: xx-large;")=`Welcome to ${businessCard.companyName}`
                           <br />
+                          span(style="font-size: small;font-weight: 200; font-style: italic;")=`You are in ${businessCard.showroomLocation}`
+                          <br />
                           <br />
                           span(style="font-size: large;font-weight: 500;")=`${businessCard.streetAddress}`
                           <br />
@@ -35,34 +37,47 @@ block content
                           <br />
                           <br />
                           span(style="font-size: small;font-weight: 100;")=`${businessCard.buyerReqs}`
+                          <br />
                       .row
-                        .col-md-6
+                        .col-md-3(style="padding-right: 0px !important;")
                           span(style="font-weight: 700;font-size: larger;")=`SHIPPING`
-                        .col-md-6
+                        .col-md-9(style="padding-left: 0px !important;")
                           span(style="font-size: small;font-weight: 100;")=`${businessCard.shippingFrom}`
                       .row
-                        .col-md-6
+                        .col-sm-6
                           span(style="font-weight: 700;font-size: larger;")=`CURRENT MARKET PROMO`
                         .col-md-6
                           span(style="font-size: small;font-weight: 100;")=`${businessCard.promos}`
                       .row
-                        .col-md-6
+                        .col-md-3
                           span(style="font-weight: 700;font-size: larger;")=`CONTACT`
-                        .col-md-6
+                        .col-md-9
                           span(style="font-size: small;font-weight: 100;")=`${businessCard.companyContactInfo}`
                   .row
-                    .col-md-10
+                    .col-md-10(style="margin-bottom: 2%;")
+                      span(style="font-weight: 700;font-size: larger; font-style: italic;")=`WHAT WOULD YOU LIKE TO DO TODAY?`
                     .col-md-2
                   .row
                     .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") SAVE SHOWROOM INFO
                     .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") REQUEST A CATALOG
                     .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") CREATE A QUOTE NOTE 
+                    .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") FEEDBACK
                   .row
                     .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") SCHEDULE APPOINTMENTS
                     .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") REGISTER
                     .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") SUBMIT AN ORDER 
+                    .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") FAQ
                   .row
                     .col-md-12
+                      button.btn.btn-light(type="button", style="margin:0.3em; width:22%;") REQUEST A FOLLOW-UP
     .row
         .col-md-6
             button.btn.btn-primary(type="button", style="float:right;margin:2%;width:50%;") Enable/Disable QR Code

@@ -97,6 +97,15 @@ block content
             .invalid-feedback
               Please 5 digit zip code required.
         .form-group.row
+          label(class='col-md-2 col-form-label font-weight-bold', for='zipCode') Showroom Location
+          .col-md-8
+            if businessCard && businessCard.showroomLocation
+              input.form-control(type='text', name='showroomLocation', id='showroomLocation', autocomplete='showroomLocation', value=businessCard.showroomLocation, required)
+            else 
+              input.form-control(type='text', name='showroomLocation', id='showroomLocation', autocomplete='showroomLocation', value=showroomLocation, required)
+            .invalid-feedback
+              Please Showroom Location required.
+        .form-group.row
           label(class='col-md-2 col-form-label font-weight-bold', for='phone') Phone Number
           .col-md-8
             if businessCard && businessCard.phone
@@ -122,9 +131,9 @@ block content
           label(class='col-md-2 col-form-label font-weight-bold', for='shippingFrom') Shipping From
           .col-md-8
             if businessCard && businessCard.shippingFrom
-              input.form-control(type='text', name='shippingFrom', id='shippingFrom', autocomplete='shipping from', value=businessCard.shippingFrom, required)
+              textarea.form-control(name='shippingFrom', id='shippingFrom', autocomplete='shipping from', rows='5', value=shippingFrom)=businessCard.shippingFrom
             else 
-              input.form-control(type='text', name='shippingFrom', id='shippingFrom', autocomplete='shipping from', value=shippingFrom, required)
+              textarea.form-control(name='shippingFrom', id='shippingFrom', autocomplete='shipping from', rows='5', value=shippingFrom)
             .invalid-feedback
               Please shipping from location is required.
         .form-group.row

@@ -33,6 +33,7 @@ exports.createBusinessCard = (req, res) => {
       city: req.body.city,
       state: req.body.state,
       zipCode: req.body.zipCode,
+      showroomLocation: req.body.showroomLocation,
       phone: req.body.phone,
       openingMin: req.body.openingMin,
       shippingFrom: req.body.shippingFrom,

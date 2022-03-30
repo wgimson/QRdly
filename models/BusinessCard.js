@@ -10,6 +10,7 @@ const businessCardSchema = new mongoose.Schema({
   city: String,
   state: String,
   zipCode: String,
+  showroomLocation: String,
   phone: String,
   openingMin: String,
   shippingFrom: String,
