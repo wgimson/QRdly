@@ -57,6 +57,10 @@ block content
                     .col-md-10(style="margin-bottom: 2%;")
                       span(style="font-weight: 700;font-size: larger; font-style: italic;")=`WHAT WOULD YOU LIKE TO DO TODAY?`
                     .col-md-2
+                  if user.isAdmin
+                    .row
+                      .col-md-12
+                        a.button.btn.btn-light(type="button",  href="/admin/registeredUsers", style="margin:0.3em; width:22%;") MANAGE REGISTRATIONS
                   .row
                     .col-md-3
                       button.btn.btn-light(type="button", style="margin:2%;width:95%;") SAVE SHOWROOM INFO
