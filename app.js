@@ -46,9 +46,9 @@ const upload = multer({
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-//dotenv.config({ path: '/.env' });
-//require('dotenv').config({ path: require('find-config')('.env') })
-require('dotenv').config({path: __dirname + '/.env.example'});
+// dotenv.config({ path: '/.env' });
+// require('dotenv').config({ path: require('find-config')('.env') })
+require('dotenv').config({ path: `${__dirname}/.env.example` });
 
 /**
  * Controllers (route handlers).
@@ -65,6 +65,7 @@ const aboutController = require('./controllers/about');
 const faqController = require('./controllers/faq');
 const termsController = require('./controllers/terms');
 const calendarController = require('./controllers/calendar');
+const registeredUsersController = require('./controllers/registeredUsers');
 /**
  * API keys and Passport configuration.
  */
@@ -195,6 +196,11 @@ app.get('/dashboard/waiting-list/waiting-list', passportConfig.isAuthenticated, 
 app.get('/dashboard/waiting-list/add', passportConfig.isAuthenticated, waitingListController.getCreateOrEditUserForm);
 app.post('/dashboard/waiting-list/add', passportConfig.isAuthenticated, waitingListController.saveNewCustomer);
 app.post('/dashboard/waiting-list/update', passportConfig.isAuthenticated, waitingListController.updateCustomer);
+/**
+ * registered user routes
+ */
+app.get('/admin/registeredUsers', passportConfig.isAuthenticated, registeredUsersController.getRegisteredUsers);
+app.post('/admin/registeredUsers', passportConfig.isAuthenticated, userController.createUser);
 /**
  * customer business card routes
  */

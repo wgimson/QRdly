@@ -1,0 +1,48 @@
+extends ../layout
+
+block head
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+    link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.6.3/css/all.css", integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")
+    link(rel="stylesheet", href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css")
+
+    script.
+        document.addEventListener('DOMContentLoaded', function() {
+        });
+
+block content
+  .pb-2.mt-2.mb-4.border-bottom
+    h1 Registered Users Waiting List
+  .pb-2.mt-2.mb-4.border-bottom 
+    br
+    .table-responsive
+    table.table.table-hover(data-toggle="table",
+            data-pagination="true",
+            data-search="true")
+        thead
+
+        tr
+            th(data-sortable="true", data-field="email") Email
+            th(data-sortable="true", data-field="createdAt") Date/Time
+            th(data-sortable="false") Add User
+        tbody
+        each cust in allRegisteredUsers
+            -const date = new Date(cust.createdAt);
+            -const d = date.getDate();
+            -const m = date.getMonth();
+            -const y = date.getFullYear();
+            -const time = date.toLocaleTimeString('en-US');
+            -const dateTimeRes = (m + '/' + d + '/' + y + ' : ' + time);
+            form(method='POST')
+                input(type='hidden', name='_csrf', value=_csrf)
+                input(type='hidden', name='registeredUserId', value=cust.id)
+                tr
+                    td=cust.email
+                    td=dateTimeRes
+                    td
+                        button.btn.btn-primary(type='submit', data-id=cust.id)
+                            i.far.fa-envelope.fa-sm
+                            | Add User
+    br
+
+  .pb-2.mt-2.mb-4.border-bottom
+  

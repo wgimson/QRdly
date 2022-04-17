@@ -7,6 +7,7 @@ const _ = require('lodash');
 const validator = require('validator');
 const mailChecker = require('mailchecker');
 const User = require('../models/User');
+const RegisteredUser = require('../models/RegisteredUser');
 
 const randomBytesAsync = promisify(crypto.randomBytes);
 
@@ -119,7 +120,7 @@ exports.getSignup = (req, res) => {
 
 /**
  * POST /signup
- * Create a new local account.
+ * Push a Registered User onto the stack - they must be approved to be promoted to full user.
  */
 exports.postSignup = (req, res, next) => {
   const validationErrors = [];
@@ -133,33 +134,87 @@ exports.postSignup = (req, res, next) => {
   }
   req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
 
-  const user = new User({
+  const registeredUser = new RegisteredUser({
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    isAdmin: false
   });
 
-  User.findOne({ email: req.body.email }, (err, existingUser) => {
+  RegisteredUser.findOne({ email: req.body.email }, (err, existingRegisteredUser) => {
     if (err) { return next(err); }
-    if (existingUser) {
+    if (existingRegisteredUser) {
       req.flash('errors', { msg: 'Account with that email address already exists.' });
       return res.redirect('/signup');
     }
-    user.save((err) => {
+    registeredUser.save((err) => {
       if (err) { return next(err); }
-      user.calendarUrl = `/ui/front-end-calendar/${user.id}`;
-      user.save((err) => {
-        if (err) { return next(err); }
-        req.logIn(user, (err) => {
-          if (err) {
-            return next(err);
-          }
-          res.redirect('/');
-        });
+      req.logIn(registeredUser, (err) => {
+        if (err) {
+          return next(err);
+        }
+        res.redirect('/');
       });
     });
   });
 };
 
+/**
+ * GET /signup
+ * Signup page.
+ */
+exports.getSignup = (req, res) => {
+  if (req.user) {
+    return res.redirect('/');
+  }
+  res.render('account/signup', {
+    title: 'Create Account'
+  });
+};
+
+/**
+ * POST /createUser
+ * Create a new local account.
+ */
+exports.createUser = (req, res, next) => {
+  const customerId = req.body.registeredUserId;
+  RegisteredUser.findOne({ _id: customerId }, (err, existingRegisteredUser) => {
+    if (err) { return next(err); }
+    if (existingRegisteredUser) {
+      const user = new User({
+        email: existingRegisteredUser.email,
+        password: existingRegisteredUser.password,
+        isAdmin: false,
+      });
+
+      User.findOne({ email: existingRegisteredUser.email }, (err, existingUser) => {
+        if (err) { return next(err); }
+        if (existingUser) {
+          req.flash('errors', { msg: 'Account with that email address already exists.' });
+          return res.redirect('/signup');
+        }
+        user.save((err) => {
+          if (err) { return next(err); }
+          user.calendarUrl = `/ui/front-end-calendar/${user.id}`;
+          user.save((err) => {
+            if (err) { return next(err); }
+            RegisteredUser.deleteOne({ _id: existingRegisteredUser.id }, (err) => {
+              if (err) {
+                console.log('error');
+              } // TODO - do real error checking
+              else {
+                req.flash('info', { msg: `User ${user.email} Created` });
+                res.redirect('/dashboard/dashboard');
+              }
+            });
+          });
+        });
+      });
+    } else {
+      req.flash('errors', { msg: 'Account with that email address could not be found.' });
+      return res.redirect('/signup');
+    }
+  });
+};
 /**
  * GET /account
  * Profile page.
