@@ -11,6 +11,17 @@ const userSchema = new mongoose.Schema({
   calendarUrl: String,
   isAdmin: { type: Boolean, default: false },
 
+  companyInfo: String,
+  companyName: String,
+  companyPhone: String,
+  companyWebsite: String,
+  classOfTrade: String,
+  numberOfShowrooms: Number,
+  OwnerOrCEO: String,
+  registeredAs: String,
+  EIN: String,
+  methodOfPayment: String,
+
   snapchat: String,
   facebook: String,
   twitter: String,

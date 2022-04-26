@@ -8,6 +8,16 @@ const registeredUserSchema = new mongoose.Schema({
   passwordResetExpires: Date,
   emailVerificationToken: String,
   emailVerified: Boolean,
+  companyInfo: String,
+  companyName: String,
+  companyPhone: String,
+  companyWebsite: String,
+  classOfTrade: String,
+  numberOfShowrooms: Number,
+  OwnerOrCEO: String,
+  registeredAs: String,
+  EIN: String,
+  methodOfPayment: String,
   isAdmin: { type: Boolean, default: false },
 
 }, { timestamps: true });

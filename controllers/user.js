@@ -128,6 +128,10 @@ exports.postSignup = (req, res, next) => {
   if (!validator.isLength(req.body.password, { min: 8 })) validationErrors.push({ msg: 'Password must be at least 8 characters long' });
   if (req.body.password !== req.body.confirmPassword) validationErrors.push({ msg: 'Passwords do not match' });
 
+  // if (!validator.isMobilePhone(req.body.companyPhone)) validationErrors.push({ msg: 'Please enter a valid phone number.' });
+  if (!validator.isURL(req.body.companyWebsite)) validationErrors.push({ msg: 'Please enter a valid company website.' });
+  // if (validator.isNumeric(parseInt(req.body.numberOfShowrooms, 10))) validationErrors.push({ msg: 'Please enter a valid number of showrooms.' });
+
   if (validationErrors.length) {
     req.flash('errors', validationErrors);
     return res.redirect('/signup');
@@ -135,6 +139,16 @@ exports.postSignup = (req, res, next) => {
   req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
 
   const registeredUser = new RegisteredUser({
+    companyInfo: req.body.companyInfo,
+    companyName: req.body.companyName,
+    companyPhone: req.body.companyPhone,
+    companyWebsite: req.body.companyWebsite,
+    classOfTrade: req.body.classOfTrade,
+    numberOfShowrooms: req.body.numberOfShowrooms,
+    OwnerOrCEO: req.body.ownerCeo,
+    registeredAs: req.body.registeredAs,
+    EIN: req.body.ein,
+    methodOfPayment: req.body.methodOfPayment,
     email: req.body.email,
     password: req.body.password,
     isAdmin: false
@@ -181,6 +195,16 @@ exports.createUser = (req, res, next) => {
     if (err) { return next(err); }
     if (existingRegisteredUser) {
       const user = new User({
+        companyInfo: existingRegisteredUser.companyInfo,
+        companyName: existingRegisteredUser.companyName,
+        companyPhone: existingRegisteredUser.companyPhone,
+        companyWebsite: existingRegisteredUser.companyWebsite,
+        classOfTrade: existingRegisteredUser.classOfTrade,
+        numberOfShowrooms: existingRegisteredUser.numberOfShowrooms,
+        OwnerOrCEO: existingRegisteredUser.ownerCeo,
+        registeredAs: existingRegisteredUser.registeredAs,
+        EIN: existingRegisteredUser.ein,
+        methodOfPayment: existingRegisteredUser.methodOfPayment,
         email: existingRegisteredUser.email,
         password: existingRegisteredUser.password,
         isAdmin: false,
