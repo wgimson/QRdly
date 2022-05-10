@@ -189,7 +189,7 @@ app.get('/dashboard/generateQRCode', passportConfig.isAuthenticated, dashboardCo
 app.get('/dashboard/downloadQRCode', passportConfig.isAuthenticated, dashboardController.downloadQRCode);
 app.get('/dashboard/admin-calendar', passportConfig.isAuthenticated, calendarController.getAdminCalendar);
 app.get('/ui/front-end-calendar/:id', calendarController.getFrontEndCalendar);
-app.get('/ui/front-end-card/:id', calendarController.getFrontEndCard);
+app.get('/ui/front-end-card/:id', businessCardController.getFrontEndCard);
 /**
  * customer waiting list routes
  */
