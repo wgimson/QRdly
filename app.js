@@ -189,6 +189,7 @@ app.get('/dashboard/generateQRCode', passportConfig.isAuthenticated, dashboardCo
 app.get('/dashboard/downloadQRCode', passportConfig.isAuthenticated, dashboardController.downloadQRCode);
 app.get('/dashboard/admin-calendar', passportConfig.isAuthenticated, calendarController.getAdminCalendar);
 app.get('/ui/front-end-calendar/:id', calendarController.getFrontEndCalendar);
+app.get('/ui/front-end-card/:id', calendarController.getFrontEndCard);
 /**
  * customer waiting list routes
  */
@@ -213,6 +214,9 @@ app.post('/meeting/create', meetingController.create);
 app.post('/meeting/update', passportConfig.isAuthenticated, meetingController.update);
 app.post('/meeting/delete', passportConfig.isAuthenticated, meetingController.delete);
 /**
+ *  See what customer sees
+ */
+app.post('/dashboard/customer-view', passportConfig.isAuthenticated, dashboardController.seeWhatCustomerSees);
 /**
  * API examples routes.
  */

@@ -218,7 +218,7 @@ exports.createUser = (req, res, next) => {
         }
         user.save((err) => {
           if (err) { return next(err); }
-          user.calendarUrl = `/ui/front-end-calendar/${user.id}`;
+          user.calendarUrl = `/ui/front-end-card/${user.id}`;
           user.save((err) => {
             if (err) { return next(err); }
             RegisteredUser.deleteOne({ _id: existingRegisteredUser.id }, (err) => {

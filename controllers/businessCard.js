@@ -85,3 +85,14 @@ exports.getCustomerLogo = async (req, res, next) => {
     res.redirect('/logout');
   }
 };
+
+exports.getFrontEndCard = async (req, res, next) => {
+  const businessCard = await BusinessCard.findOne({ userId: req.params.id });
+  const logoFile = await CustomerLogoFile.findOne({ userId: req.params.id });
+  res.render('ui/frontEndCard', {
+    title: 'Admin Dashboard',
+    businessCard,
+    customerLogoFile: logoFile,
+    id: req.params.id
+  });
+};
