@@ -216,7 +216,7 @@ app.post('/meeting/delete', passportConfig.isAuthenticated, meetingController.de
 /**
  *  See what customer sees
  */
-app.post('/dashboard/customer-view', passportConfig.isAuthenticated, dashboardController.seeWhatCustomerSees);
+app.get('/dashboard/customer-view', passportConfig.isAuthenticated, dashboardController.seeWhatCustomerSees);
 /**
  * API examples routes.
  */
