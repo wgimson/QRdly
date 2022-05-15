@@ -34,6 +34,7 @@ exports.generateQRCode = async (req, res) => {
   const user = await User.findOne({ _id: req.user.id });
   const { calendarUrl } = user;
   const fullUrl = buildCalendarUrl(req, calendarUrl);
+  console.log(`url: ${fullUrl}`);
 
   qr.toDataURL(fullUrl, (err, src) => {
     if (err) res.send('Error creating QR');
@@ -47,6 +48,7 @@ exports.generateQRCode = async (req, res) => {
 };
 
 exports.downloadQRCode = async (req, res) => {
+  console.log('gonna download download');
   const file = 'public/img/users/QR_Code.png';
   res.download(file);
 };
