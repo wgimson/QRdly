@@ -165,11 +165,14 @@ html(lang="en")
 
             });
             //get all meetings for this company
-            let meetings = document.getElementById('meetings').value;
+            let meetings = [];
+            if (document.getElementById('meetings')) {
+                meetings = document.getElementById('meetings').value
+            }
             let meetingArray = JSON.parse(meetings);
             var parsedMeetingArray = [];
             let meetingMax = 2;
-            const hourArray = ['08', '09','10', '11','12', '13','14','15', '16','17', '18']
+            const hourArray = ['08', '09','10', '11','12', '13','14','15', '16','17']
             var apptCounter = [ 0, 0, 0, 0, 0, 0, 0, 0 , 0 , 0]
             var previousDate = null;
             var lastDate = null;
@@ -265,7 +268,7 @@ html(lang="en")
                 editable: false,
                 initialView: 'timeGridWeek',
                 slotMinTime: "07:00:00",
-                slotMaxTime: "18:00:00",
+                slotMaxTime: "17:00:00",
                 expandRows: true,
                 headerToolbar: {
                     left: 'addEventButton',

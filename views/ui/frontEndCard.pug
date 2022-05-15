@@ -1,4 +1,4 @@
-extends ../layout
+extends ../frontEndLayout
 
 block head
   link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
@@ -53,6 +53,31 @@ block content
                           span(style="font-weight: 700;font-size: larger;")=`CONTACT`
                         .col-md-9
                           span(style="font-size: small;font-weight: 100;")=`${businessCard.companyContactInfo}`
+                    .row
+                    .col-md-10(style="margin-bottom: 2%;")
+                      span(style="font-weight: 700;font-size: larger; font-style: italic;")=`WHAT WOULD YOU LIKE TO DO TODAY?`
+                    .col-md-2
+                  .row
+                    .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") SAVE SHOWROOM INFO
+                    .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") REQUEST A CATALOG
+                    .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") CREATE A QUOTE NOTE 
+                    .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") FEEDBACK
+                  .row
+                    .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") SCHEDULE APPOINTMENTS
+                    .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") REGISTER
+                    .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") SUBMIT AN ORDER 
+                    .col-md-3
+                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") FAQ
+                  .row
+                    .col-md-12
+                      button.btn.btn-light(type="button", style="margin:0.3em; width:22%;") REQUEST A FOLLOW-UP
     .row
         .col-md-12
-            a.button.btn.btn-primary(type="button", href=`/ui/front-end-calendar/${id}`, style="float:right;margin:2%;width:50%;") REQUEST A FOLLOW-UP
+            a.button.btn.btn-primary(type="button", href=`/ui/front-end-calendar/${id}`, style="float:right;width:100%;") Schedule Appointment
