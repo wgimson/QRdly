@@ -21,7 +21,8 @@ exports.getDashboard = async (req, res) => {
     title: 'Admin Dashboard',
     user: req.user,
     businessCard,
-    customerLogoFile: logoFile
+    customerLogoFile: logoFile,
+    isCustomerView: false
   });
 };
 
@@ -60,6 +61,7 @@ exports.seeWhatCustomerSees = async (req, res) => {
     title: 'Admin Dashboard',
     user: req.user,
     businessCard,
-    customerLogoFile: logoFile
+    customerLogoFile: logoFile,
+    isCustomerView: true
   });
 };
