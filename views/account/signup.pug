@@ -1,62 +1,85 @@
 extends ../layout
 
+block head
+  script(src='/js/registration/registrationForm.js')
 block content
   .pb-2.mt-2.mb-4.border-bottom
     h3 Sign up
-  form(id='signup-form', method='POST')
+  form(id='signup-form', method='POST', style="padding-bottom: 0.5em;")
     input(type='hidden', name='_csrf', value=_csrf)
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='companyInfo') Company Info
-      .col-md-7
-        textarea.form-control(name='companyInfo', id='companyInfo', placeholder='Company Info', autofocus, rows='5', value=companyInfo)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='companyName') Company Name
       .col-md-7
         input.form-control(type='text', name='companyName', id='companyName', placeholder='Company Name', autofocus, required)
     .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='companyAddress') Company Address
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='primaryContactName') Primary Contact Name
       .col-md-7
-        input.form-control(type='text', name='companyAddress', id='companyAddress', placeholder='Company Address', autofocus, required)
+        input.form-control(type='text', name='primaryContactName', id='primaryContactName', placeholder='Primary Contact Name', autofocus, required)
     .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='companyPhone') Company Phone
+      label.col-md-3.col-form-label.font-weight-bold.text-right Billing Address
+      .col-md-7
+        hr
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='city') City
+      .col-md-7
+        input.form-control(type='text', name='city', id='city', placeholder='City', autofocus, required)
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='state') State
+      .col-md-7
+        input.form-control(type='text', name='state', id='state', placeholder='State', autofocus, required)
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='zip') Zip
+      .col-md-7
+        input.form-control(type='text', name='zip', id='zip', placeholder='Zip', autofocus, required)
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='zip') Same as Billing Address
+      .col-md-7
+        input.form-check(type='checkbox', 
+                          name='sameAsBilling', 
+                          id='chkbxSameAsBilling', 
+                          value="true",
+                          style="float: left;margin-top: 2%;")
+    .form-group#shipping-address(style='display: none;')
+      .row
+        label.col-md-3.col-form-label.font-weight-bold.text-right Shipping Address
+        .col-md-7
+          hr
+      .row(style='margin-bottom: 1.15em;')
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='shippingCity') City
+        .col-md-7
+          input.form-control(type='text', name='shippingCity', id='shippingCity', placeholder='City', autofocus)
+      .row(style='margin-bottom: 1.15em;')
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='shippingState') State
+        .col-md-7
+          input.form-control(type='text', name='shippingState', id='shippingState', placeholder='State', autofocus)
+      .row(style='margin-bottom: 1.15em;')
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='shippingZip') Zip
+        .col-md-7
+          input.form-control(type='text', name='shippingZip', id='shippingZip', placeholder='Zip', autofocus)
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='companyPhone') Phone Number
       .col-md-7
         input.form-control(type='text', name='companyPhone', id='companyPhone', placeholder='Company Phone', autofocus, required)
     .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='companyWebsite') Company Website
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='email') E-mail Address
+      .col-md-7
+        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, autocomplete='email', required)
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='companyWebsite') Website
       .col-md-7
         input.form-control(type='text', name='companyWebsite', id='companyWebsite', placeholder='Company Website', autofocus, required)
     .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='classOfTrade') Class of Trade
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='companyInfo') Nature of Business
       .col-md-7
-        input.form-control(type='text', name='classOfTrade', id='classOfTrade', placeholder='Class of Trade', autofocus, required)
+        textarea.form-control(name='companyInfo', id='companyInfo', placeholder='Company Info', autofocus, rows='5', value=companyInfo)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='numberOfShowrooms') Number of Showrooms
       .col-md-7
         input.form-control(type='number', name='numberOfShowrooms', id='numberOfShowrooms', placeholder='Number of Showrooms', autofocus, required)
     .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='ownerCeo') Owner/CEO
-      .col-md-7
-        input.form-control(type='text', name='ownerCeo', id='ownerCeo', placeholder='Owner/CEO', autofocus, required)
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='registeredAs') Registered As
-      .col-md-7
-        input.form-control(type='text', name='registeredAs', id='registeredAs', placeholder='Registered As', autofocus, required)
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='ein') EIN
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='ein') FEIN
       .col-md-7
         input.form-control(type='text', name='ein', id='ein', placeholder='EIN', autofocus, required)
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='methodOfPayment') Method of Payment
-      .col-md-7
-        select.form-control(name='methodOfPayment', required)
-            option(value='cash')= 'cash'
-            option(value='visa')= 'visa'
-            option(value='mastercard')= 'mastercard'
-            option(value='paypal')= 'paypal'
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='email') Email
-      .col-md-7
-        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, autocomplete='email', required)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='password') Password
       .col-md-7
@@ -65,7 +88,7 @@ block content
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='confirmPassword') Confirm Password
       .col-md-7
         input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', autocomplete='new-password', minlength='8', required)
-    .form-group.offset-sm-3.col-md-7.pl-2
+    .form-group.offset-sm-3.col-md-7(style='margin-left: 20.5em;')
       button.btn.btn-success(type='submit', style="float: right;")
         i.fas.fa-user-plus.fa-sm
         | Signup

@@ -139,19 +139,22 @@ exports.postSignup = (req, res, next) => {
   req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
 
   const registeredUser = new RegisteredUser({
-    companyInfo: req.body.companyInfo,
     companyName: req.body.companyName,
+    primaryContactName: req.body.primaryContactName,
+    city: req.body.city,
+    zip: req.body.zip,
+    state: req.body.state,
+    shippingCity: req.body.shippingCity,
+    shippingState: req.body.shippingState,
+    shippingZip: req.body.shippingZip,
     companyPhone: req.body.companyPhone,
     companyWebsite: req.body.companyWebsite,
-    classOfTrade: req.body.classOfTrade,
+    companyInfo: req.body.companyInfo,
     numberOfShowrooms: req.body.numberOfShowrooms,
-    OwnerOrCEO: req.body.ownerCeo,
-    registeredAs: req.body.registeredAs,
-    EIN: req.body.ein,
-    methodOfPayment: req.body.methodOfPayment,
+    ein: req.body.ein,
     email: req.body.email,
     password: req.body.password,
-    isAdmin: false
+    isAdmin: false,
   });
 
   RegisteredUser.findOne({ email: req.body.email }, (err, existingRegisteredUser) => {
@@ -195,16 +198,19 @@ exports.createUser = (req, res, next) => {
     if (err) { return next(err); }
     if (existingRegisteredUser) {
       const user = new User({
-        companyInfo: existingRegisteredUser.companyInfo,
         companyName: existingRegisteredUser.companyName,
+        primaryContactName: existingRegisteredUser.primaryContactName,
+        city: existingRegisteredUser.city,
+        zip: existingRegisteredUser.zip,
+        state: existingRegisteredUser.state,
+        shippingCity: existingRegisteredUser.shippingCity,
+        shippingState: existingRegisteredUser.shippingState,
+        shippingZip: existingRegisteredUser.shippingZip,
         companyPhone: existingRegisteredUser.companyPhone,
         companyWebsite: existingRegisteredUser.companyWebsite,
-        classOfTrade: existingRegisteredUser.classOfTrade,
+        companyInfo: existingRegisteredUser.companyInfo,
         numberOfShowrooms: existingRegisteredUser.numberOfShowrooms,
-        OwnerOrCEO: existingRegisteredUser.ownerCeo,
-        registeredAs: existingRegisteredUser.registeredAs,
-        EIN: existingRegisteredUser.ein,
-        methodOfPayment: existingRegisteredUser.methodOfPayment,
+        ein: existingRegisteredUser.ein,
         email: existingRegisteredUser.email,
         password: existingRegisteredUser.password,
         isAdmin: false,
