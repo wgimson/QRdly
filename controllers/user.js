@@ -141,9 +141,11 @@ exports.postSignup = (req, res, next) => {
   const registeredUser = new RegisteredUser({
     companyName: req.body.companyName,
     primaryContactName: req.body.primaryContactName,
+    streetAddress: req.body.address,
     city: req.body.city,
     zip: req.body.zip,
     state: req.body.state,
+    shippingStreetAddress: req.body.shippingAddress,
     shippingCity: req.body.shippingCity,
     shippingState: req.body.shippingState,
     shippingZip: req.body.shippingZip,
@@ -156,6 +158,14 @@ exports.postSignup = (req, res, next) => {
     password: req.body.password,
     isAdmin: false,
   });
+
+  const { sameAsBilling } = req.body;
+  if (sameAsBilling) {
+    registeredUser.shippingStreetAddress = req.body.address;
+    registeredUser.shippingCity = req.body.city;
+    registeredUser.shippingState = req.body.state;
+    registeredUser.shippingZip = req.body.zip;
+  }
 
   RegisteredUser.findOne({ email: req.body.email }, (err, existingRegisteredUser) => {
     if (err) { return next(err); }
@@ -174,7 +184,6 @@ exports.postSignup = (req, res, next) => {
     });
   });
 };
-
 /**
  * GET /signup
  * Signup page.
@@ -200,9 +209,11 @@ exports.createUser = (req, res, next) => {
       const user = new User({
         companyName: existingRegisteredUser.companyName,
         primaryContactName: existingRegisteredUser.primaryContactName,
+        streetAddress: existingRegisteredUser.streetAddress,
         city: existingRegisteredUser.city,
         zip: existingRegisteredUser.zip,
         state: existingRegisteredUser.state,
+        shippingStreetAddress: existingRegisteredUser.shippingStreetAddress,
         shippingCity: existingRegisteredUser.shippingCity,
         shippingState: existingRegisteredUser.shippingState,
         shippingZip: existingRegisteredUser.shippingZip,

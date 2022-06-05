@@ -13,9 +13,11 @@ const userSchema = new mongoose.Schema({
 
   companyName: String,
   primaryContactName: String,
+  streetAddress: String,
   city: String,
   zip: Number,
   state: String,
+  shippingStreetAddress: String,
   shippingCity: String,
   shippingState: String,
   shippingZip: Number,

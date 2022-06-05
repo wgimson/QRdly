@@ -18,7 +18,7 @@ block content
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right Billing Address
       .col-md-7
-        hr
+        input.form-control(type='text', name='address', id='address', placeholder='Street Address', autofocus, required)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='city') City
       .col-md-7
@@ -32,18 +32,18 @@ block content
       .col-md-7
         input.form-control(type='text', name='zip', id='zip', placeholder='Zip', autofocus, required)
     .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='zip') Same as Billing Address
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='zip') Shipping Address Same as Billing Address?
       .col-md-7
         input.form-check(type='checkbox', 
                           name='sameAsBilling', 
                           id='chkbxSameAsBilling', 
                           value="true",
                           style="float: left;margin-top: 2%;")
-    .form-group#shipping-address(style='display: none;')
-      .row
-        label.col-md-3.col-form-label.font-weight-bold.text-right Shipping Address
+    .form-group#shipping-address(style='display: block;')
+      .row(style='margin-bottom: 1.15em;')
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='shippingAddress') Shipping Address
         .col-md-7
-          hr
+          input.form-control(type='text', name='shippingAddress', id='shippingAddress', placeholder='Street Address', autofocus)
       .row(style='margin-bottom: 1.15em;')
         label.col-md-3.col-form-label.font-weight-bold.text-right(for='shippingCity') City
         .col-md-7
