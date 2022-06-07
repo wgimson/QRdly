@@ -60,28 +60,21 @@ block content
                   if user.isAdmin && !isCustomerView
                     .row
                       .col-md-12
-                        a.button.btn.btn-light(type="button",  href="/admin/registeredUsers", style="margin:0.3em; width:22%;") MANAGE REGISTRATIONS
-                  .row
-                    .col-md-3
-                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") SAVE SHOWROOM INFO
-                    .col-md-3
-                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") REQUEST A CATALOG
-                    .col-md-3
-                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") CREATE A QUOTE NOTE 
-                    .col-md-3
-                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") FEEDBACK
-                  .row
-                    .col-md-3
-                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") SCHEDULE APPOINTMENTS
-                    .col-md-3
-                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") REGISTER
-                    .col-md-3
-                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") SUBMIT AN ORDER 
-                    .col-md-3
-                      button.btn.btn-light(type="button", style="margin:2%;width:95%;") FAQ
-                  .row
-                    .col-md-12
-                      button.btn.btn-light(type="button", style="margin:0.3em; width:22%;") REQUEST A FOLLOW-UP
+                        
+                  .row(style="margin-bottom: 1em;")
+                    .col-md-4
+                      a.button.btn.btn-light(type="button",  href="/admin/registeredUsers", style="width: 13.9em;display: flex;align-items: center;justify-content: center;") MANAGE REGISTRATIONS
+                    .col-md-4
+                      button.btn.btn-light(type="button", style="width: 13.9em;display: flex;align-items: center;justify-content: center;") SAVE SHOWROOM INFO
+                    .col-md-4
+                      button.btn.btn-light(type="button", style="width: 13.9em;display: flex;align-items: center;justify-content: center;") REQUEST A CATALOG
+                  .row(style="margin-bottom: 1em;")
+                    .col-md-4
+                      button.btn.btn-light(type="button", style="width: 13.9em;display: flex;align-items: center;justify-content: center;") SCHEDULE APPOINTMENTS
+                    .col-md-4
+                      button.btn.btn-light(type="button", style="width: 13.9em;display: flex;align-items: center;justify-content: center;") FAQ
+                    .col-md-4
+                      button.btn.btn-light(type="button", style="width: 13.9em;display: flex;align-items: center;justify-content: center;") REQUEST A FOLLOW-UP
     if (!isCustomerView)
       .row
           .col-md-6
@@ -96,8 +89,6 @@ block content
       .row
           .col-md-6
               button.btn.btn-primary(type="button", style="float:right;margin:2%;width:50%;") Scans Tracker
-          .col-md-6
-              button.btn.btn-primary(type="button", style="float:left;margin:2%;width:50%;") Feedback 
       .row
           .col-md-12(style="text-align:center;")
               a.button.btn.btn-primary(type="button", href="/dashboard/business-card/create-business-card-form", style="margin:2%;width:50%;") Create or Edit Business Card
