@@ -48,6 +48,39 @@ html(lang="en")
     script(src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js")
     script(src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js")
     script.
+        function getRandomColor() {
+            const colorNum = Math.floor(Math.random() * 6);
+            alert(colorNum);
+            switch (colorNum) {
+                case 0:
+                    return '#27AE60'
+                    break;
+                case 1:
+                    return '#8E44AD'
+                    break;
+                case 2: 
+                    return '#16AO85'
+                    break;
+                case 3:
+                    return '#E74C3C'
+                    break;
+                case 4: 
+                    return '#7F8C8D'
+                    break;
+                case 5: 
+                    return '#3498DB'
+                    break;
+                default: 
+                    break;
+            }
+
+            //- var letters = '0123456789ABCDEF';
+            //- var color = '#';
+            //- for (var i = 0; i < 6; i++) {
+            //-     color += letters[Math.floor(Math.random() * 16)];
+            //- }
+            //- return color;
+        }
         document.addEventListener('DOMContentLoaded', function() {
             let csrf = $('meta[name="csrf-token"]').attr("content")
             axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
@@ -120,7 +153,7 @@ html(lang="en")
                                         adminCalendar.addEvent({
                                             title: title,
                                             start: start,
-                                            color: '#93c47ed'
+                                            color: getRandomColor()
                                         })
                                         $( '#apptDialog' ).dialog( "close" )
                                         clearForm()
@@ -181,7 +214,7 @@ html(lang="en")
             meetingArray.forEach(function(meeting, index){
                 parsedMeetingArray.push({ 
                     title: "meeting with " + meeting.name,
-                    color:"#1E2F97",
+                    color: getRandomColor(),
                     start: meeting.date + "T" + meeting.time,
                     meetingId: meeting._id,
                     contactInfo: meeting.contact
