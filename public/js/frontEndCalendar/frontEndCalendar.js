@@ -6,6 +6,41 @@
     $('#apptTime').val('');
     $('#contact-input').val('');
   }
+  function getParsedFreeTimeslotArray(info, cal) {
+    const blockedTimeArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const freeTimeEventArray = [];
+    const events = cal.getEvents();
+    events.forEach((ev) => {
+      const startDate = ev.start.toISOString().split('T')[0];
+      if ((startDate === info.dateStr) && (ev.title.trim() === '/*** FULL ***/')) {
+        const startTimeHours = ev.start.getHours();
+        const startTimeMinutes = ev.start.getMinutes();
+        const index = startTimeHours - 8;
+        blockedTimeArray[index]++;
+        if (startTimeMinutes !== 0) {
+          blockedTimeArray[(index + 1)]++;
+        }
+      }
+    });
+    blockedTimeArray.forEach((val, index) => {
+      if (val < 1) {
+        if (index < 2) {
+          freeTimeEventArray.push({
+            title: 'OPEN',
+            color: '#e7e9eb',
+            start: `${info.dateStr}T0${index + 8}:00`
+          });
+        } else {
+          freeTimeEventArray.push({
+            title: 'OPEN',
+            color: '#e7e9eb',
+            start: `${info.dateStr}T${index + 8}:00`
+          });
+        }
+      }
+    });
+    return freeTimeEventArray;
+  }
   function getAllMeetings() {
     // get all meetings for this company
     let meetings = [];
@@ -89,36 +124,39 @@
   function createFrontEndCalendar(parsedMeetingArray, calendarEl) {
     const frontEndCalendar = new FullCalendar.Calendar(calendarEl, {
       eventClick(info) {
-        $('#popup-dialog').text(`${info.event.title} at ${info.event.start}`);
-        $('#popup-dialog').dialog({
-          modal: true,
-          dialogClass: 'no-close',
-          buttons: {
-            OK() {
-              $(this).dialog('close');
-              $('#popup-dialog').text('');
-            }
-          }
-        });
+        if (info.event.title.trim() === '/*** FULL ***/') {
+          return;
+        }
+   
 
-        popupModal.dialog('open');
+        $('#apptDialog input#apptDate').val(info.event.start.toISOString().split('T')[0]);
+        const formattedHours = (info.event.start.getHours()).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+        const formattedMinutes = (info.event.start.getMinutes()).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+        $('#apptDialog input#apptTime').val(`${formattedHours}:${formattedMinutes}`);
+        $('#apptDialog').dialog('open');
       },
       events:
             parsedMeetingArray,
       editable: false,
-      initialView: 'timeGridWeek',
+      initialView: 'dayGridMonth',
       slotMinTime: '07:00:00',
       slotMaxTime: '17:00:00',
       expandRows: true,
       headerToolbar: {
-        left: 'addEventButton',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,prev,next'
+        center: 'prev,next today nextDayButton'
+      },
+      dateClick: (info) => {
+        const newEvents = getParsedFreeTimeslotArray(info, frontEndCalendar);
+        newEvents.forEach((newEvent) => {
+          frontEndCalendar.addEvent(newEvent);
+        });
+        frontEndCalendar.changeView('listDay', info.dateStr);
       },
       customButtons: {
-        addEventButton: {
-          text: 'add meeting',
-          click() {
-            $('#apptDialog').dialog('open');
+        nextDayButton: {
+          text: '>',
+          click(event, el) {
+            frontEndCalendar.changeView('listDay', event.dateStr);
           }
         }
       },
@@ -126,10 +164,10 @@
     });
     return frontEndCalendar;
   }
-  function configApptDialog() {
+  function configApptDialog(parsedMeetingArray, frontEndCalendar) {
     $('#apptTime').on('change', function () {
       const time = $(this).val();
-      const minutes = parseInt(time.split(':')[1]);
+      const minutes = parseInt(time.split(':')[1], 10);
       if (minutes % 30 !== 0) {
         alert('meeting time must be on the hour or 1/2 hour. ex: 9:00 or 9:30');
         $(this).val('');
@@ -193,6 +231,7 @@
                       color: '#93c47ed'
                     });
                     $('#apptDialog').dialog('close');
+                    frontEndCalendar.changeView('listDay', startDate);
                     clearForm();
                   })
                   .catch((error) => {
@@ -234,10 +273,10 @@
     });
   }
   document.addEventListener('DOMContentLoaded', () => {
-    configApptDialog();
     const parsedMeetingArray = getAllMeetings();
     const calendarEl = document.getElementById('frontEndCalendar');
     const frontEndCalendar = createFrontEndCalendar(parsedMeetingArray, calendarEl);
+    configApptDialog(parsedMeetingArray, frontEndCalendar);
     if (frontEndCalendar) {
       frontEndCalendar.render();
     }
