@@ -6,13 +6,13 @@
     $('#apptTime').val('');
     $('#contact-input').val('');
   }
-  function getParsedFreeTimeslotArray(info, cal) {
+  function getParsedFreeTimeslotArray(dateStr, cal) {
     const blockedTimeArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const freeTimeEventArray = [];
     const events = cal.getEvents();
     events.forEach((ev) => {
       const startDate = ev.start.toISOString().split('T')[0];
-      if ((startDate === info.dateStr) && (ev.title.trim() === '/*** FULL ***/')) {
+      if ((startDate === dateStr) && (ev.title.trim() === '/*** FULL ***/')) {
         const startTimeHours = ev.start.getHours();
         const startTimeMinutes = ev.start.getMinutes();
         const index = startTimeHours - 8;
@@ -28,13 +28,13 @@
           freeTimeEventArray.push({
             title: 'OPEN',
             color: '#e7e9eb',
-            start: `${info.dateStr}T0${index + 8}:00`
+            start: `${dateStr}T0${index + 8}:00`
           });
         } else {
           freeTimeEventArray.push({
             title: 'OPEN',
             color: '#e7e9eb',
-            start: `${info.dateStr}T${index + 8}:00`
+            start: `${dateStr}T${index + 8}:00`
           });
         }
       }
@@ -121,48 +121,48 @@
     }
     return parsedMeetingArray;
   }
-  function createFrontEndCalendar(parsedMeetingArray, calendarEl) {
-    const frontEndCalendar = new FullCalendar.Calendar(calendarEl, {
-      eventClick(info) {
-        if (info.event.title.trim() === '/*** FULL ***/') {
-          return;
-        }
-   
-
-        $('#apptDialog input#apptDate').val(info.event.start.toISOString().split('T')[0]);
-        const formattedHours = (info.event.start.getHours()).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-        const formattedMinutes = (info.event.start.getMinutes()).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-        $('#apptDialog input#apptTime').val(`${formattedHours}:${formattedMinutes}`);
-        $('#apptDialog').dialog('open');
-      },
-      events:
-            parsedMeetingArray,
-      editable: false,
-      initialView: 'dayGridMonth',
-      slotMinTime: '07:00:00',
-      slotMaxTime: '17:00:00',
-      expandRows: true,
-      headerToolbar: {
-        center: 'prev,next today nextDayButton'
-      },
-      dateClick: (info) => {
-        const newEvents = getParsedFreeTimeslotArray(info, frontEndCalendar);
-        newEvents.forEach((newEvent) => {
-          frontEndCalendar.addEvent(newEvent);
-        });
-        frontEndCalendar.changeView('listDay', info.dateStr);
-      },
-      customButtons: {
-        nextDayButton: {
-          text: '>',
-          click(event, el) {
-            frontEndCalendar.changeView('listDay', event.dateStr);
-          }
-        }
-      },
-
+  function incrementDateString(dateStr) {
+    const parts = dateStr.split('-');
+    const dt = new Date(parseInt(parts[0], 10), // year
+      parseInt(parts[1], 10) - 1, // month (starts with 0)
+      parseInt(parts[2], 10) // date
+    );
+    dt.setDate(dt.getDate() + 1);
+    parts[0] = `${dt.getFullYear()}`;
+    parts[1] = `${dt.getMonth() + 1}`;
+    if (parts[1].length < 2) {
+      parts[1] = `0${parts[1]}`;
+    }
+    parts[2] = `${dt.getDate()}`;
+    if (parts[2].length < 2) {
+      parts[2] = `0${parts[2]}`;
+    }
+    return parts.join('-');
+  }
+  function decrementDateString(dateStr) {
+    const parts = dateStr.split('-');
+    const dt = new Date(parseInt(parts[0], 10), // year
+      parseInt(parts[1], 10) - 1, // month (starts with 0)
+      parseInt(parts[2], 10) // date
+    );
+    dt.setDate(dt.getDate() - 1);
+    parts[0] = `${dt.getFullYear()}`;
+    parts[1] = `${dt.getMonth() + 1}`;
+    if (parts[1].length < 2) {
+      parts[1] = `0${parts[1]}`;
+    }
+    parts[2] = `${dt.getDate()}`;
+    if (parts[2].length < 2) {
+      parts[2] = `0${parts[2]}`;
+    }
+    return parts.join('-');
+  }
+  function setListView(frontEndCalendar, dateStr) {
+    const newEvents = getParsedFreeTimeslotArray(dateStr, frontEndCalendar);
+    newEvents.forEach((newEvent) => {
+      frontEndCalendar.addEvent(newEvent);
     });
-    return frontEndCalendar;
+    frontEndCalendar.changeView('listDay', dateStr);
   }
   function configApptDialog(parsedMeetingArray, frontEndCalendar) {
     $('#apptTime').on('change', function () {
@@ -272,7 +272,7 @@
 
     });
   }
-  document.addEventListener('DOMContentLoaded', () => {
+  function setup() {
     const parsedMeetingArray = getAllMeetings();
     const calendarEl = document.getElementById('frontEndCalendar');
     const frontEndCalendar = createFrontEndCalendar(parsedMeetingArray, calendarEl);
@@ -280,5 +280,69 @@
     if (frontEndCalendar) {
       frontEndCalendar.render();
     }
+  }
+  function createFrontEndCalendar(parsedMeetingArray, calendarEl) {
+    let curDate;
+    const frontEndCalendar = new FullCalendar.Calendar(calendarEl, {
+      eventClick(info) {
+        if (info.event.title.trim() === '/*** FULL ***/') {
+          return;
+        }
+
+        $('#apptDialog input#apptDate').val(info.event.start.toISOString().split('T')[0]);
+        const formattedHours = (info.event.start.getHours()).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+        const formattedMinutes = (info.event.start.getMinutes()).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+        $('#apptDialog input#apptTime').val(`${formattedHours}:${formattedMinutes}`);
+        $('#apptDialog').dialog('open');
+      },
+      events:
+            parsedMeetingArray,
+      editable: false,
+      initialView: 'dayGridMonth',
+      slotMinTime: '07:00:00',
+      slotMaxTime: '17:00:00',
+      expandRows: true,
+      headerToolbar: {
+        center: 'dayGridMonth,dayGridWeek,prev,next',
+        right: ''
+      },
+      dateClick: (info) => {
+        curDate = info;
+        setListView(frontEndCalendar, info.dateStr);
+        const headerOptions = frontEndCalendar.getOption('headerToolbar');
+        headerOptions.center = 'prevDayButton, nextDayButton';
+        headerOptions.right = 'monthGridButton';
+        frontEndCalendar.setOption('headerToolbar', headerOptions);
+      },
+      customButtons: {
+        prevDayButton: {
+          text: '<',
+          click() {
+            curDate.dateStr = decrementDateString(curDate.dateStr);
+            frontEndCalendar.prev();
+            setListView(frontEndCalendar, curDate.dateStr);
+          }
+        },
+        nextDayButton: {
+          text: '>',
+          click() {
+            curDate.dateStr = incrementDateString(curDate.dateStr);
+            frontEndCalendar.next();
+            setListView(frontEndCalendar, curDate.dateStr);
+          }
+        },
+        monthGridButton: {
+          text: 'Month',
+          click() {
+            setup();
+          }
+        }
+      },
+
+    });
+    return frontEndCalendar;
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    setup();
   });
 })();

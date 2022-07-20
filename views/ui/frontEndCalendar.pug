@@ -43,8 +43,14 @@ block content
       .col-md-2
           a.button.btn.btn-primary(type="button", href=`/ui/front-end-card/${adminId}`, style="float:right;margin:2%;width:100%;") Back to Card
       .col-md-10
-        h1 #{businessName} - #{prettyDate()}
+        h1 Welcome to #{businessName}
           hr
+    .row 
+      .col-md-4
+      .col-md-4
+        h1 #{prettyDate()}
+      .col-md-4
+      
   div(class="container")
       div(id="popup-dialog" title="Meeting Information") 
 
@@ -64,7 +70,7 @@ block content
               label(for="name") Full name
           div(class="row")
             div(class="col-6")
-              input(type="date", id="apptDate", name="apptDate",  min="#{date}",  max="2022-06-14", required)
+              input(type="date", id="apptDate", name="apptDate",  min="#{date}", required)
             div(class="col-6")
               label(for="apptDate") Date of meeting
           div(class="row")
