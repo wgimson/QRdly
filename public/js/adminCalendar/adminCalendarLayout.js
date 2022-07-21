@@ -119,6 +119,7 @@
       expandRows: true,
       headerToolbar: {
         left: 'addEventButton',
+        center: 'title',
         right: 'dayGridMonth,timeGridWeek,prev,next'
       },
       customButtons: {
@@ -129,11 +130,6 @@
           }
         }
       },
-      // - dateClick: function(info) {
-      // -     console.log('date clicked: ', info);
-      // -     alert('clicked: ', info);
-      // -     this.changeView('listDay');
-      // - }
     });
     return adminCalendar;
   }

@@ -32,14 +32,8 @@ block head
     }
 block content
   div(class="container")
-    -function prettyDate(){
-      -var d = new Date();
-      -var monthNames = [ "January", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-      -var m = monthNames[d.getMonth()];
-      -var y = d.getFullYear();
-      -return m+', '+y;
-    -} 
-    h1 #{businessName} - #{prettyDate()}
+
+    h1(style="text-align: center;") #{businessName}
         hr
   div(class="container")
       div(id="popup-dialog" title="Meeting Information") 

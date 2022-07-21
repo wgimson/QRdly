@@ -47,7 +47,8 @@
     if (document.getElementById('meetings')) {
       meetings = document.getElementById('meetings').value;
     }
-    const meetingArray = JSON.parse(meetings);
+
+    const meetingArray = meetings.length ? JSON.parse(meetings) : [];
     const parsedMeetingArray = [];
     const meetingMax = 5;
     const hourArray = ['08', '09', '10', '11', '12', '13', '14', '15', '16', '17'];
@@ -156,6 +157,12 @@
       parts[2] = `0${parts[2]}`;
     }
     return parts.join('-');
+  }
+  function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+  }
+  function convertDateToString(dateObj) {
+    return `${dateObj.getFullYear()}-${padTo2Digits(dateObj.getMonth() + 1)}-${padTo2Digits(dateObj.getDate())}`;
   }
   function setListView(frontEndCalendar, dateStr) {
     const newEvents = getParsedFreeTimeslotArray(dateStr, frontEndCalendar);
@@ -303,17 +310,31 @@
       slotMaxTime: '17:00:00',
       expandRows: true,
       headerToolbar: {
-        center: 'dayGridMonth,dayGridWeek,prev,next',
-        right: ''
+        left: 'title',
+        center: '',
+        right: 'dayGridMonth,dayGridWeek,prev,next'
       },
       dateClick: (info) => {
         curDate = info;
+        $('#calDateHeader').val(curDate);
         setListView(frontEndCalendar, info.dateStr);
         const headerOptions = frontEndCalendar.getOption('headerToolbar');
-        headerOptions.center = 'prevDayButton, nextDayButton';
-        headerOptions.right = 'monthGridButton';
+        headerOptions.right = 'prevDayButton,nextDayButton,monthGridButton';
+        headerOptions.left = 'title';
+        headerOptions.center = '';
         frontEndCalendar.setOption('headerToolbar', headerOptions);
       },
+      // validRange: function (nowDate) {
+      //     console.log('hello');
+      //     const startDate = new Date(nowDate);
+      //     const endDate = new Date(nowDate.setMonth(nowDate.getMonth() + 1));
+      //     const startStr = convertDateToString(startDate);
+      //     const endStr = convertDateToString(endDate);
+      //     return {
+      //       start: startStr,
+      //       end: endStr
+      //     };
+      //   },
       customButtons: {
         prevDayButton: {
           text: '<',
@@ -332,13 +353,12 @@
           }
         },
         monthGridButton: {
-          text: 'Month',
+          text: 'Return to Month',
           click() {
             setup();
           }
         }
       },
-
     });
     return frontEndCalendar;
   }

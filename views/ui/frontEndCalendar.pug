@@ -32,24 +32,19 @@ block head
     }
 block content
   div(class="container")
-    -function prettyDate(){
-      -var d = new Date();
-      -var monthNames = [ "January", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-      -var m = monthNames[d.getMonth()];
-      -var y = d.getFullYear();
-      -return m+', '+y;
-    -} 
+    //- -function prettyDate(){
+    //-   -var d = new Date();
+    //-   -var monthNames = [ "January", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+    //-   -var m = monthNames[d.getMonth()];
+    //-   -var y = d.getFullYear();
+    //-   -return m+', '+y;
+    //- -} 
     .row
+      .col-md-10
+        h1(style="text-align: center;") Welcome to #{businessName}
+          hr
       .col-md-2
           a.button.btn.btn-primary(type="button", href=`/ui/front-end-card/${adminId}`, style="float:right;margin:2%;width:100%;") Back to Card
-      .col-md-10
-        h1 Welcome to #{businessName}
-          hr
-    .row 
-      .col-md-4
-      .col-md-4
-        h1 #{prettyDate()}
-      .col-md-4
       
   div(class="container")
       div(id="popup-dialog" title="Meeting Information") 
