@@ -164,8 +164,16 @@
   function convertDateToString(dateObj) {
     return `${dateObj.getFullYear()}-${padTo2Digits(dateObj.getMonth() + 1)}-${padTo2Digits(dateObj.getDate())}`;
   }
-  function setListView(frontEndCalendar, dateStr) {
+  function setListView(frontEndCalendar, dateStr, listHasBeenSet) {
     const newEvents = getParsedFreeTimeslotArray(dateStr, frontEndCalendar);
+    const eventLen = newEvents.length;
+    if ((listHasBeenSet) && (eventLen > 9)) {
+      const existingEvents = frontEndCalendar.getEvents();
+      const oldOpenEvents = existingEvents.splice(-10);
+      oldOpenEvents.forEach((ev) => {
+        ev.remove();
+      });
+    }
     newEvents.forEach((newEvent) => {
       frontEndCalendar.addEvent(newEvent);
     });
@@ -290,6 +298,7 @@
   }
   function createFrontEndCalendar(parsedMeetingArray, calendarEl) {
     let curDate;
+    let listHasBeenSet = false;
     const frontEndCalendar = new FullCalendar.Calendar(calendarEl, {
       eventClick(info) {
         if (info.event.title.trim() === '/*** FULL ***/') {
@@ -317,31 +326,39 @@
       dateClick: (info) => {
         curDate = info;
         $('#calDateHeader').val(curDate);
-        setListView(frontEndCalendar, info.dateStr);
+        setListView(frontEndCalendar, info.dateStr, listHasBeenSet);
         const headerOptions = frontEndCalendar.getOption('headerToolbar');
         headerOptions.right = 'prevDayButton,nextDayButton,monthGridButton';
         headerOptions.left = 'title';
         headerOptions.center = '';
         frontEndCalendar.setOption('headerToolbar', headerOptions);
+        listHasBeenSet = true;
       },
-      // validRange: function (nowDate) {
-      //     console.log('hello');
-      //     const startDate = new Date(nowDate);
-      //     const endDate = new Date(nowDate.setMonth(nowDate.getMonth() + 1));
-      //     const startStr = convertDateToString(startDate);
-      //     const endStr = convertDateToString(endDate);
-      //     return {
-      //       start: startStr,
-      //       end: endStr
-      //     };
-      //   },
+      validRange: (datez) => {
+        let nowDate;
+        if (curDate) {
+          nowDate = new Date(curDate);
+        } else {
+          curDate = new Date(datez);
+          nowDate = new Date(curDate);
+        }
+        const startDate = new Date(nowDate);
+        const endDate = new Date(nowDate.setMonth(nowDate.getMonth() + 1));
+        const startStr = convertDateToString(startDate);
+        const endStr = convertDateToString(endDate);
+        return {
+          start: startStr,
+          end: endStr
+        };
+      },
       customButtons: {
         prevDayButton: {
           text: '<',
           click() {
             curDate.dateStr = decrementDateString(curDate.dateStr);
             frontEndCalendar.prev();
-            setListView(frontEndCalendar, curDate.dateStr);
+            setListView(frontEndCalendar, curDate.dateStr, listHasBeenSet);
+            listHasBeenSet = true;
           }
         },
         nextDayButton: {
@@ -349,7 +366,8 @@
           click() {
             curDate.dateStr = incrementDateString(curDate.dateStr);
             frontEndCalendar.next();
-            setListView(frontEndCalendar, curDate.dateStr);
+            setListView(frontEndCalendar, curDate.dateStr, listHasBeenSet);
+            listHasBeenSet = true;
           }
         },
         monthGridButton: {
