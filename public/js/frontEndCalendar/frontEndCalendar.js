@@ -304,11 +304,14 @@
         if (info.event.title.trim() === '/*** FULL ***/') {
           return;
         }
-
         $('#apptDialog input#apptDate').val(info.event.start.toISOString().split('T')[0]);
         const formattedHours = (info.event.start.getHours()).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
         const formattedMinutes = (info.event.start.getMinutes()).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+        const suffix = info.event.start.getHours() >= 12 ? 'PM' : 'AM';
+        const amPmHours = `${(info.event.start.getHours() + 11) % 12 + 1}:${formattedMinutes}${suffix}`;
+        const amPmHoursNext = `${(info.event.start.getHours() + 12) % 12 + 1}:${formattedMinutes}${suffix}`;
         $('#apptDialog input#apptTime').val(`${formattedHours}:${formattedMinutes}`);
+        $('#timeFrameSpan').text(`${amPmHours} - ${amPmHoursNext}`);
         $('#apptDialog').dialog('open');
       },
       events:
@@ -332,6 +335,7 @@
         headerOptions.left = 'title';
         headerOptions.center = '';
         frontEndCalendar.setOption('headerToolbar', headerOptions);
+        frontEndCalendar.setOption('contentHeight', 470);
         listHasBeenSet = true;
       },
       validRange: (datez) => {

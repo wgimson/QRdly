@@ -52,37 +52,49 @@ block content
 
   div(id='frontEndCalendar')
     div(class="container")
-      div(id="apptDialog" title="Make an appointment") 
+      div(id="apptDialog" title="Make an Appointment!") 
         form(id="apptDialogForm"  method='POST' action='/meeting/create')
           input(type="hidden" name="business" id="business" value=businessName)
           input(type="hidden" name="meetings" id="meetings" value=meetings)
           input(type="hidden" name="admin-id" id="admin-id" value=adminId)
           
-          
           div(class="row")
+            div(class="col-12", style="background-color: #f1f1f1;")
+              div(class="row")
+                div(class="col-6")
+                  span #{businessName}
+                div(class="col-6")
+                  span #{longDate}
+              div(class="row")
+                div(class="col-6")
+                  span #{location}
+                div(class="col-6")
+                  span(id="timeFrameSpan")
+
+          div(class="row")
+            div(class="col-12")
+              span <b>Your Information</b>
+
+          div(class="row")
+            div(class="col-6")
+              label(for="name") Name
             div(class="col-6")
               input(type="text", id="name", name="name", size="16", required)
-            div(class="col-6")
-              label(for="name") Full name
           div(class="row")
             div(class="col-6")
-              input(type="date", id="apptDate", name="apptDate",  min="#{date}", required)
+              label(for="name") Company Name
             div(class="col-6")
-              label(for="apptDate") Date of meeting
+              input(type="text", id="copmanyName", name="copmanyName", size="16", required)
           div(class="row")
-            div(class="col-6")
-              input(type="time", id="apptTime", name="apptTime", min="08:00", max="17:00", style="width: 155px;", required)
-            div(class="col-6")
-              label(for="apptTime") Time of meeting
-          small (Office hours are 8am to 5pm. Meetings must be set for on the hour or on the half hour)
-          br
-          div(class="row")
-            div(class="col-6")
-              input(type="text", id="contact-input", name="contact", size="16", required) 
             div(class="col-6")
               label(for="contact-input") Phone number
-          small We will confirm appt. via text
-          br
+            div(class="col-6")
+              input(type="text", id="contact-input", name="contact", size="16", required) 
+          div(class="row")
+            div(class="col-6")
+              label(for="name") E-mail Address (optional)
+            div(class="col-6")
+              input(type="text", id="copmanyName", name="copmanyName", size="16", required)
   div(id="errorMessage")
    
     
