@@ -208,6 +208,7 @@
       buttons: [
         {
           text: 'Make appointment',
+          "class": 'btn btn-primary btnSubmit',
           click() {
             const csrf = $('meta[name="csrf-token"]').attr('content');
             axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
@@ -273,6 +274,7 @@
         },
         {
           text: 'Cancel',
+          "class": 'btn btn-danger btnCancel',
           click() {
             $(this).dialog('close');
             clearForm();
@@ -281,8 +283,8 @@
       ],
       resizeable: true,
       autoOpen: false,
-      minWidth: 350,
-      minHeight: 300,
+      minWidth: 430,
+      minHeight: 430,
       show: { effect: 'blind', duration: 100 }
 
     });

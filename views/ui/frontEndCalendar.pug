@@ -31,6 +31,12 @@ block head
     #apptDialog {
       display: none;
     }
+    .btnSubmit {
+      width: 50%;
+    }
+    .btnCancel {
+      width: 50%;
+    }
 block content
   div(class="container")
     //- -function prettyDate(){
@@ -52,49 +58,63 @@ block content
 
   div(id='frontEndCalendar')
     div(class="container")
-      div(id="apptDialog" title="Make an Appointment!") 
+      div(id="apptDialog" title="Make an Appointment!" style="width: 30em;") 
         form(id="apptDialogForm"  method='POST' action='/meeting/create')
           input(type="hidden" name="business" id="business" value=businessName)
           input(type="hidden" name="meetings" id="meetings" value=meetings)
           input(type="hidden" name="admin-id" id="admin-id" value=adminId)
           
-          div(class="row")
-            div(class="col-12", style="background-color: #f1f1f1;")
-              div(class="row")
-                div(class="col-6")
-                  span #{businessName}
-                div(class="col-6")
-                  span #{longDate}
-              div(class="row")
-                div(class="col-6")
-                  span #{location}
-                div(class="col-6")
-                  span(id="timeFrameSpan")
-
-          div(class="row")
+          div(class="row", style="background-color: #f1f1f1;width: 101%;margin-left: -1%;margin-top: 4%;")
             div(class="col-12")
+              div(class="row")
+                div(class="col-6")
+                  span(style="margin-left: 1%;") #{businessName}
+                div(class="col-6")
+                  span(style="margin-left: 1%;") #{longDate}
+              div(class="row")
+                div(class="col-6")
+                  span(style="margin-left: 1%;") #{location}
+                div(class="col-6")
+                  span(id="timeFrameSpan", style="margin-left: 1%;")
+
+          div(class="row", style="text-align: center;margin-top: 0.5em;margin-bottom: 0.5em;")
+            div(class="col-12", style="font-size: 1.2em;")
               span <b>Your Information</b>
 
           div(class="row")
-            div(class="col-6")
+            div(class="col-6", style="padding-right: 0px;")
               label(for="name") Name
-            div(class="col-6")
-              input(type="text", id="name", name="name", size="16", required)
+            div(class="col-6", style="padding-left: 0px;")
+              input(type="text", id="name", name="name", size="16", required, style="width: 96%;")
           div(class="row")
-            div(class="col-6")
+            div(class="col-6", style="padding-right: 0px;")
               label(for="name") Company Name
-            div(class="col-6")
-              input(type="text", id="copmanyName", name="copmanyName", size="16", required)
+            div(class="col-6", style="padding-left: 0px;")
+              input(type="text", id="copmanyName", name="copmanyName", size="16", required, style="width: 96%;")
           div(class="row")
-            div(class="col-6")
+            div(class="col-6", style="padding-right: 0px;")
               label(for="contact-input") Phone number
-            div(class="col-6")
-              input(type="text", id="contact-input", name="contact", size="16", required) 
+            div(class="col-6", style="padding-left: 0px;")
+              input(type="text", id="contact-input", name="contact", size="16", required, style="width: 96%;") 
           div(class="row")
-            div(class="col-6")
+            div(class="col-6", style="padding-right: 0px;")
               label(for="name") E-mail Address (optional)
-            div(class="col-6")
-              input(type="text", id="copmanyName", name="copmanyName", size="16", required)
+            div(class="col-6", style="padding-left: 0px;")
+              input(type="text", id="copmanyName", name="copmanyName", size="16", required, style="width: 96%;")
+
+          div(class="row", style="text-align: center;margin-top: 0.5em;margin-bottom: 0.5em;")
+            div(class="col-12", style="font-size: 1.2em;")
+              span <b>Have You Shopped with Us Before?</b>
+          div(class="row")
+            div(class="col-6")(style="display: flex;align-items: center;justify-content: center;width:60%;")
+                div(class="form-check")
+                  input(type="radio" id="rdioYes" class="form-check-input" name="rdioYesNo" value="1" checked)
+                  label(for="rdioYes" class="form-check-label") YES
+            div(class="col-6")(style="display: flex;align-items: center;justify-content: center;width:60%;")
+                div(class="form-check")
+                  input(type="radio" id="rdioNo" class="form-check-input" name="rdioYesNo" value="0")
+                  label(for="rdioNo" class="form-check-label") NO
+
   div(id="errorMessage")
    
     
