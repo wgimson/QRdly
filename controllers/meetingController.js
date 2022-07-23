@@ -35,6 +35,8 @@ exports.create = async (req, res) => {
     time: req.body.time,
     contact: req.body.contact,
     businessName: businessCard.company,
+    shoppedHereBefore: req.body.shoppedHereBefore,
+    email: req.body.email,
     adminId: businessCard.userId,
   });
 

@@ -6,6 +6,8 @@ const MeetingSchema = new mongoose.Schema({
   time: String,
   contact: String,
   businessName: String,
+  shoppedHereBefore: String,
+  email: String,
   adminId: String,
 }, { timestamps: true });
 

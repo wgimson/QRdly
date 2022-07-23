@@ -1,5 +1,8 @@
 /* eslint-env jquery, browser */
 (() => {
+  let selectedDateStr;
+  let selectedMeetingTime;
+
   function clearForm() {
     $('#name').val('');
     $('#apptDate').val('');
@@ -208,14 +211,13 @@
       buttons: [
         {
           text: 'Make appointment',
-          "class": 'btn btn-primary btnSubmit',
+          class: 'btn btn-primary btnSubmit',
           click() {
             const csrf = $('meta[name="csrf-token"]').attr('content');
             axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
             let slotIsFull = false;
-            const start = `${$('#apptDate').val()}T${$('#apptTime').val()}`;
-            const startHour = start.split('T')[1].split(':')[0];
-            const startDate = start.split('T')[0];
+            const startHour = selectedMeetingTime;
+            const startDate = selectedDateStr;
 
             parsedMeetingArray.forEach((meeting) => {
               const tempDate = meeting.start.split('T')[0];
@@ -229,18 +231,20 @@
                 axios.post('/meeting/create',
                   {
                     name: $('#name').val(),
-                    date: $('#apptDate').val(),
-                    time: $('#apptTime').val(),
-                    contact: $('#contact-input').val(),
-                    businessName: $('#business').val(),
-                    adminId: $('#admin-id').val(),
+                    date: startDate,
+                    time: startHour,
+                    contact: $('#phoneNumber').val(),
+                    businessName: $('#companyName').val(),
+                    shoppedHereBefore: ($("input[name='rdioYesNo']:checked").val() === '0' ? 'NO' : 'YES'),
+                    email: $('#email').val(),
+                    adminId: $('#admin-id').val()
                   },
                   {
                     withCredentials: true
                   })
                   .then((response) => {
-                    const title = `Meeting w / ${$('#business').val()} at ${$('#apptTime').val()} on ${$('#apptDate').val()}`;
-                    const start = `${$('#apptDate').val()}T${$('#apptTime').val()}`;
+                    const title = `Meeting w / ${$('#companyName').val()} at ${startHour} on ${startDate}`;
+                    const start = `${startDate}T${startHour}`;
                     frontEndCalendar.addEvent({
                       title,
                       start,
@@ -274,7 +278,7 @@
         },
         {
           text: 'Cancel',
-          "class": 'btn btn-danger btnCancel',
+          class: 'btn btn-danger btnCancel',
           click() {
             $(this).dialog('close');
             clearForm();
@@ -310,6 +314,7 @@
         const formattedHours = (info.event.start.getHours()).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
         const formattedMinutes = (info.event.start.getMinutes()).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
         const suffix = info.event.start.getHours() >= 12 ? 'PM' : 'AM';
+        selectedMeetingTime = `${formattedHours}:${formattedMinutes}`;
         const amPmHours = `${(info.event.start.getHours() + 11) % 12 + 1}:${formattedMinutes}${suffix}`;
         const amPmHoursNext = `${(info.event.start.getHours() + 12) % 12 + 1}:${formattedMinutes}${suffix}`;
         $('#apptDialog input#apptTime').val(`${formattedHours}:${formattedMinutes}`);
@@ -330,6 +335,7 @@
       },
       dateClick: (info) => {
         curDate = info;
+        selectedDateStr = info.dateStr;
         $('#calDateHeader').val(curDate);
         setListView(frontEndCalendar, info.dateStr, listHasBeenSet);
         const headerOptions = frontEndCalendar.getOption('headerToolbar');
