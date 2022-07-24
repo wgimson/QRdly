@@ -21,8 +21,14 @@ block content
         thead
 
         tr
+            th(data-sortable="true", data-field="companyName") Company Name
+            th(data-sortable="true", data-field="primaryContactName") Primary Contact Name
+            th(data-sortable="true", data-field="state") State
+            th(data-sortable="true", data-field="companyPhone") Phone Number
             th(data-sortable="true", data-field="email") Email
-            th(data-sortable="true", data-field="createdAt") Date/Time
+            th(data-sortable="true", data-field="companyWebsite") Website
+            th(data-sortable="true", data-field="companyInfo") Name of Business 
+            th(data-sortable="true", data-field="numberOfShowrooms") Number of Doors/Showrooms
             th(data-sortable="false") Add User
         tbody
         each cust in allRegisteredUsers
@@ -36,7 +42,14 @@ block content
                 input(type='hidden', name='_csrf', value=_csrf)
                 input(type='hidden', name='registeredUserId', value=cust.id)
                 tr
-                    td=cust.email
+                    td=cust.companyName
+                    td=cust.primaryContactName
+                    td=cust.state 
+                    td=cust.companyPhone
+                    td=cust.email 
+                    td=cust.companyWebsite
+                    td=cust.companyInfo
+                    td=cust.numberOfShowrooms
                     td=dateTimeRes
                     td
                         button.btn.btn-primary(type='submit', data-id=cust.id)
