@@ -173,13 +173,17 @@ exports.postSignup = (req, res, next) => {
       req.flash('errors', { msg: 'Account with that email address already exists.' });
       return res.redirect('/signup');
     }
-    registeredUser.save((err) => {
+    registeredUser.save((err, registeredUser) => {
       if (err) { return next(err); }
       req.logIn(registeredUser, (err) => {
         if (err) {
           return next(err);
         }
-        res.redirect('/');
+        res.render('account/thankyou', {
+          primaryContactName: registeredUser.primaryContactName,
+          companyName: registeredUser.companyName,
+          email: registeredUser.email
+        });
       });
     });
   });
