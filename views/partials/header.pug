@@ -37,4 +37,7 @@
               div.dropdown-divider
               a.dropdown-item(href='/dashboard/dashboard') Dashboard
               div.dropdown-divider
+              if user.isAdmin
+                a.dropdown-item(href='/admin/registeredUsers') Registrations
+                div.dropdown-divider
               a.dropdown-item(href='/logout') Logout

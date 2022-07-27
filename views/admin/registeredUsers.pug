@@ -4,10 +4,11 @@ block head
     link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
     link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.6.3/css/all.css", integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")
     link(rel="stylesheet", href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css")
-
-    script.
-        document.addEventListener('DOMContentLoaded', function() {
-        });
+    script(src='../js/registration/registrationsTable.js')
+    style. 
+      .container {
+        max-width: 65% !important;
+      }
 
 block content
   .pb-2.mt-2.mb-4.border-bottom
@@ -15,21 +16,21 @@ block content
   .pb-2.mt-2.mb-4.border-bottom 
     br
     .table-responsive
-    table.table.table-hover(data-toggle="table",
-            data-pagination="true",
-            data-search="true")
+    table.table.table-hover(data-toggle="table", data-pagination="true", data-search="true")
         thead
 
         tr
             th(data-sortable="true", data-field="companyName") Company Name
-            th(data-sortable="true", data-field="primaryContactName") Primary Contact Name
+            th(data-sortable="true", data-field="primaryContactName") Contact Name
             th(data-sortable="true", data-field="state") State
             th(data-sortable="true", data-field="companyPhone") Phone Number
             th(data-sortable="true", data-field="email") Email
             th(data-sortable="true", data-field="companyWebsite") Website
-            th(data-sortable="true", data-field="companyInfo") Name of Business 
-            th(data-sortable="true", data-field="numberOfShowrooms") Number of Doors/Showrooms
-            th(data-sortable="false") Add User
+            th(data-sortable="true", data-field="companyInfo") Sector 
+            th(data-sortable="true", data-field="numberOfShowrooms") Showrooms
+            th(data-sortable="true") Date Added
+            th(data-sortable="false")
+            th(data-sortable="false")
         tbody
         each cust in allRegisteredUsers
             -const date = new Date(cust.createdAt);
@@ -52,8 +53,10 @@ block content
                     td=cust.numberOfShowrooms
                     td=dateTimeRes
                     td
-                        button.btn.btn-primary(type='submit', data-id=cust.id)
-                            i.far.fa-envelope.fa-sm
+                        button.btn.btn-primary(class="btnRegistrationDetails", href='/signup', data-id=cust.id, style="width:6em;")
+                            | Details
+                    td
+                        button.btn.btn-primary(type='submit', data-id=cust.id, style="width:6em;")
                             | Add User
     br
 
