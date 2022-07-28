@@ -113,7 +113,7 @@ exports.getSignup = (req, res) => {
   if (req.user) {
     return res.redirect('/');
   }
-  res.render('account/signup', {
+  return res.render('account/signup', {
     title: 'Create Account'
   });
 };
@@ -123,6 +123,10 @@ exports.getSignup = (req, res) => {
  * Push a Registered User onto the stack - they must be approved to be promoted to full user.
  */
 exports.postSignup = (req, res, next) => {
+  if (req.body.registeredUserId) {
+    console.log('approve');
+    return res.redirect(307, '/admin/registeredUsers');
+  }
   const validationErrors = [];
   if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' });
   if (!validator.isLength(req.body.password, { min: 8 })) validationErrors.push({ msg: 'Password must be at least 8 characters long' });
@@ -192,13 +196,43 @@ exports.postSignup = (req, res, next) => {
  * GET /signup
  * Signup page.
  */
-exports.getSignup = (req, res) => {
-  if (req.user) {
-    return res.redirect('/');
+exports.getSignup = (req, res, next) => {
+
+  if (req.params.id) {
+    const customerId = req.params.id;
+    RegisteredUser.findOne({ _id: customerId }, (err, existingRegisteredUser) => {
+      if (err) { return next(err); }
+
+      if (existingRegisteredUser) {
+        return res.render('account/signup', {
+          title: 'Create Account',
+          registeredUser: existingRegisteredUser
+        });
+      }
+    });
+  } else if (!req.user) {
+    return res.render('account/signup', {
+      title: 'Create Account',
+      registeredUser: null
+    });
   }
+};
+
+exports.userDetails = (req, res, next) => {
   res.render('account/signup', {
-    title: 'Create Account'
+    title: 'Registration Details',
   });
+  // const customerId = req.params.id;
+  // RegisteredUser.findOne({ _id: customerId }, (err, existingRegisteredUser) => {
+  //   if (err) { return next(err); }
+  //   if (existingRegisteredUser) {
+  //     // return res.redirect('/signup');
+  //     // return res.redirect('/signup');
+  //     return res.render('account/signup', {
+  //       title: 'Create Account',
+  //     });
+  //   }
+  // });
 };
 
 /**
@@ -211,23 +245,23 @@ exports.createUser = (req, res, next) => {
     if (err) { return next(err); }
     if (existingRegisteredUser) {
       const user = new User({
-        companyName: existingRegisteredUser.companyName,
-        primaryContactName: existingRegisteredUser.primaryContactName,
-        streetAddress: existingRegisteredUser.streetAddress,
-        city: existingRegisteredUser.city,
-        zip: existingRegisteredUser.zip,
-        state: existingRegisteredUser.state,
-        shippingStreetAddress: existingRegisteredUser.shippingStreetAddress,
-        shippingCity: existingRegisteredUser.shippingCity,
-        shippingState: existingRegisteredUser.shippingState,
-        shippingZip: existingRegisteredUser.shippingZip,
-        companyPhone: existingRegisteredUser.companyPhone,
-        companyWebsite: existingRegisteredUser.companyWebsite,
-        companyInfo: existingRegisteredUser.companyInfo,
-        numberOfShowrooms: existingRegisteredUser.numberOfShowrooms,
-        ein: existingRegisteredUser.ein,
-        email: existingRegisteredUser.email,
-        password: existingRegisteredUser.password,
+        companyName: (req.body.companyName ? req.body.companyName : existingRegisteredUser.companyName),
+        primaryContactName: (req.body.primaryContactName ? req.body.primaryContactName : existingRegisteredUser.primaryContactName),
+        streetAddress: (req.body.streetAddress ? req.body.streetAddress : existingRegisteredUser.streetAddress),
+        city: (req.body.city ? req.body.city : existingRegisteredUser.city),
+        zip: (req.body.zip ? req.body.zip : existingRegisteredUser.zip),
+        state: (req.body.state ? req.body.state : existingRegisteredUser.state),
+        shippingStreetAddress: (req.body.shippingStreetAddress ? req.body.shippingStreetAddress : existingRegisteredUser.shippingStreetAddress),
+        shippingCity: (req.body.shippingCity ? req.body.shippingCity : existingRegisteredUser.shippingCity),
+        shippingState:  (req.body.shippingState ? req.body.shippingState : existingRegisteredUser.shippingState),
+        shippingZip: (req.body.shippingZip ? req.body.shippingZip : existingRegisteredUser.shippingZip),
+        companyPhone: (req.body.companyPhone ? req.body.companyPhone : existingRegisteredUser.companyPhone),
+        companyWebsite: (req.body.companyWebsite ? req.body.companyWebsite : existingRegisteredUser.companyWebsite),
+        companyInfo: (req.body.companyInfo ? req.body.companyInfo : existingRegisteredUser.companyInfo),
+        numberOfShowrooms: (req.body.numberOfShowrooms ? req.body.numberOfShowrooms : existingRegisteredUser.numberOfShowrooms),
+        ein: (req.body.ein ? req.body.ein : existingRegisteredUser.ein),
+        email: (req.body.email ? req.body.email : existingRegisteredUser.email),
+        password: (req.body.password ? req.body.password : existingRegisteredUser.password),
         isAdmin: false,
       });
 

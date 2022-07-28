@@ -170,6 +170,7 @@ app.post('/forgot', userController.postForgot);
 app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
+app.get('/signup/:id', userController.getSignup);
 app.post('/signup', userController.postSignup);
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
@@ -202,6 +203,7 @@ app.post('/dashboard/waiting-list/update', passportConfig.isAuthenticated, waiti
  */
 app.get('/admin/registeredUsers', passportConfig.isAuthenticated, registeredUsersController.getRegisteredUsers);
 app.post('/admin/registeredUsers', passportConfig.isAuthenticated, userController.createUser);
+app.get('/admin/registeredUsers/details/:id', passportConfig.isAuthenticated, userController.userDetails);
 /**
  * customer business card routes
  */

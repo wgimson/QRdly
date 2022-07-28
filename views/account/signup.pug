@@ -4,91 +4,149 @@ block head
   script(src='/js/registration/registrationForm.js')
 block content
   .pb-2.mt-2.mb-4.border-bottom
-    h3 Sign up
-  form(id='signup-form', method='POST', style="padding-bottom: 0.5em;")
+    h3 Sign Up
+  form(id='signup-form', action="/signup", method='POST', style="padding-bottom: 0.5em;")
     input(type='hidden', name='_csrf', value=_csrf)
+    if (registeredUser)
+      input(type='hidden', name='registeredUserId', value=registeredUser._id)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='companyName') Company Name
       .col-md-7
-        input.form-control(type='text', name='companyName', id='companyName', placeholder='Company Name', autofocus, required)
+        if (registeredUser)
+          input.form-control(type='text', name='companyName', id='companyName', value=registeredUser.companyName, autofocus, required)
+        else 
+          input.form-control(type='text', name='companyName', id='companyName', placeholder='Company Name', autofocus, required)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='primaryContactName') Primary Contact Name
       .col-md-7
-        input.form-control(type='text', name='primaryContactName', id='primaryContactName', placeholder='Primary Contact Name', autofocus, required)
+        if (registeredUser)
+          input.form-control(type='text', name='primaryContactName', id='primaryContactName', value=registeredUser.primaryContactName, autofocus, required)
+        else 
+          input.form-control(type='text', name='primaryContactName', id='primaryContactName', placeholder='Primary Contact Name', autofocus, required)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right Billing Address
       .col-md-7
-        input.form-control(type='text', name='address', id='address', placeholder='Street Address', autofocus, required)
+        if (registeredUser)
+          input.form-control(type='text', name='address', id='address', value=registeredUser.streetAddress, autofocus, required)
+        else 
+          input.form-control(type='text', name='address', id='address', placeholder='Street Address', autofocus, required)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='city') City
       .col-md-7
-        input.form-control(type='text', name='city', id='city', placeholder='City', autofocus, required)
+        if (registeredUser)
+          input.form-control(type='text', name='city', id='city', value=registeredUser.city, autofocus, required)
+        else 
+          input.form-control(type='text', name='city', id='city', placeholder='City', autofocus, required)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='state') State
       .col-md-7
-        input.form-control(type='text', name='state', id='state', placeholder='State', autofocus, required)
+        if (registeredUser)
+          input.form-control(type='text', name='state', id='state', value=registeredUser.state, autofocus, required)
+        else 
+          input.form-control(type='text', name='state', id='state', placeholder='State', autofocus, required)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='zip') Zip
       .col-md-7
-        input.form-control(type='text', name='zip', id='zip', placeholder='Zip', autofocus, required)
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='zip') Shipping Address Same as Billing Address?
-      .col-md-7
-        input.form-check(type='checkbox', 
-                          name='sameAsBilling', 
-                          id='chkbxSameAsBilling', 
-                          value="true",
-                          style="float: left;margin-top: 2%;")
+        if (registeredUser)
+          input.form-control(type='text', name='zip', id='zip', value=registeredUser.zip, autofocus, required)
+        else 
+          input.form-control(type='text', name='zip', id='zip', placeholder='Zip', autofocus, required)
+    if (!registeredUser)
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='zip') Shipping Address Same as Billing Address?
+        .col-md-7
+          input.form-check(type='checkbox', 
+                            name='sameAsBilling', 
+                            id='chkbxSameAsBilling', 
+                            value="true",
+                            style="float: left;margin-top: 2%;")
     .form-group#shipping-address(style='display: block;')
       .row(style='margin-bottom: 1.15em;')
         label.col-md-3.col-form-label.font-weight-bold.text-right(for='shippingAddress') Shipping Address
         .col-md-7
-          input.form-control(type='text', name='shippingAddress', id='shippingAddress', placeholder='Street Address', autofocus)
+          if (registeredUser)
+            input.form-control(type='text', name='shippingAddress', id='shippingAddress', value=registeredUser.shippingStreetAddress, autofocus)
+          else 
+            input.form-control(type='text', name='shippingAddress', id='shippingAddress', placeholder='Street Address', autofocus)
       .row(style='margin-bottom: 1.15em;')
         label.col-md-3.col-form-label.font-weight-bold.text-right(for='shippingCity') City
         .col-md-7
-          input.form-control(type='text', name='shippingCity', id='shippingCity', placeholder='City', autofocus)
+          if (registeredUser)
+            input.form-control(type='text', name='shippingCity', id='shippingCity', value=registeredUser.shippingCity, autofocus)
+          else 
+            input.form-control(type='text', name='shippingCity', id='shippingCity', placeholder='City', autofocus)
       .row(style='margin-bottom: 1.15em;')
         label.col-md-3.col-form-label.font-weight-bold.text-right(for='shippingState') State
         .col-md-7
-          input.form-control(type='text', name='shippingState', id='shippingState', placeholder='State', autofocus)
+          if (registeredUser)
+            input.form-control(type='text', name='shippingState', id='shippingState', value=registeredUser.shippingState, autofocus)
+          else 
+            input.form-control(type='text', name='shippingState', id='shippingState', placeholder='State', autofocus)
       .row(style='margin-bottom: 1.15em;')
         label.col-md-3.col-form-label.font-weight-bold.text-right(for='shippingZip') Zip
         .col-md-7
-          input.form-control(type='text', name='shippingZip', id='shippingZip', placeholder='Zip', autofocus)
+          if (registeredUser)
+            input.form-control(type='text', name='shippingZip', id='shippingZip', value=registeredUser.shippingZip, autofocus)
+          else 
+            input.form-control(type='text', name='shippingZip', id='shippingZip', placeholder='Zip', autofocus)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='companyPhone') Phone Number
       .col-md-7
-        input.form-control(type='text', name='companyPhone', id='companyPhone', placeholder='Company Phone', autofocus, required)
+        if (registeredUser)
+          input.form-control(type='text', name='companyPhone', id='companyPhone', value=registeredUser.companyPhone, autofocus, required)
+        else 
+          input.form-control(type='text', name='companyPhone', id='companyPhone', placeholder='Company Phone', autofocus, required)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='email') E-mail Address
       .col-md-7
-        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, autocomplete='email', required)
+        if (registeredUser)
+          input.form-control(type='email', name='email', id='email', value=registeredUser.email, autofocus, autocomplete='email', required)
+        else 
+          input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, autocomplete='email', required)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='companyWebsite') Website
       .col-md-7
-        input.form-control(type='text', name='companyWebsite', id='companyWebsite', placeholder='Company Website', autofocus, required)
+        if (registeredUser)
+          input.form-control(type='text', name='companyWebsite', id='companyWebsite', value=registeredUser.companyWebsite, autofocus, required)
+        else 
+          input.form-control(type='text', name='companyWebsite', id='companyWebsite', placeholder='Company Website', autofocus, required)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='companyInfo') Nature of Business
       .col-md-7
-        textarea.form-control(name='companyInfo', id='companyInfo', placeholder='Company Info', autofocus, rows='5', value=companyInfo)
+        if (registeredUser)
+          textarea.form-control(name='companyInfo', id='companyInfo', autofocus, rows='5', value=companyInfo) #{registeredUser.companyInfo}
+        else 
+          textarea.form-control(name='companyInfo', id='companyInfo', placeholder='Company Info', autofocus, rows='5', value=companyInfo)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='numberOfShowrooms') Number of Showrooms
       .col-md-7
-        input.form-control(type='number', name='numberOfShowrooms', id='numberOfShowrooms', placeholder='Number of Showrooms', autofocus, required)
+        if (registeredUser)
+          input.form-control(type='number', name='numberOfShowrooms', id='numberOfShowrooms', value=registeredUser.numberOfShowrooms, autofocus, required)
+        else 
+          input.form-control(type='number', name='numberOfShowrooms', id='numberOfShowrooms', placeholder='Number of Showrooms', autofocus, required)
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='ein') FEIN
       .col-md-7
-        input.form-control(type='text', name='ein', id='ein', placeholder='EIN', autofocus, required)
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='password') Password
-      .col-md-7
-        input.form-control(type='password', name='password', id='password', placeholder='Password', autocomplete='new-password', minlength='8', required)
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='confirmPassword') Confirm Password
-      .col-md-7
-        input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', autocomplete='new-password', minlength='8', required)
+        if (registeredUser)
+          input.form-control(type='text', name='ein', id='ein', value=registeredUser.ein, autofocus, required)
+        else 
+          input.form-control(type='text', name='ein', id='ein', placeholder='EIN', autofocus, required)
+    if (!registeredUser)
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='password') Password
+        .col-md-7
+          input.form-control(type='password', name='password', id='password', placeholder='Password', autocomplete='new-password', minlength='8', required)
+    if (!registeredUser)
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='confirmPassword') Confirm Password
+        .col-md-7
+          input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', autocomplete='new-password', minlength='8', required)
     .form-group.offset-sm-3.col-md-7(style='margin-left: 20.5em;')
-      button.btn.btn-success(type='submit', style="float: right;")
-        i.fas.fa-user-plus.fa-sm
-        | Signup
+      if (!registeredUser)
+        button.btn.btn-success(type='submit', id="btnSubmit", style="float: right;")
+          i.fas.fa-user-plus.fa-sm
+          | Signup
+      if (registeredUser)
+        button.btn.btn-success(type='submit', id="btnCreate", style="float: right;")
+          i.fas.fa-user-plus.fa-sm
+          | Add User

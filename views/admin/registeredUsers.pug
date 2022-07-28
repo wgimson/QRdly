@@ -4,6 +4,7 @@ block head
     link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
     link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.6.3/css/all.css", integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")
     link(rel="stylesheet", href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css")
+    script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
     script(src='../js/registration/registrationsTable.js')
     style. 
       .container {
@@ -53,7 +54,7 @@ block content
                     td=cust.numberOfShowrooms
                     td=dateTimeRes
                     td
-                        button.btn.btn-primary(class="btnRegistrationDetails", href='/signup', data-id=cust.id, style="width:6em;")
+                        button.btn.btn-primary(class="btnRegistrationDetails", href="#" , data-id=cust.id, style="width:6em;")
                             | Details
                     td
                         button.btn.btn-primary(type='submit', data-id=cust.id, style="width:6em;")
